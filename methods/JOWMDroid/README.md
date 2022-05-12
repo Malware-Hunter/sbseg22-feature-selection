@@ -1,56 +1,35 @@
 # JOWMDroid
-Espaço para a reprodução do trabalho JOWMDroid
+Espaço para a reprodução do trabalho "[JOWMDroid: Android malware detection based on feature weighting with joint optimization of weight-mapping and classifier parameters](https://www.sciencedirect.com/science/article/pii/S016740482030359X)".
 
-_______________________________________________________________________________________________________________
-## Implementação do JOWMDroid
+## Como rodar
 
-### 1 - Seleção de Datasets
-Foi selecionado o Drebin-215.
+Para rodar o experimento sobre algum dataset (e.g. `data.csv`) execute o seguinte comando:
 
-### 2 - Utilizamos o Ganho de Informação (IG)
-Foi utilizado o método "mutual_info_regression" da biblioteca sklearn para selecionar descartar as características menos relevantes para os modelos.
+```
+python3 JOWMDroid.py -d data.csv
+```
 
-### 3 - Modelos para definir pesos de características
-Foi utilizado três modelos que contém métodos que distribuem pesos para as características através de seus cálculos.
+Note: o JOWMDroid assume que o dataset já está pré-processado, conforme consta na seção a seguir.
 
-Os modelos selecionados são:
+## Detalhes de uso
+```
+usage: JOWMDroid.py [-h] -d DATASET [--sep SEPARATOR] [--exclude-hyperparameter] [-m LIST]
+                    [-t MI_THRESHOLD] [--train-size TRAIN_SIZE] [-o OUTPUT_FILE] [--cv INT]
 
-   * SVM >> método "_coef"
-
-   * Random Forest >> método "feature_importances_"
-
-   * Logistic Regression >> método "_coef"
-
-### 4 - Normalização dos pesos
-Após termos definidos os pesos das características através dos três modelos citados acima, notamos que cada um retorna valores diferentes para os pesos, então normalizamos os dados entre 0 e 1 através do cálculo:
-
-Peso_final = (Peso - Peso_min) / (Peso_max - Peso_min)
-
-Onde:
-
-   * Peso     >> é o peso da respectiva característica;
-
-   * Peso_min >> é o menor peso definido;
-
-   * Peso_max >> é o maior peso definido;
-
-### 5 - Média dos pesos
-Após normalizar os pesos dos três modelos, tiramos a média deles.
-
-### 6 - Funções de Mapeamento de Pesos
-Em seguida, utilizamos 5 funções para mapear os pesos iniciais para pesos finais, sendo elas:
-
-   1° Função de Potência;
-
-   2° Função Exponencial;
-
-   3° Função Logarítmica;
-
-   4° Função Hiperbólica;
-
-   5° Função Curva em S.
-
-### 7 - Algoritmo de Evolução Diferencial (DE)
-Nessa etapa, devemos otimizar em conjunto os parâmetros da função de mapeamento de peso e do classificador final através desse algoritmo de evolução diferencial.
-
-(Em andamento)
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DATASET, --dataset DATASET
+                        Dataset (csv file). It should be already preprocessed, with the last feature being the class
+  --sep SEPARATOR       Dataset feature separator. Default: ","
+  --exclude-hyperparameter
+                        If set, the ML hyperparameter will be excluded in the Differential Evolution. By default it's included
+  -m LIST, --mapping-functions LIST
+                        List of mapping functions to use. Default: "power, exponential,logarithmic, hyperbolic, S_curve"
+  -t MI_THRESHOLD, --mi-threshold MI_THRESHOLD
+                        Threshold to select features with Mutual Information. Default: 0.05. Only features with score greater than or equal to this value will be selected
+  --train-size TRAIN_SIZE
+                        Proportion of samples to use for train. Default: 0.8
+  -o OUTPUT_FILE, --output-file OUTPUT_FILE
+                        Output file name. Default: results.csv
+  --cv INT              Number of folds to use in cross validation. Default: 5
+```
