@@ -21,7 +21,15 @@ O `rfg.py` foi desenvolvido e testado no sistema operacional Ubuntu 20.04 LTS, c
 
 ## Instalação
 
-Após clonar o repositório, instale as dependências do `rfg.py` da seguinte forma:
+1. Após clonar o repositório, mude para o diretório do RFG (`cd feature_selection/RFG/`) e crie e ative um ambiente virtual com os comandos a seguir:
+```
+python3 -m venv rfg-env
+source rfg-env/bin/activate
+```
+
+Se aparecer "`(rfg-env)`" no início do prompt da sua linha de comando, então o ambiente foi criado e iniciado com sucesso. (Para sair do ambiente, basta rodar o comando `deactivate`)
+
+2. Instale o `numpy`: `pip3 install numpy==1.22.3`. Em seguida, instale as demais dependências:
 ```
 pip3 install -r requirements.txt
 ```
