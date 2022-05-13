@@ -178,14 +178,13 @@ def main():
             'LogisticRegression': LogisticRegression(),
             'DecisionTree': DecisionTreeClassifier(),
             'SimpleLogistic': LogitBoost(),
-            'JRIP': lw.RIPPER(),
+            'JRIP': lw.RIPPER()
+        },
+        'sequential': {
             'SMO-PolyKernel' : WekaClassifier(
                 Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.PolyKernel']), 
                 convert_numeric_to_nominal, 
-                args.prediction_threshold
-                )
-        },
-        'sequential': {
+                args.prediction_threshold),
             'SMO-NormalizedPolyKernel': WekaClassifier(
                 Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.NormalizedPolyKernel']),
                 convert_numeric_to_nominal,
