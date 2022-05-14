@@ -17,11 +17,12 @@ Observação sobre o notebook `RFG.ipynb` e o programa `rfg.py`. Originalmente, 
 O `rfg.py` foi desenvolvido e testado no sistema operacional Ubuntu 20.04 LTS, com as seguintes versões das linguagens Python e Java:
 
 - Python3 versão 3.8.10;
+  - Módulo de ambiente virtual do python3.8 (pacote `python3.8-venv`);
 - Java OpenJDK versão 11;
 
 ## Instalação
 
-1. Após clonar o repositório, mude para o diretório do RFG (`cd feature_selection/RFG/`) e crie e ative um ambiente virtual com os comandos a seguir:
+1. Após clonar o repositório, mude para o diretório do RFG (`cd feature_selection/methods/RFG/`) e crie e ative um ambiente virtual com os comandos a seguir:
 ```
 python3 -m venv rfg-env
 source rfg-env/bin/activate
@@ -29,7 +30,7 @@ source rfg-env/bin/activate
 
 Se aparecer "`(rfg-env)`" no início do prompt da sua linha de comando, então o ambiente foi criado e iniciado com sucesso. (Para sair do ambiente, basta rodar o comando `deactivate`)
 
-2. Instale o `numpy`: `pip3 install numpy==1.22.3`. Em seguida, instale as demais dependências:
+2. Instale primeiro os seguintes pacotes: `pip3 install numpy==1.22.3 wheel`. Em seguida, instale as demais dependências:
 ```
 pip3 install -r requirements.txt
 ```
