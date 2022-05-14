@@ -58,4 +58,6 @@ optional arguments:
                         Number of folds to use in k-fold cross validation. Default: 10.
   -t THRESHOLD, --prediction-threshold THRESHOLD
                         Prediction threshold for Weka classifiers. Default: 0.6
+  -n N_SAMPLES, --n-samples N_SAMPLES
+                        Use a subset of n samples from the dataset. RFG uses the whole dataset by default.
 ```

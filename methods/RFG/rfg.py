@@ -57,6 +57,10 @@ def parse_args(argv):
         help = 'Output file name. Default: results.csv',
         type = str, 
         default = 'results.csv')
+    parser.add_argument(
+        '-n', '--n-samples', 
+        help = 'Use a subset of n samples from the dataset. RFG uses the whole dataset by default.',
+        type = int)
 
     args = parser.parse_args(argv)
     return args
@@ -166,6 +170,13 @@ def main():
     args = parse_args(sys.argv[1:])
 
     dataset = pd.read_csv(args.dataset)
+    n_samples = args.n_samples
+    if(n_samples):
+        if(n_samples <= 0 or n_samples > dataset.shape[0]):
+            print(f"Error: expected n_samples to be in range (0, {dataset.shape[0]}], but got {n_samples}")
+            return sys.exit(1)
+        dataset = dataset.sample(n=n_samples, random_state=1, ignore_index=True)
+
     X, y = dataset.iloc[:,:-1], dataset.iloc[:,-1]
     k_list = [int(value) for value in args.f.split(",")] if args.f != "" else []
 
