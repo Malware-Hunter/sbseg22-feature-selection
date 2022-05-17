@@ -20,7 +20,6 @@ from weka.filters import Filter
 
 import argparse
 import sys
-from multiprocessing import Pool
 
 def parse_args(argv):
     parser = argparse.ArgumentParser()
@@ -72,7 +71,7 @@ def parse_args(argv):
 Os seguintes algoritmos utilizados no paper possuem implementação na ferramenta Weka, mas não no Scikit-learn: Sequential Minimal Optimization (SMO), AdaBoostM1 e Random Committee. Portanto, vamos usar a biblioteca `python-weka-wrapper3` para eles. No caso do SMO, deve haver um classificador para cada kernel usado no paper, a saber, kernel polinomial, kernel normalizado, kernel PUK e kernel RBF.
 """
 
-def convert_numeric_to_nominal(instances):
+def preprocess_instances_to_nominal(instances):
     numeric_to_nominal = Filter("weka.filters.unsupervised.attribute.NumericToNominal")
     numeric_to_nominal.inputformat(instances)
     nominal_instances = numeric_to_nominal.filter(instances)
@@ -99,22 +98,6 @@ class WekaClassifier:
             y_pred = [0 if prob > self.threshold else 1 for prob in y_pred]
         return y_pred
 
-def train(classifier, X, y):
-    classifier.fit(X, y)
-    return classifier
-
-def test(classifier, X, y):
-    if(isinstance(classifier, WekaClassifier)):
-        y_pred = classifier.predict(X, y)
-    else:
-        y_pred = classifier.predict(X)
-    report = classification_report(y, y_pred, output_dict=True)
-    return {'accuracy': report['accuracy'],
-            'precision': report['macro avg']['precision'], 
-            'recall': report['macro avg']['recall'],
-            'f-measure': report['macro avg']['f1-score']
-            }
-
 def run_experiment(X, y, classifiers, 
                    score_functions=[chi2, f_classif], 
                    n_folds=10,
@@ -137,33 +120,29 @@ def run_experiment(X, y, classifiers,
         for score_function in score_functions:
             X_selected = SelectKBest(score_func=score_function, k=k).fit_transform(X, y)
             kf = KFold(n_splits=n_folds, random_state=256, shuffle=True)
+            fold = 0
+            for train_index, test_index in kf.split(X_selected):
+                X_train, X_test = X_selected[train_index], X_selected[test_index]
+                y_train, y_test = y[train_index], y[test_index]
+                
+                for classifier_name, classifier in classifiers.items():
+                    classifier.fit(X_train, y_train)
+                    if(isinstance(classifier, WekaClassifier)):
+                        y_pred = classifier.predict(X_test, y_test)
+                    else:
+                        y_pred = classifier.predict(X_test)
+                    report = classification_report(y_test, y_pred, output_dict=True)
+                    results.append({'n_fold': fold,
+                                    'k': k,
+                                    'score_function':score_function.__name__,
+                                    'algorithm': classifier_name,
+                                    'accuracy': report['accuracy'],
+                                    'precision': report['macro avg']['precision'], 
+                                    'recall': report['macro avg']['recall'],
+                                    'f-measure': report['macro avg']['f1-score']
+                                })
+                fold += 1
             
-            indices = [(train_index, test_index) for train_index, test_index in kf.split(X_selected)]
-            fitted_classifiers = {'parallel': {}, 'sequential': {}}
-            for classifier_name, classifier in classifiers['parallel'].items():
-                with Pool() as pool:
-                    fitted_classifiers['parallel'][classifier_name] = pool.starmap(train, [(classifier, X_selected[train_index], y[train_index]) for train_index, _ in indices])
-            
-            for classifier_name, classifier in classifiers['sequential'].items():
-                fitted_classifiers['sequential'][classifier_name] = [train(classifier, X_selected[train_index], y[train_index]) for train_index, _ in indices]
-            
-            print("begin test parallel")
-            for classifier_name, fitteds in fitted_classifiers['parallel'].items():
-                for fitted in fitteds:
-                    with Pool() as pool:
-                        test_results = pool.starmap(test, [(fitted, X_selected[test_index], y[test_index]) for _, test_index in indices])
-                    for fold in range(len(test_results)):
-                        results.append({**test_results[fold], 'k': k, 'n_fold': fold, 'score_function': score_function.__name__, 'algorithm': classifier_name})
-            
-            print("begin test sequential")
-            for _, test_index in indices:
-                X_test, y_test = X_selected[test_index], y[test_index]
-                for classifier_name, fitteds in fitted_classifiers['sequential'].items():
-                    fold = 0
-                    for fitted in fitteds:
-                        result = test(fitted, X_test, y_test)
-                        results.append({**result, 'k': k, 'n_fold': fold, 'score_function': score_function.__name__, 'algorithm': classifier_name})
-                        fold += 1
     return pd.DataFrame(results)
 
 def main():
@@ -182,41 +161,38 @@ def main():
 
     jvm.start()
     classifiers = {
-        'parallel': {
-            'NaiveBayes': GaussianNB(),
-            'KNN': KNeighborsClassifier(metric='euclidean'),
-            'RandomForest': RandomForestClassifier(),
-            'LogisticRegression': LogisticRegression(),
-            'DecisionTree': DecisionTreeClassifier(),
-            'SimpleLogistic': LogitBoost(),
-            'JRIP': lw.RIPPER()
-        },
-        'sequential': {
-            'SMO-PolyKernel' : WekaClassifier(
-                Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.PolyKernel']), 
-                convert_numeric_to_nominal, 
-                args.prediction_threshold),
-            'SMO-NormalizedPolyKernel': WekaClassifier(
-                Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.NormalizedPolyKernel']),
-                convert_numeric_to_nominal,
-                args.prediction_threshold),
-            'SMO-Puk': WekaClassifier(
-                Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.Puk']),
-                convert_numeric_to_nominal,
-                args.prediction_threshold),
-            'SMO-RBFKernel': WekaClassifier(
-                Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.RBFKernel']),
-                convert_numeric_to_nominal,
-                args.prediction_threshold),
-            'AdaBoostM1': WekaClassifier(
-                Classifier("weka.classifiers.meta.AdaBoostM1"),
-                convert_numeric_to_nominal,
-                args.prediction_threshold),
-            'RandomCommittee':  WekaClassifier(
-                Classifier("weka.classifiers.meta.RandomCommittee"),
-                convert_numeric_to_nominal,
-                args.prediction_threshold)
-        }
+        'NaiveBayes': GaussianNB(),
+        'KNN': KNeighborsClassifier(metric='euclidean'),
+        'RandomForest': RandomForestClassifier(),
+        'LogisticRegression': LogisticRegression(),
+        'DecisionTree': DecisionTreeClassifier(),
+        'SimpleLogistic': LogitBoost(),
+        'JRIP': lw.RIPPER(),
+        'SMO-PolyKernel' : WekaClassifier(
+            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.PolyKernel']), 
+            preprocess_instances_to_nominal, 
+            args.prediction_threshold
+            ),
+        'SMO-NormalizedPolyKernel': WekaClassifier(
+            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.NormalizedPolyKernel']),
+            preprocess_instances_to_nominal,
+            args.prediction_threshold),
+        'SMO-Puk': WekaClassifier(
+            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.Puk']),
+            preprocess_instances_to_nominal,
+            args.prediction_threshold),
+        'SMO-RBFKernel': WekaClassifier(
+            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.RBFKernel']),
+            preprocess_instances_to_nominal,
+            args.prediction_threshold),
+        'AdaBoostM1': WekaClassifier(
+            Classifier("weka.classifiers.meta.AdaBoostM1"),
+            preprocess_instances_to_nominal,
+            args.prediction_threshold),
+        'RandomCommittee':  WekaClassifier(
+            Classifier("weka.classifiers.meta.RandomCommittee"),
+            preprocess_instances_to_nominal,
+            args.prediction_threshold)
     }
 
     results = run_experiment(X, y, classifiers, n_folds = args.n_folds, k_increment = args.increment, k_list=k_list)
