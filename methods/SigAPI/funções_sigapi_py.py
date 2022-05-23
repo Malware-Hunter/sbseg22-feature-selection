@@ -313,7 +313,7 @@ if __name__=="__main__":
 
         new_X = new_X.drop(columns = to_drop)
         print(new_X)
-
+"""
 """# **Validação**"""
 
 def Metricas(new_X,y):
@@ -367,3 +367,4 @@ if __name__=="__main__":
 
 df= pd.DataFrame(l,columns=['número de features','acurácia','precisão','recall','f1 score','auc','tempo'])
 df
+"""
