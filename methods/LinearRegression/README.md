@@ -1,6 +1,7 @@
 # LinearRegression
+Reprodução do experimento do paper [A novel permission-based Android malware detection system using
+feature selection based on linear regression](https://link.springer.com/article/10.1007/s00521-021-05875-1).
 
-*Falta colocar uma descrição sobre como o experimento funciona, qual o objetivo, referenciar o paper do experimento (se houver) e etc*
 
 ## Como instalar
 ```
