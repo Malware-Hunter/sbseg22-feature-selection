@@ -1,7 +1,17 @@
 # JOWMDroid
 Espaço para a reprodução do trabalho "[JOWMDroid: Android malware detection based on feature weighting with joint optimization of weight-mapping and classifier parameters](https://www.sciencedirect.com/science/article/pii/S016740482030359X)".
 
-## Como rodar
+# Como instalar
+
+```
+## 1) Clone o respositório:
+git clone https://github.com/Malware-Hunter/feature_selection.git
+
+## 2) Instale as dependências:
+pip install numpy scikit-learn scipy pandas
+```
+
+# Como rodar
 
 Para rodar o experimento sobre algum dataset (e.g. `data.csv`) execute o seguinte comando:
 
@@ -11,7 +21,7 @@ python3 JOWMDroid.py -d data.csv
 
 Note: o JOWMDroid assume que o dataset já está pré-processado, conforme consta na seção a seguir.
 
-## Detalhes de uso
+# Detalhes de uso
 ```
 usage: JOWMDroid.py [-h] -d DATASET [--sep SEPARATOR] [--exclude-hyperparameter] [-m LIST]
                     [-t MI_THRESHOLD] [--train-size TRAIN_SIZE] [-o OUTPUT_FILE] [--cv INT]
