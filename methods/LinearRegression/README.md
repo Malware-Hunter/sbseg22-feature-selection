@@ -11,12 +11,14 @@ pip install numpy pandas scikit-learn
 
 # Como rodar
 
-- Inicie o Jupyter Notebook:
+- Após clonar o repositório, inicie o Jupyter Notebook no diretório do método `LinearRegression`:
 ```
-jupyter notebook
+cd feature_selection/methods/LinearRegression/ && jupyter notebook
 ```
 
-- No notebook, defina o dataset a ser utilizado:
+- Uma página deve ter sido aberta no seu navegador no endereço `localhost:8888/tree`. Nesta página, você deve encontrar o arquivo `LinearRegression.ipynb`. Abra-o clicando nele.
+
+- No notebook que foi aberto defina o dataset a ser utilizado:
 ```
 df = pd.read_csv("<insira o caminho do dataset aqui>/<nome do dataset aqui>.csv")
 ```
