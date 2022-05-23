@@ -3,12 +3,9 @@
 *Falta colocar uma descrição sobre como o experimento funciona, qual o objetivo, referenciar o paper do experimento (se houver) e etc*
 
 ## Como instalar
-
-- Instale o [Jupyter Notebook](https://jupyter.org/install#jupyter-notebook);
-- Instale os pacotes necessários com o seguinte comando:
-
 ```
-pip install numpy pandas scikit-learn
+## Instale os pacotes necessários:
+pip install notebook numpy pandas scikit-learn
 ```
 
 ## Como rodar
