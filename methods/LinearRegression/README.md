@@ -4,7 +4,7 @@ feature selection based on linear regression](https://link.springer.com/article/
 
 ## Descrição
 1. A regressão linear é um método estatístico usado para modelar a relação entre duas ou mais variáveis. No modelo gerado para estimar a variável dependente, chama-se regressão simples se for utilizada uma variável independente simples como entrada, e regressão múltipla se for utilizada mais de uma variável independente. Neste estudo, a aplicação por missão corresponde às variáveis independentes, enquanto a variável dependente representa o tipo de aplicação.
-2.A seleção de recursos do sistema de detecção de malware proposto, visa remover recursos desnecessários usando uma abordagem de seleção de recursos baseada em regressão linear. Dessa forma, a dimensão do vetor de recursos é reduzida, o tempo de treinamento é reduzido e o modelo de classificação pode ser usado em sistemas de detecção de malware em tempo real.
+2. A seleção de recursos do sistema de detecção de malware proposto, visa remover recursos desnecessários usando uma abordagem de seleção de recursos baseada em regressão linear. Dessa forma, a dimensão do vetor de recursos é reduzida, o tempo de treinamento é reduzido e o modelo de classificação pode ser usado em sistemas de detecção de malware em tempo real.
 
 
 ## Como instalar
