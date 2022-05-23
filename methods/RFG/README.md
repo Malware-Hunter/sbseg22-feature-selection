@@ -10,9 +10,9 @@ KNN, Random Forest, J48, Sequential Minimal Optimization (SMO), Logistic Regress
 
 Observação sobre o notebook `RFG.ipynb` e o programa `rfg.py`. Originalmente, o experimento estava sendo desenvolvido via Jupyter Notebook no notebook `RFG.ipynb`. Mas devido à necessidade de se executar o experimento num servidor remoto, suprindo argumentos do experimento (e.g.: dataset, número de folds e etc) por linha de comando, o código do notebook foi convertido para o programa `rfg.py`. O notebook `RFG.ipynb` só está aqui se quisermos implementar alguma melhoria ou se quisermos alterar alguma etapa do experimento, pois é mais prático de se fazer isso no ambiente do Jupyter Notebook. O programador responsável, portanto, deve manter o programa `rfg.py` atualizado de acordo com o notebook `RFG.ipynb`.
 
-# Como instalar
+## Como instalar
 
-## Dependências
+### Dependências
 
 O `rfg.py` foi desenvolvido e testado no sistema operacional Ubuntu 20.04 LTS, com as seguintes versões das linguagens Python e Java:
 
@@ -20,7 +20,7 @@ O `rfg.py` foi desenvolvido e testado no sistema operacional Ubuntu 20.04 LTS, c
   - Módulo de ambiente virtual do python3.8 (pacote `python3.8-venv`);
 - Java OpenJDK versão 11;
 
-## Instalação
+### Instalação
 
 1. Após clonar o repositório, mude para o diretório do RFG (`cd feature_selection/methods/RFG/`) e crie e ative um ambiente virtual com os comandos a seguir:
 ```
@@ -35,7 +35,7 @@ Se aparecer "`(rfg-env)`" no início do prompt da sua linha de comando, então o
 pip3 install -r requirements.txt
 ```
 
-# Como rodar
+## Como rodar
 
 Para rodar o experimento do RFG sobre algum dataset, use o script `rfg.py`, como no exemplo:
 
