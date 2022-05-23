@@ -60,6 +60,8 @@ def parse_args(argv):
         '-n', '--n-samples', 
         help = 'Use a subset of n samples from the dataset. RFG uses the whole dataset by default.',
         type = int)
+    parser.add_argument('--feature-selection-only', action='store_true',
+        help="If set, the experiment is constrained to the feature selection phase only. The program always returns the best K features, where K is the maximum value in the features list.")
 
     args = parser.parse_args(argv)
     return args
@@ -98,7 +100,18 @@ class WekaClassifier:
             y_pred = [0 if prob > self.threshold else 1 for prob in y_pred]
         return y_pred
 
-def run_experiment(X, y, classifiers, 
+def get_best_features_sorted(selector, columns):
+    indices = selector.get_support(indices=True)
+    best_scores = selector.scores_[indices]
+    best_features = pd.Series([[best_scores[i], indices[i], columns[i]] for i in range(0, len(indices))]).sort_values(ascending=False)
+    best_features = best_features.reset_index()
+    best_features['feature'] = [line[2] for line in best_features[0]]
+    best_features['score'] = [line[0] for line in best_features[0]]
+    best_features['feature_index'] = [line[1] for line in best_features[0]]
+    best_features = best_features.drop(columns=[0, 'index'])
+    return best_features
+
+def run_experiment(X, y, classifiers, is_feature_selection_only = False,
                    score_functions=[chi2, f_classif], 
                    n_folds=10,
                    k_increment=20,
@@ -109,6 +122,7 @@ def run_experiment(X, y, classifiers,
     Se o parâmetro "k_list" for uma lista não vazia, então ele será usado como a lista das quantidades de características a serem selecionadas. 
     """
     results = []
+    best_features = []
     if(len(k_list) > 0):
         k_values = k_list
     else:
@@ -118,6 +132,11 @@ def run_experiment(X, y, classifiers,
             continue
         print("K =", k)
         for score_function in score_functions:
+            if(k == max(k_values)): 
+                selector = SelectKBest(score_func=score_function, k=k).fit(X, y)
+                best_features.append((score_function.__name__, get_best_features_sorted(selector, X.columns)))
+            if(is_feature_selection_only):
+                continue
             X_selected = SelectKBest(score_func=score_function, k=k).fit_transform(X, y)
             kf = KFold(n_splits=n_folds, random_state=256, shuffle=True)
             fold = 0
@@ -143,7 +162,7 @@ def run_experiment(X, y, classifiers,
                                 })
                 fold += 1
             
-    return pd.DataFrame(results)
+    return pd.DataFrame(results), best_features
 
 def main():
     args = parse_args(sys.argv[1:])
@@ -195,8 +214,12 @@ def main():
             args.prediction_threshold)
     }
 
-    results = run_experiment(X, y, classifiers, n_folds = args.n_folds, k_increment = args.increment, k_list=k_list)
-    results.to_csv(args.output_file)
+    results, best_features = run_experiment(X, y, classifiers, n_folds = args.n_folds, k_increment = args.increment, k_list=k_list, is_feature_selection_only=args.feature_selection_only)
+
+    if(not args.feature_selection_only):
+        results.to_csv(args.output_file)
+    for score_function_name, features in best_features:
+        features.to_csv(args.output_file.replace(".csv", "") + f"_best_features_with_{score_function_name}.csv")
     print("done")
 
     jvm.stop()

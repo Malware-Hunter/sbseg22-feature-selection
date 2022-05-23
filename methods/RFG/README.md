@@ -61,4 +61,6 @@ optional arguments:
                         Prediction threshold for Weka classifiers. Default: 0.6
   -n N_SAMPLES, --n-samples N_SAMPLES
                         Use a subset of n samples from the dataset. RFG uses the whole dataset by default.
+  --feature-selection-only
+                        If set, the experiment is constrained to the feature selection phase only. The program always returns the best K features, where K is the maximum value in the features list.
 ```
