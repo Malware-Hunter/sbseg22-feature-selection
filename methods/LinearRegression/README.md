@@ -1,5 +1,7 @@
 # LinearRegression
 
+*Falta colocar uma descrição sobre como o experimento funciona, qual o objetivo, referenciar o paper do experimento (se houver) e etc*
+
 # Como instalar
 
 - Instale o [Jupyter Notebook](https://jupyter.org/install#jupyter-notebook);
