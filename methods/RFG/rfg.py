@@ -129,6 +129,7 @@ def run_experiment(X, y, classifiers, is_feature_selection_only = False,
         k_values = range(10, X.shape[1], k_increment)
     for k in k_values:
         if(k > X.shape[1]):
+            print(f"Warning: skipping K = {k}, since it's greater than the number of features available ({X.shape[1]})")
             continue
         print("K =", k)
         for score_function in score_functions:
