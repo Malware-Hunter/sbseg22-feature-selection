@@ -218,9 +218,9 @@ def main():
     results, best_features = run_experiment(X, y, classifiers, n_folds = args.n_folds, k_increment = args.increment, k_list=k_list, is_feature_selection_only=args.feature_selection_only)
 
     if(not args.feature_selection_only):
-        results.to_csv(args.output_file)
+        results.to_csv(args.output_file, index=False)
     for score_function_name, features in best_features:
-        features.to_csv(args.output_file.replace(".csv", "") + f"_best_features_with_{score_function_name}.csv")
+        features.to_csv(args.output_file.replace(".csv", "") + f"_best_features_with_{score_function_name}.csv", index=False)
     print("done")
 
     jvm.stop()
