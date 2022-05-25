@@ -42,4 +42,6 @@ optional arguments:
   -o OUTPUT_FILE, --output-file OUTPUT_FILE
                         Output file name. Default: results.csv
   --cv INT              Number of folds to use in cross validation. Default: 5
+  --feature-selection-only
+                        If set, the experiment is constrained to the feature selection phase only.
 ```
