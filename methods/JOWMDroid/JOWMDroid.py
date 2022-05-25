@@ -190,7 +190,7 @@ if __name__ == "__main__":
         result = X
         print(result.columns.values.tolist())
         result['class'] = y
-        result.to_csv("jonw_dataset.csv", index = False)
+        result.to_csv(f"{args.output_file.replace('.csv', '')}_selected_features_dataset.csv", index = False)
         exit(1)
 
     weight_classifiers = {"SVM": SVC(
