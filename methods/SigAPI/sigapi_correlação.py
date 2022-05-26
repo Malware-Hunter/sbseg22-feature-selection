@@ -110,10 +110,10 @@ def calculateMetricas(new_X,y):
 
 import matplotlib.pyplot as plt 
 if __name__=="__main__":
-    drebin = pd.read_csv('drebin_sigapi.csv')
-    X = drebin.drop(columns = ['class']) #variaveis (features)
-    y = drebin['class'] #classification eh a classificacao de benignos e malwares
-    total_features = drebin.shape[1] - 1 #CLASS
+    dataset = pd.read_csv('drebin_sigapi.csv')
+    X = dataset.drop(columns = ['class']) #variaveis (features)
+    y = dataset['class'] #classification eh a classificacao de benignos e malwares
+    total_features = dataset.shape[1] - 1 #CLASS
     num_features = 18 
     
     for k in range(num_features,26):
