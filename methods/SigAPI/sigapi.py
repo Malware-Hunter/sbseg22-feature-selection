@@ -209,7 +209,7 @@ if __name__=="__main__":
         arquivo_selectKBest = open('Metricas_SelectKBest.csv')
 
 
-    num_features += increment
+        num_features += increment
 
 df_mutualInformation= pd.DataFrame(l_mutualInformation,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
 df_selectRandom= pd.DataFrame(l_selectRandom,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
