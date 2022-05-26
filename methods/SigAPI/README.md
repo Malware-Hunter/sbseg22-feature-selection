@@ -21,8 +21,8 @@ Ao baixar o código `sigapi_funçõesdeseleção.py` é possível mudar o datase
 Com isso, vão ser obtidos gráficos e dataframes sobre cada uma das 6 técnicas de seleção utilizadas.
 Ao analisar esses dados, é possivel obter a técnica mais eficiente e seu intervalo de redução.
 
-Após, é necessário baixar o código `sigapi_correlação.py` , onde na linha 113 é possível mudar o dataset, nas linhas 117 - 119 você altera o intervalo de redução para o encontrado, exemplo "
-          num_features = 18 
+Após, é necessário baixar o código `sigapi_correlação.py` , onde na linha 113 é possível mudar o dataset, nas linhas 117 - 119 você altera o intervalo de redução para o encontrado, exemplo 
+          num_features = 18 "
     
           for k in range(num_features,26):"
             
