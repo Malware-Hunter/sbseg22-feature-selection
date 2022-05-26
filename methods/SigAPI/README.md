@@ -16,4 +16,4 @@ pip install seaborn pandas numpy scikit-learn
 
 ## Como rodar
 
-*Falta descrever isso*
+Ao baixar o código 'sigapi_funçõesseleção.py'
