@@ -117,6 +117,7 @@ l_RFERandom = [[0,0,0,0,0]]
 l_RFEGradient = [[0,0,0,0,0]]
 l_selectKBest= [[0,0,0,0,0]]
 if __name__=="__main__":
+    dataset = pd.read_csv('Drebin_215_CPI.csv')
     X = dataset.drop(columns = ['class']) #variaveis (features)
     y = dataset['class'] #classification eh a classificacao de benignos e malwares
     total_features = dataset.shape[1] - 1 #CLASS
