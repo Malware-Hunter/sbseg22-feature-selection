@@ -29,5 +29,5 @@ Após, é necessário baixar o código `sigapi_correlação.py` , onde na linha 
     
           for k in range(num_features,26)
             
-Com isso vai ser possível encontrar a redução que foi realizada e as features que foram selecionadas como as mais significantes.
+Com isso, vai ser possível encontrar a redução que foi realizada e as features que foram selecionadas como as mais significantes.
   
