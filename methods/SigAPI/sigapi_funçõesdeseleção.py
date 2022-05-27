@@ -26,13 +26,6 @@ from sklearn.metrics import roc_auc_score
 import csv
 import timeit
 
-"""#**Dataset SigAPI**"""
-
-dataset = pd.read_csv('Drebin_215_CPI.csv')
-dataset
-
-dataset.info()
-
 """# **Função Incremento** """
 
 def calculateMutualInformationGain(features, target, k):
