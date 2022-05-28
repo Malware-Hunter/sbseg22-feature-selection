@@ -125,6 +125,9 @@ if __name__=="__main__":
     args = parse_args()
     dataset = pd.read_csv(args.dataset, sep=args.sep)
     X = dataset.drop(columns = ['class'])
+    if(args.class_column not in dataset.columns):
+        print(f'ERRO: dataset não possui uma coluna chamada "{args.class_column}"')
+        exit(1)
     y = dataset[args.class_column]
     total_features = dataset.shape[1] - 1
     num_features = 1
