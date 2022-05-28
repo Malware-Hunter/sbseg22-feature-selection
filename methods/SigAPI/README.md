@@ -37,3 +37,16 @@ python3 sigapi_correlacao.py -d data.csv
             
 Com isso, vai ser possível encontrar a redução de características que foi realizada e o resultado será um dataset com estas características.
   
+## Detalhes de uso
+
+```
+usage: sigapi_funcoesdeselecao.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DATASET, --dataset DATASET
+                        Dataset (csv file). It should be already preprocessed, with the last feature being the class
+  --sep SEPARATOR       Dataset feature separator. Default: ","
+  -c CLASS_COLUMN, --class_column CLASS_COLUMN
+                        Name of the class column. Default: "class"
+```
