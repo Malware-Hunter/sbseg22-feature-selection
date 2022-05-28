@@ -16,18 +16,21 @@ pip install seaborn pandas numpy scikit-learn
 
 ## Como rodar
 
-Ao baixar o código `sigapi_funçõesdeseleção.py` é possível mudar o dataset com que se deseja trabalhar na linha 113 onde há: 
-         
-         dataset = pd.read_csv('Drebin_215_CPI.csv')  
+Primeiro iremos rodar `sigapi_funcoesdeselecao.py`
+Para rodar esta parte do experimento sobre algum dataset (e.g. `data.csv`) execute o seguinte comando:
+
+```
+python3 sigapi_funcoesdeselecao.py -d data.csv
+``` 
          
 Com isso, vão ser obtidos gráficos e dataframes sobre cada uma das 6 técnicas de seleção utilizadas.
 Ao analisar esses dados, é possivel obter a técnica mais eficiente e seu intervalo de redução.
 
-Após, é necessário baixar o código `sigapi_correlação.py` , onde na linha 113 é possível mudar o dataset, nas linhas 117 - 119 você altera o intervalo de redução para o encontrado, exemplo 
+Após, é necessário rodar o código `sigapi_correlação.py` , fazendo o seguinte:
 
-          num_features = 18 
-    
-          for k in range(num_features,26)
+```
+python3 sigapi_correlacao.py -d data.csv
+``` 
             
-Com isso, vai ser possível encontrar a redução que foi realizada e as features que foram selecionadas como as mais significantes.
+Com isso, vai ser possível encontrar a redução de características que foi realizada e o resultado será um dataset com estas características.
   
