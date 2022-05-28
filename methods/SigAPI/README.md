@@ -9,14 +9,17 @@ Este artigo utiliza técnicas de seleção de características e a correlação 
 2 - Depois de encontrar a função mais eficiente para determinado conjunto de dados, é feita a correlação no intervalo indicado, para haver uma maior redução destas características.
 
 ## Como instalar
+
 ```
+## Clone o respositório:
+git clone https://github.com/Malware-Hunter/feature_selection.git
 ## Instale as seguintes dependências:
 pip install seaborn pandas numpy scikit-learn
 ```
 
 ## Como rodar
 
-Primeiro iremos rodar `sigapi_funcoesdeselecao.py`
+Primeiro iremos rodar as funções de selecao `sigapi_funcoesdeselecao.py`
 Para rodar esta parte do experimento sobre algum dataset (e.g. `data.csv`) execute o seguinte comando:
 
 ```
