@@ -5,6 +5,7 @@ CHECK_PKGS=$(pip show numpy scipy pandas scikit-learn | grep -i -w "not found")
 
 for DATASET in datasets/*.csv
 do
-    echo "python3 methods/JOWMDroid/JOWMDroid.py --feature-selection-only -d $DATASET --output-file jowmdroid-$DATASET ... "
-    python3 methods/JOWMDroid/JOWMDroid.py --feature-selection-only -d $DATASET --output-file jowmdroid-$DATASET
+    D_NAME=$(echo $DATASET | cut -d"/" -f2)
+    echo "python3 methods/JOWMDroid/JOWMDroid.py --feature-selection-only -d $DATASET --output-file jowmdroid-$D_NAME... "
+    python3 methods/JOWMDroid/JOWMDroid.py --feature-selection-only -d $DATASET --output-file jowmdroid-$D_NAME
 done
