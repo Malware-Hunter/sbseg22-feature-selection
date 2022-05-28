@@ -28,48 +28,47 @@ import timeit
 """
 """# **Correlação**"""
 
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 if __name__=="__main__":
-    dataset = pd.read_csv('drebin_sigapi.csv')
+    args = parse_args()
+    dataset = pd.read_csv(args.dataset, sep=args.sep)
     X = dataset.drop(columns = ['class']) #variaveis (features)
     y = dataset['class'] #classification eh a classificacao de benignos e malwares
     total_features = dataset.shape[1] - 1 #CLASS
-    num_features = 18 
-    
-    for k in range(num_features,26):
+   
+    k = 18 
        
-       
-        print(">>> NÚMERO DE FEATURES ",k, "<<<")
+    print(">>> NÚMERO DE FEATURES ",k, "<<<")
         
 
-        print(">>> RFE USING RANDOM FOREST CLASSIFIER <<<")
-        RFERandomForestClassifier = calculateRFERandomForestClassifier(X,y, k)
-        new_X = X[list(RFERandomForestClassifier['features'])]
-        print(RFERandomForestClassifier['features'])
-       
-        correlation = new_X.corr()
-        plot = sn.heatmap(correlation, annot = True, fmt=".2f", linewidths=.9)
-        plot.figure.set_size_inches(12, 8)
-        plt.show()
+    print(">>> RFE USING RANDOM FOREST CLASSIFIER <<<")
+    RFERandomForestClassifier = calculateRFERandomForestClassifier(X,y, k)
+    new_X = X[list(RFERandomForestClassifier['features'])]
+    print(RFERandomForestClassifier['features'])
+          
+    correlation = new_X.corr()
+    plot = sn.heatmap(correlation, annot = True, fmt=".2f", linewidths=.9)
+    plot.figure.set_size_inches(12, 8)
+    plt.show()
 
-        model_RF=RandomForestClassifier()
-        model_RF.fit(new_X,y)
-        RF_weights= model_RF.feature_importances_
-        print(RF_weights)
-        feats = {} # a dict to hold feature_name: feature_importance
-        
-        for feature, importance in zip(new_X.columns, model_RF.feature_importances_):
-            feats[feature] = importance #add the name/value pair
+    model_RF=RandomForestClassifier()
+    model_RF.fit(new_X,y)
+    RF_weights= model_RF.feature_importances_
+    print(RF_weights)
+    feats = {} # a dict to hold feature_name: feature_importance
+          
+    for feature, importance in zip(new_X.columns, model_RF.feature_importances_):
+        feats[feature] = importance #add the name/value pair
 
-        to_drop = set()
+    to_drop = set()
 
-        for index in correlation.index:
-            for column in correlation.columns:
-                if index != column and correlation.loc[index, column] > 0.85:
-                    ft = column if feats[column] <= feats[index] else index
-                    to_drop.add(ft)
-        print("PARA REMOVER >>", to_drop)
+    for index in correlation.index:
+        for column in correlation.columns:
+            if index != column and correlation.loc[index, column] > 0.85:
+               ft = column if feats[column] <= feats[index] else index
+               to_drop.add(ft)
+    print("PARA REMOVER >>", to_drop)
 
-        new_X = new_X.drop(columns = to_drop)
-        print(new_X)
-        new_X.to_csv("DatasetReduzido.csv", index = False)
+    new_X = new_X.drop(columns = to_drop)
+    print(new_X)
+    new_X.to_csv("DatasetReduzido.csv", index = False)
