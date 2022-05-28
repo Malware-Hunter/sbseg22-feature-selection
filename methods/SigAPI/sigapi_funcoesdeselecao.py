@@ -25,6 +25,32 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import roc_auc_score
 import csv
 import timeit
+import argparse
+import sys
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument( '-d', '--dataset', type = str, required = True,
+        help = 'Dataset (csv file). It should be already preprocessed, with the last feature being the class')
+    parser.add_argument( '--sep', metavar = 'SEPARATOR', type = str, default = ',',
+        help = 'Dataset feature separator. Default: ","')
+    parser.add_argument('--exclude-hyperparameter', action='store_true',
+        help="If set, the ML hyperparameter will be excluded in the Differential Evolution. By default it's included")
+    parser.add_argument( '-m', '--mapping-functions', metavar = 'LIST', type = str,
+        default = "power, exponential, logarithmic, hyperbolic, S_curve",
+        help = 'List of mapping functions to use. Default: "power, exponential, logarithmic, hyperbolic, S_curve"')
+    parser.add_argument( '-t', '--mi-threshold', type = float, default = 0.05,
+        help = 'Threshold to select features with Mutual Information. Default: 0.05. Only features with score greater than or equal to this value will be selected')
+    parser.add_argument('--train-size', type = float, default = 0.8,
+        help = 'Proportion of samples to use for train. Default: 0.8')
+    parser.add_argument('-o', '--output-file', metavar = 'OUTPUT_FILE', type = str, default = 'results.csv',
+        help = 'Output file name. Default: results.csv')
+    parser.add_argument('--cv', metavar = 'INT', type = int, default = 5,
+        help="Number of folds to use in cross validation. Default: 5")
+    parser.add_argument('--feature-selection-only', action='store_true',
+        help="If set, the experiment is constrained to the feature selection phase only.")
+
+    return parser.parse_args(sys.argv[1:])
 
 """# **Função Incremento** """
 
@@ -110,7 +136,8 @@ l_RFERandom = [[0,0,0,0,0]]
 l_RFEGradient = [[0,0,0,0,0]]
 l_selectKBest= [[0,0,0,0,0]]
 if __name__=="__main__":
-    dataset = pd.read_csv('Drebin_215_CPI.csv')
+    args = parse_args()
+    dataset = pd.read_csv(args.dataset, sep=args.sep)
     X = dataset.drop(columns = ['class']) #variaveis (features)
     y = dataset['class'] #classification eh a classificacao de benignos e malwares
     total_features = dataset.shape[1] - 1 #CLASS
