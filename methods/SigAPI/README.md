@@ -32,9 +32,9 @@ Ao analisar esses dados, é possivel obter a técnica mais eficiente e seu inter
 Após, é necessário rodar o código `sigapi_correlação.py` , fazendo o seguinte:
 
 ```
-python3 sigapi_correlacao.py -d data.csv
+python3 sigapi_correlacao.py -d data.csv -k 
 ``` 
-            
+onde esse k receberia o número de features para qual o dataset poderia ser reduzido.           
 Com isso, vai ser possível encontrar a redução de características que foi realizada e o resultado será um dataset com estas características.
   
 ## Detalhes de uso
