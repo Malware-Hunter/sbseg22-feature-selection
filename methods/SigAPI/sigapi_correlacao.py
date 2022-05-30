@@ -25,7 +25,22 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import roc_auc_score
 import csv
 import timeit
+import argparse
+import sys
 """
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument( '-d', '--dataset', type = str, required = True,
+        help = 'Dataset (csv file). It should be already preprocessed, with the last feature being the class')
+    parser.add_argument( '--sep', metavar = 'SEPARATOR', type = str, default = ',',
+        help = 'Dataset feature separator. Default: ","')
+    parser.add_argument('-c', '--class_column', type = str, default="class", metavar = 'CLASS_COLUMN', 
+        help = 'Name of the class column. Default: "class"')
+    parser.add_argument('-k', '--num_features', type = int , 
+        help = 'Number of features')
+    
+    return parser.parse_args(sys.argv[1:])
 """# **Correlação**"""
 
 import matplotlib.pyplot as plt
@@ -36,7 +51,7 @@ if __name__=="__main__":
     y = dataset['class'] #classification eh a classificacao de benignos e malwares
     total_features = dataset.shape[1] - 1 #CLASS
    
-    k = 18 
+    k = args.num_features
        
     print(">>> NÚMERO DE FEATURES ",k, "<<<")
         
