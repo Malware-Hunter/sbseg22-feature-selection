@@ -25,6 +25,7 @@ Note: o JOWMDroid assume que o dataset já está pré-processado, conforme const
 ```
 usage: JOWMDroid.py [-h] -d DATASET [--sep SEPARATOR] [--exclude-hyperparameter] [-m LIST]
                     [-t MI_THRESHOLD] [--train-size TRAIN_SIZE] [-o OUTPUT_FILE] [--cv INT]
+                    [--feature-selection-only]
 
 optional arguments:
   -h, --help            show this help message and exit

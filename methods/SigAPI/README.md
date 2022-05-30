@@ -40,7 +40,7 @@ Com isso, vai ser possível encontrar a redução de características que foi re
 ## Detalhes de uso
 
 ```
-usage: sigapi_funcoesdeselecao.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN]
+usage: sigapi_funcoesdeselecao.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN] [-n N_SAMPLES] [-t THRESHOLD] [-w WINDOW_SIZE] [-f INITIAL_N_FEATURES] [-i INCREMENT]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -49,4 +49,15 @@ optional arguments:
   --sep SEPARATOR       Dataset feature separator. Default: ","
   -c CLASS_COLUMN, --class_column CLASS_COLUMN
                         Name of the class column. Default: "class"
+  -n N_SAMPLES, --n-samples N_SAMPLES
+                        Use a subset of n samples from the dataset. RFG uses the whole dataset by default.
+  -t THRESHOLD, --threshold THRESHOLD
+                        Threshold for the minimal range suggestion heuristic. This is the threshold for the difference between the slope of consecutive moving averages of
+                        each selection method's metrics. Default: 0.001
+  -w WINDOW_SIZE, --window-size WINDOW_SIZE
+                        Moving average window size used in the minimal range suggestion heuristic. Default: 5
+  -f INITIAL_N_FEATURES, --initial-n-features INITIAL_N_FEATURES
+                        Initial number of features. Default: 1
+  -i INCREMENT, --increment INCREMENT
+                        Value to increment the initial number of features. Default: 1
 ```

@@ -46,7 +46,8 @@ python3 rfg.py -d Drebin215.csv
 Há algumas opções disponíveis, que você pode a seguir.
 
 ```
-usage: rfg.py [-h] -d DATASET [-i INCREMENT] [-f LIST] [-k N_FOLDS] [-t THRESHOLD]
+usage: rfg.py [-h] -d DATASET [-i INCREMENT] [-f LIST] [-k N_FOLDS] [-t THRESHOLD] 
+              [-n N_SAMPLES] [--feature-selection-only]
 
 optional arguments:
   -h, --help            show this help message and exit
