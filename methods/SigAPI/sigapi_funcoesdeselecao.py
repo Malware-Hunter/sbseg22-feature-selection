@@ -26,7 +26,25 @@ def parse_args():
         help = 'Name of the class column. Default: "class"')
     parser.add_argument('-n', '--n-samples', type=int,
         help = 'Use a subset of n samples from the dataset. RFG uses the whole dataset by default.')
+    parser.add_argument('-t', '--threshold', type = float, default = 0.001,
+        help = 'Threshold for the minimal range suggestion heuristic. This is the threshold for the difference between the slope of consecutive moving averages of each selection method\'s metrics. Default: 0.001')
+    parser.add_argument( '-w', '--window-size', type = int, default = 5,
+        help = 'Moving average window size used in the minimal range suggestion heuristic. Default: 5')
     return parser.parse_args(sys.argv[1:])
+
+def get_moving_average(data, window_size=5):
+    cumsum_vec = np.cumsum(np.insert(data, 0, 0))
+    return (cumsum_vec[window_size:] - cumsum_vec[:-window_size]) / window_size
+
+def get_minimal_range_suggestion(df, t=0.001, window_size=5):
+    moving_averages = np.array([get_moving_average(np.array(df)[:, i], window_size) for i in range(df.shape[1])]).T
+    gradients = np.gradient(moving_averages, axis=0)
+    diffs = gradients[1:] - gradients[:-1]
+    
+    for i in range(len(diffs) - 1, 1, -1):
+        if(any([diff > t for diff in diffs[i]])):
+            return int(df.index[i])
+    return -1
 
 """# **Função Incremento** """
 
@@ -206,23 +224,35 @@ if __name__=="__main__":
 
         num_features += increment
 
-df_mutualInformation= pd.DataFrame(l_mutualInformation,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
-df_selectRandom= pd.DataFrame(l_selectRandom,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
-df_selectExtra= pd.DataFrame(l_selectExtra,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
-df_RFERandom= pd.DataFrame(l_RFERandom,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
-df_RFEGradient= pd.DataFrame(l_RFEGradient,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
-df_selectKBest= pd.DataFrame(l_selectKBest,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
+    df_mutualInformation= pd.DataFrame(l_mutualInformation,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
+    df_selectRandom= pd.DataFrame(l_selectRandom,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
+    df_selectExtra= pd.DataFrame(l_selectExtra,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
+    df_RFERandom= pd.DataFrame(l_RFERandom,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
+    df_RFEGradient= pd.DataFrame(l_RFEGradient,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
+    df_selectKBest= pd.DataFrame(l_selectKBest,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
 
-df_mutualInformation.to_csv("data-mutualInformation.csv", index = False)
-df_selectRandom.to_csv("data-selectRandom.csv", index = False)
-df_selectExtra.to_csv("data-selectExtra.csv", index = False)
-df_RFERandom.to_csv("data-RFERandom.csv", index = False)
-df_RFEGradient.to_csv("data-RFEGradient.csv", index = False)
-df_selectKBest.to_csv("data-selectKBest.csv", index = False)
+    df_mutualInformation.to_csv("data-mutualInformation.csv", index = False)
+    df_selectRandom.to_csv("data-selectRandom.csv", index = False)
+    df_selectExtra.to_csv("data-selectExtra.csv", index = False)
+    df_RFERandom.to_csv("data-RFERandom.csv", index = False)
+    df_RFEGradient.to_csv("data-RFEGradient.csv", index = False)
+    df_selectKBest.to_csv("data-selectKBest.csv", index = False)
 
-df_mutualInformation.plot().get_figure().savefig("mutualInformation.jpg", dpi=300)
-df_selectRandom.plot().get_figure().savefig("selectRandom.jpg", dpi=300)
-df_selectExtra.plot().get_figure().savefig("selectExtra.jpg", dpi=300)
-df_RFERandom.plot().get_figure().savefig("RFERandom.jpg", dpi=300)
-df_RFEGradient.plot().get_figure().savefig("RFEGradient.jpg", dpi=300)
-df_selectKBest.plot().get_figure().savefig("selectKBest.jpg", dpi=300)
+    df_mutualInformation.drop(columns=['Número de Características']).plot().get_figure().savefig("mutualInformation.jpg", dpi=300)
+    df_selectRandom.drop(columns=['Número de Características']).plot().get_figure().savefig("selectRandom.jpg", dpi=300)
+    df_selectExtra.drop(columns=['Número de Características']).plot().get_figure().savefig("selectExtra.jpg", dpi=300)
+    df_RFERandom.drop(columns=['Número de Características']).plot().get_figure().savefig("RFERandom.jpg", dpi=300)
+    df_RFEGradient.drop(columns=['Número de Características']).plot().get_figure().savefig("RFEGradient.jpg", dpi=300)
+    df_selectKBest.drop(columns=['Número de Características']).plot().get_figure().savefig("selectKBest.jpg", dpi=300)
+
+    print("Etapa de seleção concluída com sucesso. Você deve analisar os resultados de cada método de seleção por meio dos dados e dos gráficos gerados.")
+    try:
+        print("Considere também estas sugestão de intervalo mínimo (i.e.: menor número de características) para cada método (se for -1, desconsidere):")
+        print("mutualInformation:", get_minimal_range_suggestion(df_mutualInformation.set_index("Número de Características"), args.threshold, args.window_size))
+        print("selectRandom:", get_minimal_range_suggestion(df_selectRandom.set_index("Número de Características"), args.threshold, args.window_size))
+        print("selectExtra:", get_minimal_range_suggestion(df_selectExtra.set_index("Número de Características"), args.threshold, args.window_size))
+        print("RFERandom:", get_minimal_range_suggestion(df_RFERandom.set_index("Número de Características"), args.threshold, args.window_size))
+        print("RFEGradient:", get_minimal_range_suggestion(df_RFEGradient.set_index("Número de Características"), args.threshold, args.window_size))
+        print("selectKBest:", get_minimal_range_suggestion(df_selectKBest.set_index("Número de Características"), args.threshold, args.window_size))
+    except:
+        print("Não foi possível calcular a sugestão de intervalo mínimo desta vez.")
