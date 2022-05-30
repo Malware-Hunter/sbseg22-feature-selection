@@ -9,7 +9,6 @@ Original file is located at
 
 import pandas as pd
 import numpy as np
-import seaborn as sn
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import mutual_info_classif
 from sklearn.ensemble import ExtraTreesClassifier
@@ -22,9 +21,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
-from sklearn.metrics import roc_auc_score
 import csv
-import timeit
 import argparse
 import sys
 
