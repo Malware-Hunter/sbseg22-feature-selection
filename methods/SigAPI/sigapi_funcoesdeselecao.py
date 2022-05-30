@@ -33,6 +33,8 @@ def parse_args():
         help = 'Dataset feature separator. Default: ","')
     parser.add_argument('-c', '--class_column', type = str, default="class", metavar = 'CLASS_COLUMN', 
         help = 'Name of the class column. Default: "class"')
+    parser.add_argument('-n', '--n-samples', type=int,
+        help = 'Use a subset of n samples from the dataset. RFG uses the whole dataset by default.')
     return parser.parse_args(sys.argv[1:])
 
 """# **Função Incremento** """
@@ -121,6 +123,12 @@ l_selectKBest= [[0,0,0,0,0]]
 if __name__=="__main__":
     args = parse_args()
     dataset = pd.read_csv(args.dataset, sep=args.sep)
+    n_samples = args.n_samples
+    if(n_samples):
+        if(n_samples <= 0 or n_samples > dataset.shape[0]):
+            print(f"Error: expected n_samples to be in range (0, {dataset.shape[0]}], but got {n_samples}")
+            sys.exit(1)
+        dataset = dataset.sample(n=n_samples, random_state=1, ignore_index=True)
     X = dataset.drop(columns = ['class'])
     if(args.class_column not in dataset.columns):
         print(f'ERRO: dataset não possui uma coluna chamada "{args.class_column}"')
