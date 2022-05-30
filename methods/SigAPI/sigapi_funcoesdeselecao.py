@@ -30,6 +30,10 @@ def parse_args():
         help = 'Threshold for the minimal range suggestion heuristic. This is the threshold for the difference between the slope of consecutive moving averages of each selection method\'s metrics. Default: 0.001')
     parser.add_argument( '-w', '--window-size', type = int, default = 5,
         help = 'Moving average window size used in the minimal range suggestion heuristic. Default: 5')
+    parser.add_argument( '-f', '--initial-n-features', type = int, default = 1,
+        help = 'Initial number of features. Default: 1')
+    parser.add_argument( '-i', '--increment', type = int, default = 1,
+        help = 'Value to increment the initial number of features. Default: 1')
     return parser.parse_args(sys.argv[1:])
 
 def get_moving_average(data, window_size=5):
@@ -142,8 +146,8 @@ if __name__=="__main__":
         exit(1)
     y = dataset[args.class_column]
     total_features = dataset.shape[1] - 1
-    num_features = 1
-    increment = 1
+    num_features = args.initial_n_features
+    increment = args.increment
     while num_features < (total_features + increment):
         k = total_features if num_features > total_features else num_features
        
