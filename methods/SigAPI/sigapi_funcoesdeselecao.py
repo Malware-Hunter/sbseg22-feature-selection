@@ -134,17 +134,17 @@ l_selectKBest= [[0,0,0,0,0]]
 if __name__=="__main__":
     args = parse_args()
     dataset = pd.read_csv(args.dataset, sep=args.sep)
-    n_samples = args.n_samples
+'''    n_samples = args.n_samples
     if(n_samples):
         if(n_samples <= 0 or n_samples > dataset.shape[0]):
             print(f"Error: expected n_samples to be in range (0, {dataset.shape[0]}], but got {n_samples}")
             sys.exit(1)
-        dataset = dataset.sample(n=n_samples, random_state=1, ignore_index=True)
+        dataset = dataset.sample(n=n_samples, random_state=1, ignore_index=True)'''
     X = dataset.drop(columns = ['class'])
-    if(args.class_column not in dataset.columns):
+''' if(args.class_column not in dataset.columns):
         print(f'ERRO: dataset não possui uma coluna chamada "{args.class_column}"')
-        exit(1)
-    y = dataset[args.class_column]
+        exit(1)'''
+    y = dataset['class']
     total_features = dataset.shape[1] - 1
     num_features = 1
     increment = 1
