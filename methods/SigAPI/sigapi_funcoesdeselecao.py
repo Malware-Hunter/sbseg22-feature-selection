@@ -146,8 +146,8 @@ if __name__=="__main__":
         exit(1)
     y = dataset[args.class_column]
     total_features = dataset.shape[1] - 1
-    num_features = args.initial_n_features
-    increment = args.increment
+    num_features = 1
+    increment = 1
     while num_features < (total_features + increment):
         k = total_features if num_features > total_features else num_features
        
