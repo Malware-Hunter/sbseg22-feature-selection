@@ -22,7 +22,7 @@ def parse_args():
         help = 'Dataset (csv file). It should be already preprocessed, with the last feature being the class')
     parser.add_argument( '--sep', metavar = 'SEPARATOR', type = str, default = ',',
         help = 'Dataset feature separator. Default: ","')
-    parser.add_argument('-c', '--class_column', type = str, default="class", metavar = 'CLASS_COLUMN', 
+    parser.add_argument('-c', '--class-column', type = str, default="class", metavar = 'CLASS_COLUMN', 
         help = 'Name of the class column. Default: "class"')
     parser.add_argument('-n', '--n-samples', type=int,
         help = 'Use a subset of n samples from the dataset. RFG uses the whole dataset by default.')
