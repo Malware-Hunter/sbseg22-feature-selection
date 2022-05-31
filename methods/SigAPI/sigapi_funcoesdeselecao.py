@@ -144,11 +144,11 @@ if __name__=="__main__":
     if(args.class_column not in dataset.columns):
         print(f'ERRO: dataset não possui uma coluna chamada "{args.class_column}"')
         exit(1)
-    X = dataset.drop(columns = ['class'])
-    y = dataset['class']
+    X = dataset.drop(columns = args.class_column)
+    y = dataset[args.class_column]
     total_features = dataset.shape[1] - 1
-    num_features = 1
-    increment = 1
+    num_features = args.initial_n_features
+    increment = args.increment
     while num_features < (total_features + increment):
         k = total_features if num_features > total_features else num_features
        
