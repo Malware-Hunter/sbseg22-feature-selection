@@ -24,6 +24,6 @@ do
     echo -n "qtd de features para o dataset $DATASET (linhas,colunas: $DATASET_SHAPE): "
     read FEATURES_LIST
     echo "$PYTHON $BASE_DIR/rfg.py -d $DATASET -f $FEATURES_LIST --feature-selection-only"
-    $PYTHON $BASE_DIR/rfg.py -d $DATASET -f $FEATURES_LIST --feature-selection-only
+    $PYTHON -m methods.RFG.rfg -d $DATASET -f $FEATURES_LIST --feature-selection-only
     echo "Done"
 done
