@@ -18,16 +18,13 @@ from weka.classifiers import Classifier
 from weka.core.dataset import create_instances_from_matrices
 from weka.filters import Filter
 
-import argparse
+from argparse import ArgumentParser
 import sys
+from methods.utils import get_base_parser, get_dataset, get_X_y
 
 def parse_args(argv):
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '-d', '--dataset', 
-        help = 'Dataset (csv file). It should be already preprocessed, comma separated, with the last feature being the class.', 
-        type = str, 
-        required = True)
+    base_parser = get_base_parser()
+    parser = ArgumentParser(parents=[base_parser])
     parser.add_argument(
         '-i', '--increment', 
         help = 'Increment. Default: 20',
@@ -50,19 +47,8 @@ def parse_args(argv):
         help = 'Prediction threshold for Weka classifiers. Default: 0.6',
         type = float, 
         default = 0.6)
-    parser.add_argument(
-        '-o', '--output-file', 
-        metavar = 'OUTPUT_FILE',
-        help = 'Output file name. Default: results.csv',
-        type = str, 
-        default = 'results.csv')
-    parser.add_argument(
-        '-n', '--n-samples', 
-        help = 'Use a subset of n samples from the dataset. RFG uses the whole dataset by default.',
-        type = int)
     parser.add_argument('--feature-selection-only', action='store_true',
         help="If set, the experiment is constrained to the feature selection phase only. The program always returns the best K features, where K is the maximum value in the features list.")
-
     args = parser.parse_args(argv)
     return args
 
@@ -165,19 +151,10 @@ def run_experiment(X, y, classifiers, is_feature_selection_only = False,
             
     return pd.DataFrame(results), best_features
 
-def main():
-    args = parse_args(sys.argv[1:])
-
-    dataset = pd.read_csv(args.dataset)
-    n_samples = args.n_samples
-    if(n_samples):
-        if(n_samples <= 0 or n_samples > dataset.shape[0]):
-            print(f"Error: expected n_samples to be in range (0, {dataset.shape[0]}], but got {n_samples}")
-            return sys.exit(1)
-        dataset = dataset.sample(n=n_samples, random_state=1, ignore_index=True)
-
-    X, y = dataset.iloc[:,:-1], dataset.iloc[:,-1]
-    k_list = [int(value) for value in args.f.split(",")] if args.f != "" else []
+def main():    
+    parsed_args = parse_args(sys.argv[1:])
+    X, y = get_X_y(parsed_args, get_dataset(parsed_args))
+    k_list = [int(value) for value in parsed_args.f.split(",")] if parsed_args.f != "" else []
 
     jvm.start()
     classifiers = {
@@ -191,36 +168,43 @@ def main():
         'SMO-PolyKernel' : WekaClassifier(
             Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.PolyKernel']), 
             preprocess_instances_to_nominal, 
-            args.prediction_threshold
+            parsed_args.prediction_threshold
             ),
         'SMO-NormalizedPolyKernel': WekaClassifier(
             Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.NormalizedPolyKernel']),
             preprocess_instances_to_nominal,
-            args.prediction_threshold),
+            parsed_args.prediction_threshold),
         'SMO-Puk': WekaClassifier(
             Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.Puk']),
             preprocess_instances_to_nominal,
-            args.prediction_threshold),
+            parsed_args.prediction_threshold),
         'SMO-RBFKernel': WekaClassifier(
             Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.RBFKernel']),
             preprocess_instances_to_nominal,
-            args.prediction_threshold),
+            parsed_args.prediction_threshold),
         'AdaBoostM1': WekaClassifier(
             Classifier("weka.classifiers.meta.AdaBoostM1"),
             preprocess_instances_to_nominal,
-            args.prediction_threshold),
+            parsed_args.prediction_threshold),
         'RandomCommittee':  WekaClassifier(
             Classifier("weka.classifiers.meta.RandomCommittee"),
             preprocess_instances_to_nominal,
-            args.prediction_threshold)
+            parsed_args.prediction_threshold)
     }
 
-    results, best_features = run_experiment(X, y, classifiers, n_folds = args.n_folds, k_increment = args.increment, k_list=k_list, is_feature_selection_only=args.feature_selection_only)
+    results, best_features = run_experiment(
+        X, y, 
+        classifiers, 
+        n_folds = parsed_args.n_folds, 
+        k_increment = parsed_args.increment, 
+        k_list=k_list, 
+        is_feature_selection_only=parsed_args.feature_selection_only
+    )
 
-    if(not args.feature_selection_only):
-        results.to_csv(args.output_file, index=False)
+    if(not parsed_args.feature_selection_only):
+        results.to_csv(parsed_args.output_file, index=False)
     for score_function_name, features in best_features:
-        features.to_csv(args.output_file.replace(".csv", "") + f"_best_features_with_{score_function_name}.csv", index=False)
+        features.to_csv(parsed_args.output_file.replace(".csv", "") + f"_best_features_with_{score_function_name}.csv", index=False)
     print("done")
 
     jvm.stop()
