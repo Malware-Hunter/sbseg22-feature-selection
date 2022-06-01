@@ -6,10 +6,11 @@ def get_base_parser():
     Retorna um ArgumentParser com os parâmetros comuns entre os métodos implementados. 
     Para incluir os parâmetros deste parser em outro, passe-o para o outro parser da seguinte forma:
     ```
+    from argparse import ArgumentParser
     from utils import get_base_parser
 
     base_parser = get_base_parser()
-    other_parser = argparse.ArgumentParser(parents=[base_parser])
+    other_parser = ArgumentParser(parents=[base_parser])
 
     # Adicione os parâmetros específicos do outro parser normalmente:
     other_parser.add_argument("-f", help="Lista de features", ...)
@@ -39,7 +40,7 @@ def get_dataset(parsed_args):
         dataset = dataset.sample(n=n_samples, random_state=1, ignore_index=True)
     return dataset
 
-def split_dataset(parsed_args, dataset):
+def get_X_y(parsed_args, dataset):
     if(parsed_args.class_column not in dataset.columns):
         raise Exception(f'Expected dataset {parsed_args.dataset} to have a class column named "{parsed_args.class_column}"')
     X = dataset.drop(columns = parsed_args.class_column)
