@@ -1,27 +1,40 @@
 import pandas as pd
 import numpy as np
-import seaborn as sn
+from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import mutual_info_classif
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.feature_selection import SelectFromModel
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.feature_selection import RFE
-from sklearn.feature_selection import SelectKBest  , chi2
+from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import f1_score
+import csv
 import argparse
 import sys
-
+ 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument( '-d', '--dataset', type = str, required = True,
         help = 'Dataset (csv file). It should be already preprocessed, with the last feature being the class')
     parser.add_argument( '--sep', metavar = 'SEPARATOR', type = str, default = ',',
         help = 'Dataset feature separator. Default: ","')
-    parser.add_argument('-c', '--class-column', type = str, default="class", metavar = 'CLASS_COLUMN', 
+    parser.add_argument('-c', '--class-column', type = str, default="class", metavar = 'CLASS_COLUMN',
         help = 'Name of the class column. Default: "class"')
+    parser.add_argument('-n', '--n-samples', type=int,
+        help = 'Use a subset of n samples from the dataset. RFG uses the whole dataset by default.')
+    parser.add_argument('-t', '--threshold', type = float, default = 0.001,
+        help = 'Threshold for the minimal range suggestion heuristic. This is the threshold for the difference between the slope of consecutive moving averages of each selection method\'s metrics. Default: 0.001')
+    parser.add_argument( '-w', '--window-size', type = int, default = 5,
+        help = 'Moving average window size used in the minimal range suggestion heuristic. Default: 5')
     parser.add_argument('-k', '--num_features', type = int , 
         help = 'Number of features')
-    
+    parser.add_argument('-m', '--method', type = str , 
+        help = 'Most efficient method of selection')
+   
     return parser.parse_args(sys.argv[1:])
 
 def calculateMutualInformationGain(features, target, k):
@@ -80,23 +93,33 @@ def calculateSelectKBest(features, target,k):
     df = pd.DataFrame(list(zip(feature_names,chi2_selector.scores_)),columns= ['features','score']).sort_values(by = ['score'], ascending=False)
     return df[:k]
 
+metodos = {"metodo_calculateMutualInformationGain": calculateMutualInformationGain(features, target, k), "metodo_calculateRandomForestClassifier": calculateRandomForestClassifier(features, target, k),
+           "metodo_calculateExtraTreesClassifier ": calculateExtraTreesClassifier(features, target, k), "metodo_calculateRFERandomForestClassifier": calculateRFERandomForestClassifier(features, target, k),
+           "metodo_calculateRFEGradientBoostingClassifier": calculateRFEGradientBoostingClassifier(features, target,k),"metodo_calculateSelectKBest": calculateSelectKBest(features, target,k)}
+
 import matplotlib.pyplot as plt
 if __name__=="__main__":
-    args = parse_args()
+   args = parse_args()
     dataset = pd.read_csv(args.dataset, sep=args.sep)
-    X = dataset.drop(columns = ['class'])
-    y = dataset['class']
-    total_features = dataset.shape[1] - 1
-   
-    k = args.num_features
-       
-    print(">>> NÚMERO DE FEATURES ",k, "<<<")
-        
+    n_samples = args.n_samples
+    if(n_samples):
+        if(n_samples <= 0 or n_samples > dataset.shape[0]):
+            print(f"Error: expected n_samples to be in range (0, {dataset.shape[0]}], but got {n_samples}")
+            sys.exit(1)
+        dataset = dataset.sample(n=n_samples, random_state=1, ignore_index=True)
 
-    print(">>> RFE USING RANDOM FOREST CLASSIFIER <<<")
-    RFERandomForestClassifier = calculateRFERandomForestClassifier(X,y, k)
-    new_X = X[list(RFERandomForestClassifier['features'])]
-    print(RFERandomForestClassifier['features'])
+    if(args.class_column not in dataset.columns):
+        print(f'ERRO: dataset não possui uma coluna chamada "{args.class_column}"')
+        exit(1)
+    X = dataset.drop(columns = args.class_column)
+    y = dataset[args.class_column]
+    total_features = dataset.shape[1] - 1
+    k = args.num_features  
+
+    print(">>> MÉTODO MAIS EFICIENTE <<<")
+    metodo_eficiente = metodos[arg.method]
+    new_X = X[list(metodo_eficiente['features'])]
+    print(metodo_eficiente['features'])
           
     correlation = new_X.corr()
     plot = sn.heatmap(correlation, annot = True, fmt=".2f", linewidths=.9)
