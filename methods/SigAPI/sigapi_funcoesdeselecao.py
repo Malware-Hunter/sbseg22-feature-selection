@@ -22,7 +22,7 @@ def parse_args():
         help = 'Dataset (csv file). It should be already preprocessed, with the last feature being the class')
     parser.add_argument( '--sep', metavar = 'SEPARATOR', type = str, default = ',',
         help = 'Dataset feature separator. Default: ","')
-    parser.add_argument('-c', '--class-column', type = str, default="class", metavar = 'CLASS_COLUMN', 
+    parser.add_argument('-c', '--class-column', type = str, default="class", metavar = 'CLASS_COLUMN',
         help = 'Name of the class column. Default: "class"')
     parser.add_argument('-n', '--n-samples', type=int,
         help = 'Use a subset of n samples from the dataset. RFG uses the whole dataset by default.')
@@ -44,7 +44,7 @@ def get_minimal_range_suggestion(df, t=0.001, window_size=5):
     moving_averages = np.array([get_moving_average(np.array(df)[:, i], window_size) for i in range(df.shape[1])]).T
     gradients = np.gradient(moving_averages, axis=0)
     diffs = gradients[1:] - gradients[:-1]
-    
+
     for i in range(len(diffs) - 1, 1, -1):
         if(any([diff > t for diff in diffs[i]])):
             return int(df.index[i])
@@ -118,10 +118,10 @@ def calculateMetricas(new_X,y):
     resultado_teste = teste.predict(new_X_test)
 
     acuracia = accuracy_score(y_test, resultado_teste)
-    precision = precision_score(y_test, resultado_teste)
-    recall = recall_score(y_test, resultado_teste)
-    f1 = f1_score(y_test, resultado_teste)
-   
+    precision = precision_score(y_test, resultado_teste, zero_division = 0)
+    recall = recall_score(y_test, resultado_teste, zero_division = 0)
+    f1 = f1_score(y_test, resultado_teste, zero_division = 0)
+
     metricas = [acuracia,precision,recall,f1]
     return metricas
 
@@ -140,7 +140,7 @@ if __name__=="__main__":
             print(f"Error: expected n_samples to be in range (0, {dataset.shape[0]}], but got {n_samples}")
             sys.exit(1)
         dataset = dataset.sample(n=n_samples, random_state=1, ignore_index=True)
-   
+
     if(args.class_column not in dataset.columns):
         print(f'ERRO: dataset não possui uma coluna chamada "{args.class_column}"')
         exit(1)
@@ -151,7 +151,7 @@ if __name__=="__main__":
     increment = args.increment
     while num_features < (total_features + increment):
         k = total_features if num_features > total_features else num_features
-       
+
         print(">>> NÚMERO DE FEATURES ",k, "<<<")
         print(">>> MUTUAL INFORMATION GAIN <<<")
         mutualinformationGain = calculateMutualInformationGain(X, y, k)
@@ -165,7 +165,7 @@ if __name__=="__main__":
         w_mutualInformation = csv.writer(a_mutualInformation)
         w_mutualInformation.writerow([l_mutualInformation])
         arquivo_mutualInformation = open('Metricas_MutualGain.csv')
-        
+
         print(">>> SELECTFROMMODEL USING RANDOM FOREST CLASSIFIER <<<")
         randomForestClassifier = calculateRandomForestClassifier(X, y, k)
         new_X = X[list(randomForestClassifier['features'])]
@@ -189,11 +189,11 @@ if __name__=="__main__":
         w_selectExtra = csv.writer(a_selectExtra)
         w_selectExtra.writerow([l_selectExtra])
         arquivo_selectExtra = open('Metricas_SelectETC.csv')
-        
+
         print(">>> RFE USING RANDOM FOREST CLASSIFIER <<<")
         RFERandomForestClassifier = calculateRFERandomForestClassifier(X,y, k)
         new_X = X[list(RFERandomForestClassifier['features'])]
-        
+
         result_metricas =  calculateMetricas(new_X,y)
         l_RFERandom= np.append(l_RFERandom,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
         print(l_RFERandom)
@@ -213,7 +213,7 @@ if __name__=="__main__":
         w_RFEGradient= csv.writer(a_RFEGradient)
         w_RFEGradient.writerow([l_RFEGradient])
         arquivo_RFEGradient = open('Metricas_RFEGradient.csv')
-       
+
         print(">>> SELECT K BEST <<<")
         selectKBest = calculateSelectKBest(X,y,k)
         new_X = X[list(selectKBest['features'])]
@@ -228,7 +228,7 @@ if __name__=="__main__":
         arquivo_selectKBest = open('Metricas_SelectKBest.csv')
 
         num_features += increment
-        
+
 df_mutualInformation= pd.DataFrame(l_mutualInformation,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
 df_selectRandom= pd.DataFrame(l_selectRandom,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
 df_selectExtra= pd.DataFrame(l_selectExtra,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
