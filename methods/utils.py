@@ -6,6 +6,8 @@ def get_base_parser():
     Retorna um ArgumentParser com os parâmetros comuns entre os métodos implementados. 
     Para incluir os parâmetros deste parser em outro, passe-o para o outro parser da seguinte forma:
     ```
+    from utils import get_base_parser
+
     base_parser = get_base_parser()
     other_parser = argparse.ArgumentParser(parents=[base_parser])
 
