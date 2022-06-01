@@ -17,7 +17,7 @@ def get_base_parser():
     other_parser.add_argument(...)
     ```
     """
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument( '-d', '--dataset', type = str, required = True,
         help = 'Dataset (csv file). It should be already preprocessed.')
     parser.add_argument( '--sep', metavar = 'SEPARATOR', type = str, default = ',',
