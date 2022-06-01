@@ -99,7 +99,7 @@ metodos = {"metodo_calculateMutualInformationGain": calculateMutualInformationGa
 
 import matplotlib.pyplot as plt
 if __name__=="__main__":
-   args = parse_args()
+    args = parse_args()
     dataset = pd.read_csv(args.dataset, sep=args.sep)
     n_samples = args.n_samples
     if(n_samples):
