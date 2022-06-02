@@ -17,7 +17,7 @@ from argparse import ArgumentParser
 import sys
 from methods.utils import get_base_parser, get_dataset, get_X_y
  
-def parse_args():
+def parse_args(argv):
     base_parser = get_base_parser()
     parser = ArgumentParser(parents=[base_parser])
     parser.add_argument('-k', '--num_features', type = int ,required = True, 
