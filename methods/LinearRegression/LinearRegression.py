@@ -8,7 +8,7 @@ import argparse
 import sys
 
 from argparse import ArgumentParser
-from utils import get_base_parser, get_dataset, get_X_y
+from methods.utils import get_base_parser, get_dataset, get_X_y
 
 def parse_args(argv):
     parser = argparse.ArgumentParser(parents=[get_base_parser()])
