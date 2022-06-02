@@ -15,17 +15,12 @@ from sklearn.metrics import f1_score
 import csv
 import argparse
 import sys
+from argparse import ArgumentParser
+from methods.utils import get_base_parser, get_dataset, get_X_y
 
 def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument( '-d', '--dataset', type = str, required = True,
-        help = 'Dataset (csv file). It should be already preprocessed, with the last feature being the class')
-    parser.add_argument( '--sep', metavar = 'SEPARATOR', type = str, default = ',',
-        help = 'Dataset feature separator. Default: ","')
-    parser.add_argument('-c', '--class-column', type = str, default="class", metavar = 'CLASS_COLUMN',
-        help = 'Name of the class column. Default: "class"')
-    parser.add_argument('-n', '--n-samples', type=int,
-        help = 'Use a subset of n samples from the dataset. RFG uses the whole dataset by default.')
+    base_parser = get_base_parser()
+    parser = ArgumentParser(parents=[base_parser])
     parser.add_argument('-t', '--threshold', type = float, default = 0.001,
         help = 'Threshold for the minimal range suggestion heuristic. This is the threshold for the difference between the slope of consecutive moving averages of each selection method\'s metrics. Default: 0.001')
     parser.add_argument( '-w', '--window-size', type = int, default = 5,
@@ -34,7 +29,8 @@ def parse_args():
         help = 'Initial number of features. Default: 1')
     parser.add_argument( '-i', '--increment', type = int, default = 1,
         help = 'Value to increment the initial number of features. Default: 1')
-    return parser.parse_args(sys.argv[1:])
+    args = parser.parse_args(argv)
+    return args
 
 def get_moving_average(data, window_size=5):
     cumsum_vec = np.cumsum(np.insert(data, 0, 0))
@@ -132,20 +128,8 @@ l_RFERandom = [[0,0,0,0,0]]
 l_RFEGradient = [[0,0,0,0,0]]
 l_selectKBest= [[0,0,0,0,0]]
 if __name__=="__main__":
-    args = parse_args()
-    dataset = pd.read_csv(args.dataset, sep=args.sep)
-    n_samples = args.n_samples
-    if(n_samples):
-        if(n_samples <= 0 or n_samples > dataset.shape[0]):
-            print(f"Error: expected n_samples to be in range (0, {dataset.shape[0]}], but got {n_samples}")
-            sys.exit(1)
-        dataset = dataset.sample(n=n_samples, random_state=1, ignore_index=True)
-
-    if(args.class_column not in dataset.columns):
-        print(f'ERRO: dataset não possui uma coluna chamada "{args.class_column}"')
-        exit(1)
-    X = dataset.drop(columns = args.class_column)
-    y = dataset[args.class_column]
+    parsed_args = parse_args(sys.argv[1:])
+    X, y = get_X_y(parsed_args, get_dataset(parsed_args))
     total_features = dataset.shape[1] - 1
     num_features = args.initial_n_features
     increment = args.increment
