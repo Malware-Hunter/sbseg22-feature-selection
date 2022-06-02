@@ -93,9 +93,9 @@ def calculateSelectKBest(features, target,k):
     df = pd.DataFrame(list(zip(feature_names,chi2_selector.scores_)),columns= ['features','score']).sort_values(by = ['score'], ascending=False)
     return df[:k]
 
-metodos = {"metodo_calculateMutualInformationGain": calculateMutualInformationGain(features, target, k), "metodo_calculateRandomForestClassifier": calculateRandomForestClassifier(features, target, k),
-           "metodo_calculateExtraTreesClassifier ": calculateExtraTreesClassifier(features, target, k), "metodo_calculateRFERandomForestClassifier": calculateRFERandomForestClassifier(features, target, k),
-           "metodo_calculateRFEGradientBoostingClassifier": calculateRFEGradientBoostingClassifier(features, target,k),"metodo_calculateSelectKBest": calculateSelectKBest(features, target,k)}
+metodos = {"metodo_calculateMutualInformationGain": calculateMutualInformationGain, "metodo_calculateRandomForestClassifier": calculateRandomForestClassifier,
+           "metodo_calculateExtraTreesClassifier ": calculateExtraTreesClassifier, "metodo_calculateRFERandomForestClassifier": calculateRFERandomForestClassifier,
+           "metodo_calculateRFEGradientBoostingClassifier": calculateRFEGradientBoostingClassifier,"metodo_calculateSelectKBest": calculateSelectKBest}
 
 import matplotlib.pyplot as plt
 if __name__=="__main__":
