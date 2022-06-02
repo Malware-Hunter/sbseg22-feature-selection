@@ -26,10 +26,6 @@ def parse_args():
         help = 'Name of the class column. Default: "class"')
     parser.add_argument('-n', '--n-samples', type=int,
         help = 'Use a subset of n samples from the dataset. RFG uses the whole dataset by default.')
-    parser.add_argument('-t', '--threshold', type = float, default = 0.001,
-        help = 'Threshold for the minimal range suggestion heuristic. This is the threshold for the difference between the slope of consecutive moving averages of each selection method\'s metrics. Default: 0.001')
-    parser.add_argument( '-w', '--window-size', type = int, default = 5,
-        help = 'Moving average window size used in the minimal range suggestion heuristic. Default: 5')
     parser.add_argument('-k', '--num_features', type = int ,required = True, 
         help = 'Number of features')
     parser.add_argument('-m', '--method', type = str , required = True,
