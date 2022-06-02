@@ -30,9 +30,9 @@ def parse_args():
         help = 'Threshold for the minimal range suggestion heuristic. This is the threshold for the difference between the slope of consecutive moving averages of each selection method\'s metrics. Default: 0.001')
     parser.add_argument( '-w', '--window-size', type = int, default = 5,
         help = 'Moving average window size used in the minimal range suggestion heuristic. Default: 5')
-    parser.add_argument('-k', '--num_features', type = int , 
+    parser.add_argument('-k', '--num_features', type = int ,required = True, 
         help = 'Number of features')
-    parser.add_argument('-m', '--method', type = str , 
+    parser.add_argument('-m', '--method', type = str , required = True,
         help = 'Most efficient method of selection')
    
     return parser.parse_args(sys.argv[1:])
