@@ -33,7 +33,7 @@ def parse_args():
     parser.add_argument('-k', '--num_features', type = int ,required = True, 
         help = 'Number of features')
     parser.add_argument('-m', '--method', type = str , required = True,
-        help = 'Most efficient method of selection')
+        help = f'One of the following feature selection methods to use: {", ".join(metodos)}')
    
     return parser.parse_args(sys.argv[1:])
 
@@ -93,6 +93,15 @@ def calculateSelectKBest(features, target,k):
     df = pd.DataFrame(list(zip(feature_names,chi2_selector.scores_)),columns= ['features','score']).sort_values(by = ['score'], ascending=False)
     return df[:k]
 
+metodos = { 
+    "MutualInformationGain": calculateMutualInformationGain, 
+    "RandomForestClassifier": calculateRandomForestClassifier,
+    "ExtraTreesClassifier ": calculateExtraTreesClassifier, 
+    "RFERandomForestClassifier": calculateRFERandomForestClassifier,
+    "RFEGradientBoostingClassifier": calculateRFEGradientBoostingClassifier,
+    "SelectKBest": calculateSelectKBest 
+}
+
 if __name__=="__main__":
     args = parse_args()
     dataset = pd.read_csv(args.dataset, sep=args.sep)
@@ -109,13 +118,10 @@ if __name__=="__main__":
     X = dataset.drop(columns = args.class_column)
     y = dataset[args.class_column]
     total_features = dataset.shape[1] - 1
-    k = args.num_features  
-    metodos = {"metodo_calculateMutualInformationGain": calculateMutualInformationGain(X,y,k), "metodo_calculateRandomForestClassifier": calculateRandomForestClassifier(X,y,k),
-           "metodo_calculateExtraTreesClassifier ": calculateExtraTreesClassifier(X,y,k), "metodo_calculateRFERandomForestClassifier": calculateRFERandomForestClassifier(X,y,k),
-           "metodo_calculateRFEGradientBoostingClassifier": calculateRFEGradientBoostingClassifier(X,y,k),"metodo_calculateSelectKBest": calculateSelectKBest(X,y,k)}
+    k = args.num_features    
 
     print(">>> MÉTODO MAIS EFICIENTE <<<")
-    metodo_eficiente = metodos[args.method]
+    metodo_eficiente = metodos[args.method](X, y, k)
     new_X = X[list(metodo_eficiente['features'])]
     print(metodo_eficiente['features'])
           
