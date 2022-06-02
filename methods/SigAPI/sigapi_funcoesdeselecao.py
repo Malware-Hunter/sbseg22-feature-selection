@@ -18,7 +18,7 @@ import sys
 from argparse import ArgumentParser
 from methods.utils import get_base_parser, get_dataset, get_X_y
 
-def parse_args():
+def parse_args(argv):
     base_parser = get_base_parser()
     parser = ArgumentParser(parents=[base_parser])
     parser.add_argument('-t', '--threshold', type = float, default = 0.001,
