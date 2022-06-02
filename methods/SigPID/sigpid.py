@@ -1,18 +1,31 @@
-import pandas as pd
-import numpy  as np
-import sklearn
-import timeit
-import argparse
-import csv
-import os, sys, stat
-from matplotlib import pyplot as plt
-from sklearn.svm import SVC
-from sklearn.metrics import classification_report, confusion_matrix, plot_confusion_matrix, plot_roc_curve
-from sklearn.datasets import load_wine
-from sklearn.model_selection import train_test_split
-from mlxtend.frequent_patterns import apriori, association_rules
-from mlxtend.preprocessing import TransactionEncoder
-from spinner import Spinner
+from gettext import install
+import pip
+
+
+try:
+    import pandas as pd
+    import numpy  as np
+    import sklearn
+    import timeit
+    import argparse
+    import csv
+    import os, sys, stat
+    from matplotlib import pyplot as plt
+    from sklearn.svm import SVC
+    from sklearn.metrics import classification_report, confusion_matrix, plot_confusion_matrix, plot_roc_curve
+    from sklearn.datasets import load_wine
+    from sklearn.model_selection import train_test_split
+    from mlxtend.frequent_patterns import apriori, association_rules
+    from mlxtend.preprocessing import TransactionEncoder
+    from spinner import Spinner
+except:
+    pip install pandas
+    pip install sklearn
+    pip install numpy
+    pip install timeit
+    pip install argparse
+    pip install mlxtend
+
 
 B = None
 M = None
