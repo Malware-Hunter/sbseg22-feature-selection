@@ -93,8 +93,6 @@ def calculateSelectKBest(features, target,k):
     df = pd.DataFrame(list(zip(feature_names,chi2_selector.scores_)),columns= ['features','score']).sort_values(by = ['score'], ascending=False)
     return df[:k]
 
-
-import matplotlib.pyplot as plt
 if __name__=="__main__":
     args = parse_args()
     dataset = pd.read_csv(args.dataset, sep=args.sep)
