@@ -92,7 +92,7 @@ def calculateSelectKBest(features, target,k):
 metodos = { 
     "MutualInformationGain": calculateMutualInformationGain, 
     "RandomForestClassifier": calculateRandomForestClassifier,
-    "ExtraTreesClassifier ": calculateExtraTreesClassifier, 
+    "ExtraTreesClassifier": calculateExtraTreesClassifier, 
     "RFERandomForestClassifier": calculateRFERandomForestClassifier,
     "RFEGradientBoostingClassifier": calculateRFEGradientBoostingClassifier,
     "SelectKBest": calculateSelectKBest 
