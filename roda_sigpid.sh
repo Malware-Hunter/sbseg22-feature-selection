@@ -1,7 +1,9 @@
-CHECK_PIP=$(which pip)
-[ "$CHECK_PIP" != "" ] || { echo "instale o pip: sudo apt -y install python3-pip"; exit; }
-CHECK_PKGS=$(pip show numpy scipy pandas scikit-learn mlxtend | grep -i -w "not found")
-[ "$CHECK_PKGS" = "" ] || { echo "instale os pacotes Python: sudo pip install numpy scikit-learn scipy pandas mlxtend"; exit; }
+echo "Install Pandas..."
+python3 -m pip install pandas
+echo "Install scikit-learn..."
+python3 -m pip install scikit-learn
+echo "Install mlxtend..."
+python3 -m pip install mlxtend
 
 if [[ `ls -1 datasets/*.csv 2>/dev/null | wc -l ` -eq 0 ]]; then
   echo "ERRO: não foi possível encontrar arquivos CSV no diretório \"datasets\"."
