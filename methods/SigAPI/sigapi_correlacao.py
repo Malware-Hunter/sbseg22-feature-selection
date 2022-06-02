@@ -122,9 +122,6 @@ if __name__=="__main__":
     print(metodo_eficiente['features'])
           
     correlation = new_X.corr()
-    plot = sn.heatmap(correlation, annot = True, fmt=".2f", linewidths=.9)
-    plot.figure.set_size_inches(12, 8)
-    plt.show()
 
     model_RF=RandomForestClassifier()
     model_RF.fit(new_X,y)
