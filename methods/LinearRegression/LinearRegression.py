@@ -4,6 +4,16 @@ from sklearn import linear_model
 from sklearn.model_selection import KFold
 from sklearn.linear_model import LinearRegression
 import time
+import argparse
+import sys
+
+from argparse import ArgumentParser
+from utils import get_base_parser, get_dataset, get_X_y
+
+def parse_args(argv):
+    parser = argparse.ArgumentParser(parents=[get_base_parser()])
+    args = parser.parse_args(argv)
+    return args
 
 #FOLDERS
 def KFolders():
@@ -65,28 +75,34 @@ def NewDataset():
     new_X = X.drop(columns=fold_ft_to_delete[MaxValue()])
     #print(new_X)
     df2 = pd.DataFrame(new_X)
-    return(df2)
+    return df2
 
-# LEITURA DO DATASET
-dataframe = pd.read_csv('***CAMINHO DO DATASET A SER UTILIZADO****')
-print("**********************LEITURA DO DATASET**********************\n", dataframe)
-X = dataframe.iloc[:,:-1] # train
-y = dataframe.iloc[:,-1] # test
-
-# VETORES AUXILIARES
-features_names = np.array(X.columns.values.tolist())
-fold_count = [10] * len(features_names)
-fold_ft_num = []
-fold_ft_to_delete = []
-
-# CHAMADA DAS FUNÇÕES
-KFolders()
-inicio = time.time()
-LinearR()
-fim = time.time()
-MaxValue()
-print("\n\n**********************DATASET COM AS FEATURES SELECIONADAS**********************\n")
-print(NewDataset())
-print("\n**********************\nTEMPO DE EXECUÇÃO: ", fim-inicio, "\n")
+if __name__=="__main__":
+    
+    args = parse_args(sys.argv[1:])
 
 
+    try:
+        initial_dataset = pd.read_csv(args.dataset)
+    except BaseException as e:
+        print('Exception: {}'.format(e))
+        exit(1)
+
+    X = initial_dataset.iloc[:,:-1] # train
+    y = initial_dataset.iloc[:,-1] # test
+
+    # VETORES AUXILIARES
+    features_names = np.array(X.columns.values.tolist())
+    fold_count = [10] * len(features_names)
+    fold_ft_num = []
+    fold_ft_to_delete = []
+
+    # CHAMADA DAS FUNÇÕES
+    KFolders()
+    #inicio = time.time()
+    LinearR()
+    #fim = time.time()
+    MaxValue()
+
+    NewDataset().to_csv(args.output_file, index=False)
+    
