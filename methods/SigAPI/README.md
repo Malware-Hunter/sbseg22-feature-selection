@@ -38,7 +38,7 @@ onde esse k receberia o número de features para qual o dataset poderia ser redu
 Com isso, vai ser possível encontrar a redução de características que foi realizada e o resultado será um dataset com estas características.
   
 ## Detalhes de uso
-
+### Etapa de seleção de características
 ```
 usage: sigapi_funcoesdeselecao.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN] [-n N_SAMPLES] [-t THRESHOLD] [-w WINDOW_SIZE] [-f INITIAL_N_FEATURES] [-i INCREMENT]
 
@@ -60,4 +60,24 @@ optional arguments:
                         Initial number of features. Default: 1
   -i INCREMENT, --increment INCREMENT
                         Value to increment the initial number of features. Default: 1
+```
+### Etapa de correlação
+
+```
+usage: sigapi_correlacao.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN] [-n N_SAMPLES] -k NUM_FEATURES -m METHOD
+
+options:
+  -h, --help            show this help message and exit
+  -d DATASET, --dataset DATASET
+                        Dataset (csv file). It should be already preprocessed, with the last feature being the class
+  --sep SEPARATOR       Dataset feature separator. Default: ","
+  -c CLASS_COLUMN, --class-column CLASS_COLUMN
+                        Name of the class column. Default: "class"
+  -n N_SAMPLES, --n-samples N_SAMPLES
+                        Use a subset of n samples from the dataset. RFG uses the whole dataset by default.
+  -k NUM_FEATURES, --num_features NUM_FEATURES
+                        Number of features
+  -m METHOD, --method METHOD
+                        One of the following feature selection methods to use: MutualInformationGain, RandomForestClassifier, ExtraTreesClassifier, RFERandomForestClassifier,
+                        RFEGradientBoostingClassifier, SelectKBest
 ```
