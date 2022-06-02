@@ -93,9 +93,6 @@ def calculateSelectKBest(features, target,k):
     df = pd.DataFrame(list(zip(feature_names,chi2_selector.scores_)),columns= ['features','score']).sort_values(by = ['score'], ascending=False)
     return df[:k]
 
-metodos = {"metodo_calculateMutualInformationGain": calculateMutualInformationGain, "metodo_calculateRandomForestClassifier": calculateRandomForestClassifier,
-           "metodo_calculateExtraTreesClassifier ": calculateExtraTreesClassifier, "metodo_calculateRFERandomForestClassifier": calculateRFERandomForestClassifier,
-           "metodo_calculateRFEGradientBoostingClassifier": calculateRFEGradientBoostingClassifier,"metodo_calculateSelectKBest": calculateSelectKBest}
 
 import matplotlib.pyplot as plt
 if __name__=="__main__":
@@ -115,6 +112,9 @@ if __name__=="__main__":
     y = dataset[args.class_column]
     total_features = dataset.shape[1] - 1
     k = args.num_features  
+    metodos = {"metodo_calculateMutualInformationGain": calculateMutualInformationGain(X,y,k), "metodo_calculateRandomForestClassifier": calculateRandomForestClassifier(X,y,k),
+           "metodo_calculateExtraTreesClassifier ": calculateExtraTreesClassifier(X,y,k), "metodo_calculateRFERandomForestClassifier": calculateRFERandomForestClassifier(X,y,k),
+           "metodo_calculateRFEGradientBoostingClassifier": calculateRFEGradientBoostingClassifier(X,y,k),"metodo_calculateSelectKBest": calculateSelectKBest(X,y,k)}
 
     print(">>> MÉTODO MAIS EFICIENTE <<<")
     metodo_eficiente = metodos[arg.method]
