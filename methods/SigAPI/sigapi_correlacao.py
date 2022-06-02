@@ -115,7 +115,7 @@ if __name__=="__main__":
            "metodo_calculateRFEGradientBoostingClassifier": calculateRFEGradientBoostingClassifier(X,y,k),"metodo_calculateSelectKBest": calculateSelectKBest(X,y,k)}
 
     print(">>> MÉTODO MAIS EFICIENTE <<<")
-    metodo_eficiente = metodos[arg.method]
+    metodo_eficiente = metodos[args.method]
     new_X = X[list(metodo_eficiente['features'])]
     print(metodo_eficiente['features'])
           
