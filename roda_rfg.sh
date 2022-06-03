@@ -6,6 +6,11 @@ PIP="${VENV}/bin/pip3"
 BASE_DIR="methods/RFG"
 CANT_INSTALL_VENV_MESSAGE="ERRO: não foi possível criar o ambiente virtual (venv).\nO python3.8 e o python3.8-venv estão instalados? Se não, use o comando: sudo apt install python3.8 python3.8-venv"
 
+if [[ `which javac java | wc -l` -lt 2 ]]; then
+  echo "ERRO: instale o javac e java primeiro (e.g.: sudo apt install -y openjdk-11-jdk) não foram encontrados.">&2
+  exit 1
+fi
+
 if ! [[ -d "$VENV" ]]; then
   python3 -m venv "$VENV"
   [[ $? == 1 || ! -d "$VENV" ]] && echo -e "$CANT_INSTALL_VENV_MESSAGE">&2 && exit 1
