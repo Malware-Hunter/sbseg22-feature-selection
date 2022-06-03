@@ -13,7 +13,6 @@ from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
 import csv
-import argparse
 import sys
 from argparse import ArgumentParser
 from methods.utils import get_base_parser, get_dataset, get_X_y
