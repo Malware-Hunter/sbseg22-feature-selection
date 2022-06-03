@@ -130,7 +130,7 @@ l_selectKBest= [[0,0,0,0,0]]
 if __name__=="__main__":
     parsed_args = parse_args(sys.argv[1:])
     X, y = get_X_y(parsed_args, get_dataset(parsed_args))
-    total_features = dataset.shape[1] - 1
+    total_features = get_dataset(parsed_args).shape[1] - 1
     num_features = args.initial_n_features
     increment = args.increment
     while num_features < (total_features + increment):
