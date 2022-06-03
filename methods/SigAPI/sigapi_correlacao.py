@@ -95,7 +95,7 @@ metodos = {
 if __name__=="__main__":
     parsed_args = parse_args(sys.argv[1:])
     X, y = get_X_y(parsed_args, get_dataset(parsed_args))
-    k = args.num_features    
+    k = parsed_args.num_features    
 
     print(">>> MÉTODO MAIS EFICIENTE <<<")
     metodo_eficiente = metodos[args.method](X, y, k)
