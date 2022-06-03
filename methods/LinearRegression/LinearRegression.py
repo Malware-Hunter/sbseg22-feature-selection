@@ -4,14 +4,13 @@ from sklearn import linear_model
 from sklearn.model_selection import KFold
 from sklearn.linear_model import LinearRegression
 import time
-import argparse
 import sys
 
 from argparse import ArgumentParser
 from methods.utils import get_base_parser, get_dataset, get_X_y
 
 def parse_args(argv):
-    parser = argparse.ArgumentParser(parents=[get_base_parser()])
+    parser = ArgumentParser(parents=[get_base_parser()])
     args = parser.parse_args(argv)
     return args
 
@@ -80,16 +79,7 @@ def NewDataset():
 if __name__=="__main__":
     
     args = parse_args(sys.argv[1:])
-
-
-    try:
-        initial_dataset = pd.read_csv(args.dataset)
-    except BaseException as e:
-        print('Exception: {}'.format(e))
-        exit(1)
-
-    X = initial_dataset.iloc[:,:-1] # train
-    y = initial_dataset.iloc[:,-1] # test
+    X, y = get_X_y(args, get_dataset(args))
 
     # VETORES AUXILIARES
     features_names = np.array(X.columns.values.tolist())
