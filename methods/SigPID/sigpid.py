@@ -17,14 +17,15 @@ from sklearn.model_selection import train_test_split
 from mlxtend.frequent_patterns import apriori, association_rules
 from mlxtend.preprocessing import TransactionEncoder
 from spinner import Spinner
-
+from methods.utils import get_base_parser, get_dataset, get_X_y
 
 
 B = None
 M = None
 
 def parse_args(argv):
-    parser = argparse.ArgumentParser()
+    base_parser = get_base_parser()
+    parser = argparse.ArgumentParser(parents=[base_parser])
     parser.add_argument(
         '-d', '--dataset', metavar='str',
         help='Dataset (csv file).', type=str, required=True)
@@ -75,8 +76,9 @@ def permission_list(filename, asc):
 def SVM(dataset_df):
     from sklearn import metrics
     state = np.random.randint(100)
-    Y = dataset_df['class']
-    X = dataset_df.drop(['class'], axis = 1)
+    #Y = dataset_df['class']
+    #X = dataset_df.drop(['class'], axis = 1)
+     X, Y = get_X_y(parsed_args, get_dataset(parsed_args))
 
     start_time = timeit.default_timer()
     #split between train and test sets
@@ -187,7 +189,8 @@ if __name__=="__main__":
     args = parse_args(sys.argv[1:])
 
     try:
-        initial_dataset = pd.read_csv(args.dataset)
+        #initial_dataset = pd.read_csv(args.dataset)
+        initial_dataset = pd.read_csv(get_dataset(args))
     except BaseException as e:
         print('Exception: {}'.format(e))
         exit(1)
