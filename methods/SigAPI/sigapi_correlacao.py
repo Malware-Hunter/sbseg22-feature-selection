@@ -98,7 +98,7 @@ if __name__=="__main__":
     k = parsed_args.num_features    
 
     print(">>> MÉTODO MAIS EFICIENTE <<<")
-    metodo_eficiente = metodos[args.method](X, y, k)
+    metodo_eficiente = metodos[parsed_args.method](X, y, k)
     new_X = X[list(metodo_eficiente['features'])]
     print(metodo_eficiente['features'])
           
