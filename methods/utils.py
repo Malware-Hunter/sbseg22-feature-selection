@@ -26,7 +26,7 @@ def get_base_parser():
     parser.add_argument('-c', '--class-column', type = str, default="class", metavar = 'CLASS_COLUMN', 
         help = 'Name of the class column. Default: "class"')
     parser.add_argument('-n', '--n-samples', type=int,
-        help = 'Use a subset of n samples from the dataset. RFG uses the whole dataset by default.')
+        help = 'Use a subset of n samples from the dataset. By default, all samples are used.')
     parser.add_argument('-o', '--output-file', metavar = 'OUTPUT_FILE', type = str, default = 'results.csv', 
         help = 'Output file name. Default: results.csv')
     return parser
