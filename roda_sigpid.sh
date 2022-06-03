@@ -13,5 +13,5 @@ for DATASET in datasets/*.csv
 do
     D_NAME=$(echo $DATASET | cut -d"/" -f2)
     echo "python3 methods/SigPID/sigpid.py -d $DATASET "
-    python3 -m methods/SigPID/sigpid.py -d $DATASET
+    python3 methods/SigPID/sigpid.py -d $DATASET
 done
