@@ -78,7 +78,7 @@ def SVM(dataset_df):
     state = np.random.randint(100)
     #Y = dataset_df['class']
     #X = dataset_df.drop(['class'], axis = 1)
-     X, Y = get_X_y(parsed_args, get_dataset(parsed_args))
+    X, Y = get_X_y(parsed_args, get_dataset(parsed_args))
 
     start_time = timeit.default_timer()
     #split between train and test sets
