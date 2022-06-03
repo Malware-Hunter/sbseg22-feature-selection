@@ -8,8 +8,10 @@ CANT_INSTALL_VENV_MESSAGE="ERRO: não foi possível criar o ambiente virtual (ve
 
 if ! [[ -d "$VENV" ]]; then
   python3 -m venv "$VENV"
-  ! [[ -d "$VENV" ]] && echo -e "$CANT_INSTALL_VENV_MESSAGE" && exit 1
+  [[ $? == 1 || ! -d "$VENV" ]] && echo -e "$CANT_INSTALL_VENV_MESSAGE">&2 && exit 1
 fi
+[[ ! -f $PIP ]] && echo "ERRO: ${PIP} não encontrado">&2 && exit 1
+
 $PIP install numpy==1.22.3 wheel
 $PIP install -r $BASE_DIR/requirements.txt
 
