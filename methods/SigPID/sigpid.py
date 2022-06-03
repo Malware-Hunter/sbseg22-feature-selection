@@ -189,8 +189,8 @@ if __name__=="__main__":
     args = parse_args(sys.argv[1:])
 
     try:
-        #initial_dataset = pd.read_csv(args.dataset)
-        initial_dataset = pd.read_csv(get_dataset(args))
+        initial_dataset = pd.read_csv(args.dataset)
+        #initial_dataset = pd.read_csv(get_dataset(args))
     except BaseException as e:
         print('Exception: {}'.format(e))
         exit(1)
