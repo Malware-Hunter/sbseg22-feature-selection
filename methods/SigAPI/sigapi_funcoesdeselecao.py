@@ -132,6 +132,9 @@ if __name__=="__main__":
     total_features = get_dataset(parsed_args).shape[1] - 1
     num_features = parsed_args.initial_n_features
     increment = parsed_args.increment
+    if(num_features > total_features):
+        print(f"ERRO: --initial-n-features ({num_features}) maior que a qtd de features do dataset ({total_features})")
+        exit(1)
     while num_features < (total_features + increment):
         k = total_features if num_features > total_features else num_features
 
@@ -212,35 +215,40 @@ if __name__=="__main__":
 
         num_features += increment
 
-df_mutualInformation= pd.DataFrame(l_mutualInformation,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
-df_selectRandom= pd.DataFrame(l_selectRandom,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
-df_selectExtra= pd.DataFrame(l_selectExtra,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
-df_RFERandom= pd.DataFrame(l_RFERandom,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
-df_RFEGradient= pd.DataFrame(l_RFEGradient,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
-df_selectKBest= pd.DataFrame(l_selectKBest,columns=['Número de Características','Acurácia','Precisão','Recall','F1 Score'])
+columns = ['Número de Características','Acurácia','Precisão','Recall','F1 Score']
 
-df_mutualInformation.to_csv("data-mutualInformation.csv", index = False)
-df_selectRandom.to_csv("data-selectRandom.csv", index = False)
-df_selectExtra.to_csv("data-selectExtra.csv", index = False)
-df_RFERandom.to_csv("data-RFERandom.csv", index = False)
-df_RFEGradient.to_csv("data-RFEGradient.csv", index = False)
-df_selectKBest.to_csv("data-selectKBest.csv", index = False)
+methods = {
+    "mutualInformation": pd.DataFrame(l_mutualInformation, columns=columns),
+    "selectRandom": pd.DataFrame(l_selectRandom, columns=columns),
+    "selectExtra": pd.DataFrame(l_selectExtra, columns=columns),
+    "RFERandom": pd.DataFrame(l_RFERandom, columns=columns),
+    "RFEGradient": pd.DataFrame(l_RFEGradient, columns=columns),
+    "selectKBest": pd.DataFrame(l_selectKBest, columns=columns)
+}
+for method_name, df in methods.items():
+    df.to_csv(f'data-{method_name}.csv', index=False)
+    df.drop(columns=['Número de Características']).plot().get_figure().savefig(f'{method_name}.jpg', dpi=300)
 
-df_mutualInformation.drop(columns=['Número de Características']).plot().get_figure().savefig("mutualInformation.jpg", dpi=300)
-df_selectRandom.drop(columns=['Número de Características']).plot().get_figure().savefig("selectRandom.jpg", dpi=300)
-df_selectExtra.drop(columns=['Número de Características']).plot().get_figure().savefig("selectExtra.jpg", dpi=300)
-df_RFERandom.drop(columns=['Número de Características']).plot().get_figure().savefig("RFERandom.jpg", dpi=300)
-df_RFEGradient.drop(columns=['Número de Características']).plot().get_figure().savefig("RFEGradient.jpg", dpi=300)
-df_selectKBest.drop(columns=['Número de Características']).plot().get_figure().savefig("selectKBest.jpg", dpi=300)
-
-print("Etapa de seleção concluída com sucesso. Você deve analisar os resultados de cada método de seleção por meio dos dados e dos gráficos gerados.")
+lower_bounds = []
 try:
-    print("Considere também estas sugestão de intervalo mínimo (i.e.: menor número de características) para cada método (se for -1, desconsidere):")
-    print("mutualInformation:", get_minimal_range_suggestion(df_mutualInformation.set_index("Número de Características"), parsed_args.threshold, parsed_args.window_size))
-    print("selectRandom:", get_minimal_range_suggestion(df_selectRandom.set_index("Número de Características"), parsed_args.threshold, parsed_args.window_size))
-    print("selectExtra:", get_minimal_range_suggestion(df_selectExtra.set_index("Número de Características"), parsed_args.threshold, parsed_args.window_size))
-    print("RFERandom:", get_minimal_range_suggestion(df_RFERandom.set_index("Número de Características"), parsed_args.threshold, parsed_args.window_size))
-    print("RFEGradient:", get_minimal_range_suggestion(df_RFEGradient.set_index("Número de Características"), parsed_args.threshold, parsed_args.window_size))
-    print("selectKBest:", get_minimal_range_suggestion(df_selectKBest.set_index("Número de Características"), parsed_args.threshold, parsed_args.window_size))
-except:
+    lower_bounds = []
+    for method_name, df in methods.items():
+        lower_bound = get_minimal_range_suggestion(df)
+        lower_bounds.append((method_name, lower_bound))
+    print(lower_bounds)
+    if(len(lower_bounds) == 0):
+        print("Não foi possível encontrar o limite inferior do intervalo mínimo.")
+        exit(0)
+    min_lower_bound = lower_bounds[0]
+    for (method_name, lower_bound) in lower_bounds:
+        print("lower_bound:", lower_bound)
+        if(lower_bound < min_lower_bound[1]):
+            min_lower_bound = (method_name, lower_bound)
+    if(min_lower_bound[1] == -1):
+        print("Não foi possível encontrar o limite inferior do intervalo mínimo.")
+    else:
+        print("Menor limite inferior encontrado:")  
+        print(f'{min_lower_bound[0]}, {min_lower_bound[1]}')
+except Exception as e:
+    print(str(e))
     print("Não foi possível calcular a sugestão de intervalo mínimo desta vez.")
