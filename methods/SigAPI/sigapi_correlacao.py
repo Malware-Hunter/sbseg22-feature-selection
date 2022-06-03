@@ -24,6 +24,7 @@ def parse_args(argv):
         help = 'Number of features')
     parser.add_argument('-m', '--method', type = str , required = True,
         help = f'One of the following feature selection methods to use: {", ".join(metodos)}')
+    args = parser.parse_args(argv)
     return args
 
 def calculateMutualInformationGain(features, target, k):
