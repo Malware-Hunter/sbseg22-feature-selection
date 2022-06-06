@@ -21,10 +21,9 @@ $PIP install numpy==1.22.3 wheel
 $PIP install -r $BASE_DIR/requirements.txt
 
 echo "Ambiente virtual preparado em \"${VENV}\""
-if [[ `ls -1 datasets/*.csv 2>/dev/null | wc -l ` -eq 0 ]]; then
-  echo "ERRO: não foi possível encontrar arquivos CSV no diretório \"datasets\"."
-  exit 1
-fi
+
+bash setup_datasets.sh
+[[ $? != 0 ]] && exit 1
 for DATASET in datasets/*.csv
 do
     DATASET_SHAPE="`wc -l < "$DATASET"`,`head -1 "$DATASET" | awk -F, '{print NF}'`"
