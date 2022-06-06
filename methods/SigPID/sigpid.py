@@ -291,7 +291,7 @@ if __name__=="__main__":
     SPR_df = pd.read_csv("MLDP/SPR/subset_" + str(best_SPR_counter) + ".csv", encoding = 'utf8')
     final_dataset = run_PMAR(SPR_df, malwares_permissions)
 
-    final_dataset.to_csv("MLDP/PMAR/final_dataset.csv", index=False)
+    final_dataset.to_csv("MLDP/PMAR/final_dataset"+args.output_file, index=False)
     final_perms = len(final_dataset.columns) - 1
     num_permissions = initial_dataset.shape[1] - 1
     pct = (1.0 - (final_perms/num_permissions)) * 100.0
