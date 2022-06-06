@@ -13,13 +13,10 @@ import timeit
 import argparse
 import sys
 import inspect
+from methods.utils import get_base_parser, get_dataset, get_X_y
 
 def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument( '-d', '--dataset', type = str, required = True,
-        help = 'Dataset (csv file). It should be already preprocessed, with the last feature being the class')
-    parser.add_argument( '--sep', metavar = 'SEPARATOR', type = str, default = ',',
-        help = 'Dataset feature separator. Default: ","')
+    parser = argparse.ArgumentParser(parents=[get_base_parser()])
     parser.add_argument('--exclude-hyperparameter', action='store_true',
         help="If set, the ML hyperparameter will be excluded in the Differential Evolution. By default it's included")
     parser.add_argument( '-m', '--mapping-functions', metavar = 'LIST', type = str,
@@ -29,8 +26,6 @@ def parse_args():
         help = 'Threshold to select features with Mutual Information. Default: 0.05. Only features with score greater than or equal to this value will be selected')
     parser.add_argument('--train-size', type = float, default = 0.8,
         help = 'Proportion of samples to use for train. Default: 0.8')
-    parser.add_argument('-o', '--output-file', metavar = 'OUTPUT_FILE', type = str, default = 'results.csv',
-        help = 'Output file name. Default: results.csv')
     parser.add_argument('--cv', metavar = 'INT', type = int, default = 5,
         help="Number of folds to use in cross validation. Default: 5")
     parser.add_argument('--feature-selection-only', action='store_true',
@@ -178,26 +173,27 @@ def inspect_frame(frame):
         print(f'{i} = {values[i]}')
 
 if __name__ == "__main__":
-    args = parse_args()
-    dataset = pd.read_csv(args.dataset, sep=args.sep)
-    X, y = dataset.iloc[:,:-1], dataset.iloc[:,-1]
+    parsed_args = parse_args()
+    X, y = get_X_y(parsed_args, get_dataset(parsed_args))
 
     start_time = timeit.default_timer()
-    X = select_features_with_mi(X, y, threshold=args.mi_threshold)
+    X = select_features_with_mi(X, y, threshold=parsed_args.mi_threshold)
     end_time = timeit.default_timer()
     print("Elapsed Time:", end_time - start_time)
-    if(args.feature_selection_only):
+    if(X.shape[1] == 0):
+        print("AVISO: 0 features selecionadas, nada feito.")
+        exit(0)
+    if(parsed_args.feature_selection_only):
         result = X
-        print(result.columns.values.tolist())
         result['class'] = y
-        result.to_csv(f"{args.output_file.replace('.csv', '')}_selected_features_dataset.csv", index = False)
-        exit(1)
+        result.to_csv(f"selected-features-{parsed_args.output_file}.csv", index = False)
+        exit(0)
 
     weight_classifiers = {"SVM": SVC(
         kernel='linear'), "RF": RandomForestClassifier(), "LR": LogisticRegression()}
 
     functions = {'power': power, 'exponential': exponential, 'logarithmic': logarithmic, 'hyperbolic': hyperbolic, 'S_curve': S_curve}
-    mapping_functions = [functions[name] for name in args.mapping_functions.replace(' ', '').split(",")]
+    mapping_functions = [functions[name] for name in parsed_args.mapping_functions.replace(' ', '').split(",")]
     evaluation_classifiers = [
         {"name": "KNN", "model": KNeighborsClassifier(n_neighbors=1)},
         {"name": "SVM", "model": SVC(kernel='linear'), "parameter_name": "C", "bound": (1.0, 5.0)},
@@ -206,7 +202,7 @@ if __name__ == "__main__":
     ]
 
     results = run_jowmdroid(X, y, weight_classifiers, evaluation_classifiers,
-                            mapping_functions, cv=args.cv, train_size=args.train_size,
-                            include_hyperparameter = not args.exclude_hyperparameter)
+                            mapping_functions, cv=parsed_args.cv, train_size=parsed_args.train_size,
+                            include_hyperparameter = not parsed_args.exclude_hyperparameter)
 
-    results.to_csv(args.output_file)
+    results.to_csv(parsed_args.output_file, index = False)
