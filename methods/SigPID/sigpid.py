@@ -1,34 +1,25 @@
-from gettext import install
-import pip
-
-
 import pandas as pd
 import numpy  as np
-import sklearn
 import timeit
 import argparse
 import csv
-import os, sys, stat
+import os, sys
 from matplotlib import pyplot as plt
 from sklearn.svm import SVC
-from sklearn.metrics import classification_report, confusion_matrix, plot_confusion_matrix, plot_roc_curve
-from sklearn.datasets import load_wine
+from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from mlxtend.frequent_patterns import apriori, association_rules
 from mlxtend.preprocessing import TransactionEncoder
-from spinner import Spinner
-#from methods.utils import get_base_parser, get_dataset, get_X_y
+from methods.SigPID.spinner import Spinner
+from methods.utils import get_base_parser, get_dataset
 
 
 B = None
 M = None
 
 def parse_args(argv):
-    #base_parser = get_base_parser()
-    parser = argparse.ArgumentParser()#parents=[base_parser]
-    parser.add_argument(
-        '-d', '--dataset', metavar='str',
-        help='Dataset (csv file).', type=str, required=True)
+    base_parser = get_base_parser()
+    parser = argparse.ArgumentParser(parents=[base_parser])
     args = parser.parse_args(argv)
     return args
 
@@ -189,8 +180,7 @@ if __name__=="__main__":
     args = parse_args(sys.argv[1:])
 
     try:
-        initial_dataset = pd.read_csv(args.dataset)
-        #initial_dataset = pd.read_csv(get_dataset(args))
+        initial_dataset = get_dataset(args)
     except BaseException as e:
         print('Exception: {}'.format(e))
         exit(1)
