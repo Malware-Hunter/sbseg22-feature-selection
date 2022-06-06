@@ -124,4 +124,4 @@ if __name__=="__main__":
 
     new_X = new_X.drop(columns = to_drop)
     print(new_X)
-    new_X.to_csv("DatasetReduzido.csv", index = False)
+    new_X.to_csv(args.output_file, index=False)
