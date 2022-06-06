@@ -10,7 +10,17 @@ bash setup_datasets.sh
 for DATASET in datasets/*.csv
 do
     echo "python3 -m methods.SigAPI.sigapi_funcoesdeselecao -d $DATASET"
-    python3 -m methods.SigAPI.sigapi_funcoesdeselecao -d $DATASET
-    # TODO: passar o valor correto de num_features e method na linha a seguir:
-    python3 -m methods.SigAPI.sigapi_correlacao -d $DATASET -k num_features -m method
+    OUTPUT=`python3 -m methods.SigAPI.sigapi_funcoesdeselecao -d $DATASET`
+    if [[ `echo $OUTPUT | grep -o 'Menor limite inferior encontrado:'` = "" ]]; then
+        echo -n "Informe o método para a etapa de correlação 
+        (mutualInformation, selectRandom, selectExtra, RFERandom, RFEGradient, selectKBest): "
+        read METHOD
+        echo -n "Informe o limite inferior do intervalo mínimo: "
+        NUM_FEATURES
+    else
+        METHOD=`tail -1 | sed 's/ //g' | cut -d, -f1`
+        NUM_FEATURES=`tail -1 | sed 's/ //g' | cut -d, -f2`
+    fi
+    echo "python3 -m methods.SigAPI.sigapi_correlacao -d $DATASET -k $NUM_FEATURES -m $METHOD"
+    python3 -m methods.SigAPI.sigapi_correlacao -d $DATASET -k $NUM_FEATURES -m $METHOD
 done
