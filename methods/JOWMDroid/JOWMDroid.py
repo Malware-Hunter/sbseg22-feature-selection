@@ -180,12 +180,14 @@ if __name__ == "__main__":
     X = select_features_with_mi(X, y, threshold=parsed_args.mi_threshold)
     end_time = timeit.default_timer()
     print("Elapsed Time:", end_time - start_time)
+    if(X.shape[1] == 0):
+        print("AVISO: 0 features selecionadas, nada feito.")
+        exit(0)
     if(parsed_args.feature_selection_only):
         result = X
-        print(result.columns.values.tolist())
         result['class'] = y
-        result.to_csv(f"{parsed_args.output_file.replace('.csv', '')}_selected_features_dataset.csv", index = False)
-        exit(1)
+        result.to_csv(f"selected-features-{parsed_args.output_file}.csv", index = False)
+        exit(0)
 
     weight_classifiers = {"SVM": SVC(
         kernel='linear'), "RF": RandomForestClassifier(), "LR": LogisticRegression()}
