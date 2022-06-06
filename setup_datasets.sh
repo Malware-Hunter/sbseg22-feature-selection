@@ -8,7 +8,7 @@ done
 
 for DATASET in datasets/*.rar
 do
-    unrar -o- $DATASET -d datasets
+    unrar e -o- $DATASET datasets
 done
 
 if [[ `ls -1 datasets/*.csv 2>/dev/null | wc -l ` -eq 0 ]]; then
