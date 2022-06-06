@@ -21,9 +21,9 @@ do
     roda_dataset $DATASET
 done
 
-for DATASET in datasets/*.rar
+for DATASET in datasets/*.zip
 do
-    unzip $DATASET
+    unzip  -t--q $DATASET
     DATASET=${DATASET%.*}
     roda_dataset $DATASET
 done
