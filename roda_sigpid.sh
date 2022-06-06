@@ -1,7 +1,7 @@
 #!/bin/bash
 CHECK_PIP=$(which pip)
 [ "$CHECK_PIP" != "" ] || { echo "instale o pip: sudo apt -y install python3-pip"; exit; }
-PKGS=(pandas scikit-learn mlxtend)
+PKGS=(pandas scikit-learn mlxtend matplotlib)
 CHECK_PKGS=`pip show ${PKGS[@]} | grep -i -w "not found"`
 [ "$CHECK_PKGS" = "" ] || { echo "instale os pacotes Python: sudo pip install ${PKGS[@]}"; exit; }
 
