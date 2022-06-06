@@ -13,14 +13,36 @@ O `LinearRegression.py` foi desenvolvido e testado no sistema operacional Ubuntu
 ```
 ## 1) Clone o respositório:
 git clone https://github.com/Malware-Hunter/feature_selection.git
+
+## 2) Instale as seguintes dependências:
+pip install pandas numpy scikit-learn
 ```
 
-
 ## Como rodar
+
+Mude para o diretório raiz deste repositório (i.e.: `cd feature_selection`).
 
 Para rodar o experimento sobre algum dataset, basta executar execute o seguinte comando:
 
 ```
-python3 LinearRegression.py -d dataset.csv
+python3 -m methods.LinearRegression.LinearRegression -d dataset.csv
 ```
 Ao final será gerado um arquivo ```results.csv```
+
+## Detalhes de uso
+
+```
+usage: LinearRegression.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN] [-n N_SAMPLES] [-o OUTPUT_FILE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DATASET, --dataset DATASET
+                        Dataset (csv file). It should be already preprocessed.
+  --sep SEPARATOR       Dataset feature separator. Default: ","
+  -c CLASS_COLUMN, --class-column CLASS_COLUMN
+                        Name of the class column. Default: "class"
+  -n N_SAMPLES, --n-samples N_SAMPLES
+                        Use a subset of n samples from the dataset. By default, all samples are used.
+  -o OUTPUT_FILE, --output-file OUTPUT_FILE
+                        Output file name. Default: results.csv
+```

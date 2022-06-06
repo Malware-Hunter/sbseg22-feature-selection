@@ -19,7 +19,9 @@ pip install pandas numpy scikit-learn
 
 ## Como rodar
 
-Primeiro iremos rodar as funções de selecao `sigapi_funcoesdeselecao.py` 
+Mude para o diretório raiz deste repositório (i.e.: `cd feature_selection`).
+
+Primeiro iremos rodar as funções de selecao `sigapi_funcoesdeselecao.py`. 
 Para rodar esta parte do experimento sobre algum dataset (e.g. `data.csv`) execute o seguinte comando:
 
 ```

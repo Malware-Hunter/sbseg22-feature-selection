@@ -13,10 +13,12 @@ pip install numpy scikit-learn scipy pandas
 
 ## Como rodar
 
+Mude para o diretório raiz deste repositório (i.e.: `cd feature_selection`).
+
 Para rodar o experimento sobre algum dataset (e.g. `data.csv`) execute o seguinte comando:
 
 ```
-python3 JOWMDroid.py -d data.csv
+python3 -m methods.JOWMDroid.JOWMDroid -d data.csv
 ```
 
 Note: o JOWMDroid assume que o dataset já está pré-processado, conforme consta na seção a seguir.

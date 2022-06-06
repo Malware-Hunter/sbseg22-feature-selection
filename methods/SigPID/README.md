@@ -13,9 +13,9 @@ NOTE: This procedure has only been tested in Ubuntu 20.04
     ```
 
 **sigpid.py**
-- Use example:
+- Usage example (must run from within the `feature_selection` directory):
     ```sh
-    $ python3 sigpid.py -d drebin.csv
+    $ python3 methods.SigPID.sigpid -d drebin.csv
     ```
 
 - How to use (arguments):

@@ -37,10 +37,10 @@ pip3 install -r requirements.txt
 
 ## Como rodar
 
+Mude para o diretório raiz deste repositório (i.e.: `cd feature_selection`).
+
 Para rodar o experimento do RFG sobre algum dataset, use o módulo do script `rfg.py`, como no exemplo:
 ```
-# Mude para o diretório pai do diretório methods (mais sobre isso a seguir):
-cd ../../
 python3 -m methods.RFG.rfg -d Drebin215.csv
 ```
 
