@@ -147,11 +147,6 @@ if __name__=="__main__":
         l_mutualInformation = np.append(l_mutualInformation,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
         print(l_mutualInformation)
 
-        a_mutualInformation = open('Metricas_MutualGain.csv', 'w', newline='', encoding='utf-8')
-        w_mutualInformation = csv.writer(a_mutualInformation)
-        w_mutualInformation.writerow([l_mutualInformation])
-        arquivo_mutualInformation = open('Metricas_MutualGain.csv')
-
         print(">>> SELECTFROMMODEL USING RANDOM FOREST CLASSIFIER <<<")
         randomForestClassifier = calculateRandomForestClassifier(X, y, k)
         new_X = X[list(randomForestClassifier['features'])]
@@ -159,10 +154,6 @@ if __name__=="__main__":
         result_metricas =  calculateMetricas(new_X,y)
         l_selectRandom = np.append(l_selectRandom,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
         print(l_selectRandom)
-        a_selectRandom = open('Metricas_SelectRFC.csv', 'w', newline='', encoding='utf-8')
-        w_selectRandom = csv.writer(a_selectRandom)
-        w_selectRandom.writerow([l_selectRandom])
-        arquivo_selectRandom = open('Metricas_SelectRFC.csv')
 
         print(">>> SELECTFROMMODEL USING EXTRA TREES CLASSIFIER <<<")
         extraTreesClass = calculateExtraTreesClassifier(X, y, k)
@@ -171,10 +162,7 @@ if __name__=="__main__":
         result_metricas =  calculateMetricas(new_X,y)
         l_selectExtra = np.append(l_selectExtra,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
         print(l_selectExtra)
-        a_selectExtra = open('Metricas_SelectETC.csv', 'w', newline='', encoding='utf-8')
-        w_selectExtra = csv.writer(a_selectExtra)
-        w_selectExtra.writerow([l_selectExtra])
-        arquivo_selectExtra = open('Metricas_SelectETC.csv')
+
 
         print(">>> RFE USING RANDOM FOREST CLASSIFIER <<<")
         RFERandomForestClassifier = calculateRFERandomForestClassifier(X,y, k)
@@ -183,10 +171,7 @@ if __name__=="__main__":
         result_metricas =  calculateMetricas(new_X,y)
         l_RFERandom= np.append(l_RFERandom,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
         print(l_RFERandom)
-        a_RFERandom = open('Metricas_RFERandom.csv', 'w', newline='', encoding='utf-8')
-        w_RFERandom = csv.writer(a_RFERandom)
-        w_RFERandom.writerow([l_RFERandom])
-        arquivo_RFERandom = open('Metricas_RFERandom.csv')
+
 
         print(">>> RFE USING GRADIENT BOOSTING CLASSIFIER <<<")
         RFEGradientBoostingClassifier = calculateRFEGradientBoostingClassifier(X,y, k)
@@ -195,10 +180,6 @@ if __name__=="__main__":
         result_metricas =  calculateMetricas(new_X,y)
         l_RFEGradient = np.append(l_RFEGradient,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
         print(l_RFEGradient)
-        a_RFEGradient = open('Metricas_RFEGradient.csv', 'w', newline='', encoding='utf-8')
-        w_RFEGradient= csv.writer(a_RFEGradient)
-        w_RFEGradient.writerow([l_RFEGradient])
-        arquivo_RFEGradient = open('Metricas_RFEGradient.csv')
 
         print(">>> SELECT K BEST <<<")
         selectKBest = calculateSelectKBest(X,y,k)
@@ -207,11 +188,6 @@ if __name__=="__main__":
         result_metricas =  calculateMetricas(new_X,y)
         l_selectKBest = np.append(l_selectKBest,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
         print(l_selectKBest)
-
-        a_selectKBest = open('Metricas_SelectKBest.csv', 'w', newline='', encoding='utf-8')
-        w_selectKBest = csv.writer(a_selectKBest)
-        w_selectKBest.writerow([l_selectKBest])
-        arquivo_selectKBest = open('Metricas_SelectKBest.csv')
 
         num_features += increment
 
