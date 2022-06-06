@@ -107,7 +107,7 @@ if __name__=="__main__":
     model_RF=RandomForestClassifier()
     model_RF.fit(new_X,y)
     RF_weights= model_RF.feature_importances_
-    print(RF_weights)
+    
     feats = {} # a dict to hold feature_name: feature_importance
           
     for feature, importance in zip(new_X.columns, model_RF.feature_importances_):
@@ -120,8 +120,8 @@ if __name__=="__main__":
             if index != column and correlation.loc[index, column] > 0.85:
                ft = column if feats[column] <= feats[index] else index
                to_drop.add(ft)
-    print("PARA REMOVER >>", to_drop)
+    print("Removidas na correlação >>", to_drop)
 
     new_X = new_X.drop(columns = to_drop)
-    print(new_X)
+    print("Dataset final criado")
     new_X.to_csv(parsed_args.output_file, index=False)
