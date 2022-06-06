@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from sklearn import linear_model
 from sklearn.model_selection import KFold
 from sklearn.linear_model import LinearRegression
 import time
