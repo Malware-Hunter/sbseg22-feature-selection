@@ -14,7 +14,7 @@ Este artigo utiliza técnicas de seleção de características e a correlação 
 ## Clone o respositório:
 git clone https://github.com/Malware-Hunter/feature_selection.git
 ## Instale as seguintes dependências:
-pip install seaborn pandas numpy scikit-learn
+pip install pandas numpy scikit-learn
 ```
 
 ## Como rodar
