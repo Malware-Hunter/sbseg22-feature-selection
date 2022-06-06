@@ -202,8 +202,8 @@ methods = {
     "selectKBest": pd.DataFrame(l_selectKBest, columns=columns)
 }
 for method_name, df in methods.items():
-    df.to_csv(f'data-{method_name}.csv', index=False)
-    df.drop(columns=['Número de Características']).plot().get_figure().savefig(f'{method_name}.jpg', dpi=300)
+    df.to_csv(f'data-{method_name}-{parsed_args.output_file}.csv', index=False)
+    df.drop(columns=['Número de Características']).plot().get_figure().savefig(f'graph-{method_name}-{parsed_args.output_file}.jpg', dpi=300)
 
 lower_bounds = []
 try:
