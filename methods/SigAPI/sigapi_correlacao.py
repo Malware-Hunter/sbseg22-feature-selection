@@ -97,7 +97,7 @@ if __name__=="__main__":
     X, y = get_X_y(parsed_args, get_dataset(parsed_args))
     k = parsed_args.num_features    
 
-    print(">>> MÉTODO MAIS EFICIENTE <<<")
+    print(">>> Intervalo mínimo com o método mais eficiente <<<")
     metodo_eficiente = metodos[parsed_args.method](X, y, k)
     new_X = X[list(metodo_eficiente['features'])]
     print(metodo_eficiente['features'])
