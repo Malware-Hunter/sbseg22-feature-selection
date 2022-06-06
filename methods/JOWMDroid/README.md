@@ -25,25 +25,28 @@ Note: o JOWMDroid assume que o dataset já está pré-processado, conforme const
 
 ## Detalhes de uso
 ```
-usage: JOWMDroid.py [-h] -d DATASET [--sep SEPARATOR] [--exclude-hyperparameter] [-m LIST]
-                    [-t MI_THRESHOLD] [--train-size TRAIN_SIZE] [-o OUTPUT_FILE] [--cv INT]
-                    [--feature-selection-only]
+usage: JOWMDroid.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN] [-n N_SAMPLES] [-o OUTPUT_FILE] [--exclude-hyperparameter] [-m LIST] [-t MI_THRESHOLD]
+                    [--train-size TRAIN_SIZE] [--cv INT] [--feature-selection-only]
 
 optional arguments:
   -h, --help            show this help message and exit
   -d DATASET, --dataset DATASET
-                        Dataset (csv file). It should be already preprocessed, with the last feature being the class
+                        Dataset (csv file). It should be already preprocessed.
   --sep SEPARATOR       Dataset feature separator. Default: ","
+  -c CLASS_COLUMN, --class-column CLASS_COLUMN
+                        Name of the class column. Default: "class"
+  -n N_SAMPLES, --n-samples N_SAMPLES
+                        Use a subset of n samples from the dataset. By default, all samples are used.
+  -o OUTPUT_FILE, --output-file OUTPUT_FILE
+                        Output file name. Default: results.csv
   --exclude-hyperparameter
                         If set, the ML hyperparameter will be excluded in the Differential Evolution. By default it's included
   -m LIST, --mapping-functions LIST
-                        List of mapping functions to use. Default: "power, exponential,logarithmic, hyperbolic, S_curve"
+                        List of mapping functions to use. Default: "power, exponential, logarithmic, hyperbolic, S_curve"
   -t MI_THRESHOLD, --mi-threshold MI_THRESHOLD
                         Threshold to select features with Mutual Information. Default: 0.05. Only features with score greater than or equal to this value will be selected
   --train-size TRAIN_SIZE
                         Proportion of samples to use for train. Default: 0.8
-  -o OUTPUT_FILE, --output-file OUTPUT_FILE
-                        Output file name. Default: results.csv
   --cv INT              Number of folds to use in cross validation. Default: 5
   --feature-selection-only
                         If set, the experiment is constrained to the feature selection phase only.
