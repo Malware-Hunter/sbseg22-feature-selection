@@ -1,0 +1,4 @@
+Dangerous Permission: MASTER_CLEAR
+Api Call: Landroid/telephony/TelephonyManager;->getCellLocation
+Api Call: Landroid/content/pm/PackageManager;->getPreferredActivities
+Api Call: Landroid/app/Service;->onLowMemory
