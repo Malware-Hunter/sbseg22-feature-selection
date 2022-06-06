@@ -1,5 +1,6 @@
 CHECK_PIP=$(which pip)
-[ "$CHECK_PIP" != "" ] || { echo "instale o pip: sudo apt -y install python3-pip"; exit; }
+CHECK_ZIP=$(which unzip)
+[ "$CHECK_PIP" != "" ] && [ "$CHECK_ZIP" != "" ] || { echo "instale o pip: sudo apt -y install python3-pip unzip"; exit; }
 CHECK_PKGS=$(pip show numpy scipy pandas scikit-learn | grep -i -w "not found")
 [ "$CHECK_PKGS" = "" ] || { echo "instale os pacotes Python: sudo pip install numpy scikit-learn scipy pandas"; exit; }
 
@@ -22,8 +23,8 @@ done
 
 for DATASET in datasets/*.rar
 do
-    unrar $DATASET
-    DATASET=$(echo $DATASET | sed 's/.rar/.csv/')
+    unzip $DATASET
+    DATASET=${DATASET%.*}
     roda_dataset $DATASET
 done
 
