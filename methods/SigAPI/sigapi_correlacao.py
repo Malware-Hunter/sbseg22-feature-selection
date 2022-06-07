@@ -102,7 +102,7 @@ if __name__=="__main__":
     print(metodo_eficiente['features'])
           
     correlation = new_X.corr()
-    if(k=0):
+    if(k==0):
         print("Dataset final criado")
         new_X.to_csv(parsed_args.output_file, index=False)
         exit(1)
