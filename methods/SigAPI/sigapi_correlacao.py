@@ -95,17 +95,21 @@ metodos = {
 if __name__=="__main__":
     parsed_args = parse_args(sys.argv[1:])
     X, y = get_X_y(parsed_args, get_dataset(parsed_args))
-    k = parsed_args.num_features    
-
+    k = parsed_args.num_features
     print(">>> Intervalo mínimo com o método mais eficiente <<<")
     metodo_eficiente = metodos[parsed_args.method](X, y, k)
     new_X = X[list(metodo_eficiente['features'])]
     print(metodo_eficiente['features'])
           
     correlation = new_X.corr()
-
+    if(k=0):
+        print("Dataset final criado")
+        new_X.to_csv(parsed_args.output_file, index=False)
+        exit(1)
+    
     model_RF=RandomForestClassifier()
     model_RF.fit(new_X,y)
+    
     RF_weights= model_RF.feature_importances_
     
     feats = {} # a dict to hold feature_name: feature_importance
