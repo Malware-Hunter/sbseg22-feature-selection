@@ -10,6 +10,6 @@ bash setup_datasets.sh
 for DATASET in datasets/*.csv
 do
     D_NAME=$(echo $DATASET | cut -d"/" -f2)
-    echo "python3 -m methods.SigPID.sigpid -d $DATASET"
+    echo "python3 -m methods.SigPID.sigpid -d $DATASET -o resultado_sigpid_$D_NAME"
     python3 -m methods.SigPID.sigpid -d $DATASET -o resultado_sigpid_$D_NAME
 done
