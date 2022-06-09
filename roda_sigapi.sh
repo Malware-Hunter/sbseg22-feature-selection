@@ -5,13 +5,20 @@ PKGS=(pandas numpy scikit-learn)
 CHECK_PKGS=`pip show ${PKGS[@]} | grep -i -w "not found"`
 [ "$CHECK_PKGS" = "" ] || { echo "instale os pacotes Python: sudo pip install ${PKGS[@]}"; exit; }
 
+set_increment(){
+    TOTAL_FEATURES=$1
+    [[ $TOTAL_FEATURES -lt 50 ]] && INCREMENT=1 && return
+    [[ $TOTAL_FEATURES -lt 1000 ]] && INCREMENT=5 && return
+    INCREMENT=10
+}
 bash setup_datasets.sh
 [[ $? != 0 ]] && exit 1
 for DATASET in datasets/*.csv
 do
     D_NAME=$(echo $DATASET | cut -d"/" -f2)
     echo "python3 -m methods.SigAPI.sigapi_funcoesdeselecao -d $DATASET -o resultado-selecao-$D_NAME"
-    OUTPUT=`python3 -m methods.SigAPI.sigapi_funcoesdeselecao -d $DATASET -o resultado-selecao-$D_NAME`
+    set_increment `head -1 $DATASET | awk -F, '{print NF-1}'`
+    OUTPUT=`python3 -m methods.SigAPI.sigapi_funcoesdeselecao -d $DATASET -o resultado-selecao-$D_NAME -i $INCREMENT`
     if [[ `echo $OUTPUT | grep -o 'Menor limite inferior encontrado:'` = "" ]]; then
         echo -n "Informe o método para a etapa de correlação 
         (mutualInformation, selectRandom, selectExtra, RFERandom, RFEGradient, selectKBest): "
