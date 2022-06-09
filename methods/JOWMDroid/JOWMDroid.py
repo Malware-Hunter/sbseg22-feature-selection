@@ -182,10 +182,10 @@ if __name__ == "__main__":
     print("Elapsed Time:", end_time - start_time)
     if(X.shape[1] == 0):
         print("AVISO: 0 features selecionadas")
+    features_dataset = X
+    features_dataset['class'] = y
+    features_dataset.to_csv(f"selected-features-{parsed_args.output_file}.csv", index = False)
     if(parsed_args.feature_selection_only):
-        result = X
-        result['class'] = y
-        result.to_csv(f"selected-features-{parsed_args.output_file}.csv", index = False)
         exit(0)
 
     weight_classifiers = {"SVM": SVC(
