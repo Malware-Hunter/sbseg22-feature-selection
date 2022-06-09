@@ -181,8 +181,7 @@ if __name__ == "__main__":
     end_time = timeit.default_timer()
     print("Elapsed Time:", end_time - start_time)
     if(X.shape[1] == 0):
-        print("AVISO: 0 features selecionadas, nada feito.")
-        exit(0)
+        print("AVISO: 0 features selecionadas")
     if(parsed_args.feature_selection_only):
         result = X
         result['class'] = y
