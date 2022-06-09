@@ -128,6 +128,8 @@ def run_experiment(X, y, classifiers, is_feature_selection_only = False,
                     'selected_dataset' : X_selected,
                     'k': k 
                 })
+                if(X_selected.shape[1] == 1):
+                    print("AVISO: 0 features selecionadas")
             if(is_feature_selection_only):
                 continue
             X_selected = SelectKBest(score_func=score_function, k=k).fit_transform(X, y)
