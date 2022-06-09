@@ -23,6 +23,12 @@ python3 -m methods.JOWMDroid.JOWMDroid -d data.csv
 
 Note: o JOWMDroid assume que o dataset já está pré-processado, conforme consta na seção a seguir.
 
+## Arquivos de saída
+
+- O `JOWMDroid.py` sempre gera um dataset com as features selecionadas.
+
+- Se a opção `--feature-selection-only` não for passada, então os resultados do experimento são exportados também. O nome do arquivo pode ser especificado com a opção `--output-file`. Para mais detalhes, veja os Detalhes de uso a seguir.
+
 ## Detalhes de uso
 ```
 usage: JOWMDroid.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN] [-n N_SAMPLES] [-o OUTPUT_FILE] [--exclude-hyperparameter] [-m LIST] [-t MI_THRESHOLD]
