@@ -19,8 +19,8 @@ do
         echo -n "Informe o limite inferior do intervalo mínimo: "
         NUM_FEATURES
     else
-        METHOD=`tail -1 | sed 's/ //g' | cut -d, -f1`
-        NUM_FEATURES=`tail -1 | sed 's/ //g' | cut -d, -f2`
+        METHOD=`echo $OUTPUT | tail -1 | sed 's/ //g' | cut -d, -f1`
+        NUM_FEATURES=`echo $OUTPUT | tail -1 | sed 's/ //g' | cut -d, -f2`
     fi
     echo "python3 -m methods.SigAPI.sigapi_correlacao -d $DATASET -k $NUM_FEATURES -m $METHOD -o resultado-correlacao-$D_NAME"
     python3 -m methods.SigAPI.sigapi_correlacao -d $DATASET -k $NUM_FEATURES -m $METHOD -o resultado-correlacao-$D_NAME
