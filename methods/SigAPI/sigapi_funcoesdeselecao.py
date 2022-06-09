@@ -210,7 +210,7 @@ lower_bounds = []
 try:
     lower_bounds = []
     for method_name, df in methods.items():
-        lower_bound = get_minimal_range_suggestion(df)
+        lower_bound = get_minimal_range_suggestion(df, t=parsed_args.threshold, window_size=parsed_args.window_size)
         lower_bounds.append((method_name, lower_bound))
     print(lower_bounds)
     if(len(lower_bounds) == 0):
