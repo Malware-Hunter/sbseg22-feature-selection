@@ -1,0 +1,20 @@
+/home/mula/joner/feature_selection/methods/utils.py:35: DtypeWarning: Columns (49) have mixed types. Specify dtype option on import or set low_memory=False.
+  dataset = pd.read_csv(parsed_args.dataset, sep=parsed_args.sep)
+/home/mula/joner/feature_selection/methods/SigPID/sigpid.py:27: FutureWarning: Dropping of nuisance columns in DataFrame reductions (with 'numeric_only=None') is deprecated; in a future version this will raise TypeError.  Select only valid columns before calling the reduction.
+  sigmaBij = B.sum(axis = 0, skipna = True)[j]
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/runpy.py", line 197, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.9/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/mula/joner/feature_selection/methods/SigPID/sigpid.py", line 191, in <module>
+    calculate_PRNR(B, "MLDP/PRNR/PRNR_B_List.csv", args.class_column)
+  File "/home/mula/joner/feature_selection/methods/SigPID/sigpid.py", line 56, in calculate_PRNR
+    permission_PRNR_ranking = PRNR(p)
+  File "/home/mula/joner/feature_selection/methods/SigPID/sigpid.py", line 33, in PRNR
+    sigmaMij = (M.sum(axis = 0, skipna = True)[j]) * 1.0
+TypeError: can't multiply sequence by non-int of type 'float'
+
+real	0m1.031s
+user	0m1.156s
+sys	0m1.096s
