@@ -46,7 +46,13 @@ python3 -m methods.RFG.rfg -d Drebin215.csv
 
 **IMPORTANTE:** o módulo deve ser executado a partir do diretório pai do diretório `methods`. Caso contrário você receberá o seguinte erro: `ModuleNotFoundError: No module named 'utils'`. Isso acontece devido ao funcionamento de módulos em Python.
 
-Há algumas opções disponíveis, que você pode a seguir.
+## Arquivos de saída
+
+- O `rfg.py` sempre exporta dois datasets `.csv` referentes às melhores features selecionadas com métodos `chi2` (Chi-quadrado) e com o `f_classif` (ANOVA);
+
+- Se a opção `--feature-selection-only` não for passada (saiba mais em "Detalhes de uso" a seguir), o `rfg.py` também irá exportar um arquivo `.csv` com os resultados da avaliação do experimento. (Você pode usar o notebook `RFG_plot_results.ipynb` para visualizar os resultados)
+
+## Detalhes de uso
 
 ```
 usage: rfg.py [-h] -d DATASET [-i INCREMENT] [-f LIST] [-k N_FOLDS] [-t THRESHOLD] 

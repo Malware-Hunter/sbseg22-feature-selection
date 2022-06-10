@@ -20,7 +20,7 @@ NOTE: This procedure has only been tested in Ubuntu 20.04
 
 - How to use (arguments):
     ```sh
-    $ python3 sigpid.py --help
+    $ python3 methods.SigPID.sigpid --help
     ```
 
 ### Output

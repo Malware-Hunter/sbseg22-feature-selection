@@ -48,8 +48,8 @@ def check_dirs():
         os.makedirs(path)
         #print('Directory', dir, 'Created.')
 
-def calculate_PRNR(dataset, filename):
-    permissions = dataset.drop(columns=['class'])
+def calculate_PRNR(dataset, filename, class_column):
+    permissions = dataset.drop(columns=[class_column])
     with open(filename,"w", newline='') as f:
         f_writer = csv.writer(f)
         for p in permissions:
@@ -64,12 +64,11 @@ def permission_list(filename, asc):
     #print(list)
     return list
 
-def SVM(dataset_df):
+def SVM(dataset_df, class_column):
     from sklearn import metrics
     state = np.random.randint(100)
-    Y = dataset_df['class']
-    X = dataset_df.drop(['class'], axis = 1)
-    #X, Y = get_X_y(parsed_args, get_dataset(parsed_args))
+    Y = dataset_df[class_column]
+    X = dataset_df.drop([class_column], axis = 1)
 
     start_time = timeit.default_timer()
     #split between train and test sets
@@ -92,10 +91,10 @@ def SVM(dataset_df):
 
     return elapsed_time, accuracy, precision, recall, f1_score, fpr
 
-def run_PMAR(dataset, prnr_malware):
+def run_PMAR(dataset, prnr_malware, class_column):
     features_name = dataset.columns.values.tolist()
-    class_apk = dataset['class']
-    features_dataset = dataset.drop(['class'], axis=1)
+    class_apk = dataset[class_column]
+    features_dataset = dataset.drop([class_column], axis=1)
     num_apk = features_dataset.shape[0] - 1
     num_features = features_dataset.shape[1]
 
@@ -186,11 +185,11 @@ if __name__=="__main__":
         exit(1)
 
     dataset = drop_internet(initial_dataset)
-    B = dataset[(dataset['class'] == 0)]
-    M = dataset[(dataset['class'] == 1)]
+    B = dataset[(dataset[args.class_column] == 0)]
+    M = dataset[(dataset[args.class_column] == 1)]
 
-    calculate_PRNR(B, "MLDP/PRNR/PRNR_B_List.csv")
-    calculate_PRNR(M, "MLDP/PRNR/PRNR_M_List.csv")
+    calculate_PRNR(B, "MLDP/PRNR/PRNR_B_List.csv", args.class_column)
+    calculate_PRNR(M, "MLDP/PRNR/PRNR_M_List.csv", args.class_column)
 
     benigns_permissions = permission_list("MLDP/PRNR/PRNR_B_List.csv", True)
     malwares_permissions = permission_list("MLDP/PRNR/PRNR_M_List.csv", False)
@@ -206,7 +205,7 @@ if __name__=="__main__":
         subset_permissions = list(set(malwares_head_perms) | set(benigns_head_perms))
         #print(subset_permissions)
         #print(len(subset_permissions))
-        subset_permissions.append('class')
+        subset_permissions.append(args.class_column)
         subset = dataset[subset_permissions]
         evaluated_ft = counter * 2
         evaluated_ft = num_permissions if evaluated_ft > num_permissions else evaluated_ft
@@ -227,7 +226,7 @@ if __name__=="__main__":
             spn = Spinner(txt)
             spn.start()
             dataset_df = pd.read_csv('MLDP/PRNR/subset_' + str(evaluated_ft) + '.csv', encoding = 'utf8')
-            results = list(SVM(dataset_df))
+            results = list(SVM(dataset_df, args.class_column))
             if results[1] > best_PRNR_accuracy:
                 best_PRNR_accuracy = results[1]
                 best_PRNR_counter = evaluated_ft
@@ -242,7 +241,7 @@ if __name__=="__main__":
 
     #SPR
     PRNR_df = pd.read_csv("MLDP/PRNR/subset_" + str(best_PRNR_counter) + ".csv", encoding = 'utf8')
-    PRNR_df = PRNR_df.drop(columns=['class'])
+    PRNR_df = PRNR_df.drop(columns=[args.class_column])
 
     #calculates the support of each permission
     supp = PRNR_df.sum(axis = 0)
@@ -254,7 +253,7 @@ if __name__=="__main__":
         subset_permissions = list(supp.head(counter).index)
         #print(subset_permissions)
         #print(len(subset_permissions))
-        subset_permissions.append('class')
+        subset_permissions.append(args.class_column)
         subset = dataset[subset_permissions]
         evaluated_ft = best_PRNR_counter if counter > best_PRNR_counter else counter
         subset.to_csv("MLDP/SPR/subset_" + str(evaluated_ft) + ".csv", index = False)
@@ -274,7 +273,7 @@ if __name__=="__main__":
             spn = Spinner(txt)
             spn.start()
             dataset_df = pd.read_csv('MLDP/SPR/subset_' + str(evaluated_ft) + '.csv', encoding = 'utf8')
-            results = list(SVM(dataset_df))
+            results = list(SVM(dataset_df, args.class_column))
             if results[1] >= 0.9 and evaluated_ft < best_SPR_counter:
                 best_SPR_accuracy = results[1]
                 best_SPR_counter = evaluated_ft
@@ -289,9 +288,10 @@ if __name__=="__main__":
 
     #PMAR
     SPR_df = pd.read_csv("MLDP/SPR/subset_" + str(best_SPR_counter) + ".csv", encoding = 'utf8')
-    final_dataset = run_PMAR(SPR_df, malwares_permissions)
+    final_dataset = run_PMAR(SPR_df, malwares_permissions, args.class_column)
 
-    final_dataset.to_csv("MLDP/PMAR/final_dataset"+args.output_file+".csv", index=False)
+    #final_dataset.to_csv("MLDP/PMAR/final_dataset.csv", index=False)
+    final_dataset.to_csv(args.output_file, index=False)
     final_perms = len(final_dataset.columns) - 1
     num_permissions = initial_dataset.shape[1] - 1
     pct = (1.0 - (final_perms/num_permissions)) * 100.0

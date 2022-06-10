@@ -121,7 +121,15 @@ def run_experiment(X, y, classifiers, is_feature_selection_only = False,
         for score_function in score_functions:
             if(k == max(k_values)): 
                 selector = SelectKBest(score_func=score_function, k=k).fit(X, y)
-                best_features.append((score_function.__name__, get_best_features_sorted(selector, X.columns)))
+                X_selected = X.iloc[:, selector.get_support(indices=True)].copy()
+                X_selected['class'] = y
+                best_features.append({
+                    'score_function' : score_function.__name__, 
+                    'selected_dataset' : X_selected,
+                    'k': k 
+                })
+                if(X_selected.shape[1] == 1):
+                    print("AVISO: 0 features selecionadas")
             if(is_feature_selection_only):
                 continue
             X_selected = SelectKBest(score_func=score_function, k=k).fit_transform(X, y)
@@ -203,8 +211,11 @@ def main():
 
     if(not parsed_args.feature_selection_only):
         results.to_csv(parsed_args.output_file, index=False)
-    for score_function_name, features in best_features:
-        features.to_csv(parsed_args.output_file.replace(".csv", "") + f"_best_features_with_{score_function_name}.csv", index=False)
+    for best_feature in best_features:
+        k = best_feature['k']
+        score_function = best_feature['score_function']
+        file_name = f"top_{k}_features_with_{score_function}_{parsed_args.output_file}.csv"
+        best_feature['selected_dataset'].to_csv(file_name, index=False)
     print("done")
 
     jvm.stop()
