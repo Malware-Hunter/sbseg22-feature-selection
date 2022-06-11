@@ -139,56 +139,36 @@ if __name__=="__main__":
     while num_features < (total_features + increment):
         k = total_features if num_features > total_features else num_features
 
-        print(">>> NÚMERO DE FEATURES ",k, "<<<")
-        print(">>> MUTUAL INFORMATION GAIN <<<")
+        print("qtd de features: ", k)
         mutualinformationGain = calculateMutualInformationGain(X, y, k)
         new_X = X[list(mutualinformationGain['features'])]
-
         result_metricas =  calculateMetricas(new_X,y)
         l_mutualInformation = np.append(l_mutualInformation,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
-        print(l_mutualInformation)
 
-        print(">>> SELECTFROMMODEL USING RANDOM FOREST CLASSIFIER <<<")
         randomForestClassifier = calculateRandomForestClassifier(X, y, k)
         new_X = X[list(randomForestClassifier['features'])]
-
         result_metricas =  calculateMetricas(new_X,y)
         l_selectRandom = np.append(l_selectRandom,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
-        print(l_selectRandom)
 
-        print(">>> SELECTFROMMODEL USING EXTRA TREES CLASSIFIER <<<")
         extraTreesClass = calculateExtraTreesClassifier(X, y, k)
         new_X = X[list(extraTreesClass['features'])]
-
         result_metricas =  calculateMetricas(new_X,y)
         l_selectExtra = np.append(l_selectExtra,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
-        print(l_selectExtra)
 
-
-        print(">>> RFE USING RANDOM FOREST CLASSIFIER <<<")
         RFERandomForestClassifier = calculateRFERandomForestClassifier(X,y, k)
         new_X = X[list(RFERandomForestClassifier['features'])]
-
         result_metricas =  calculateMetricas(new_X,y)
         l_RFERandom= np.append(l_RFERandom,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
-        print(l_RFERandom)
 
-
-        print(">>> RFE USING GRADIENT BOOSTING CLASSIFIER <<<")
         RFEGradientBoostingClassifier = calculateRFEGradientBoostingClassifier(X,y, k)
         new_X = X[list(RFEGradientBoostingClassifier['features'])]
-
         result_metricas =  calculateMetricas(new_X,y)
         l_RFEGradient = np.append(l_RFEGradient,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
-        print(l_RFEGradient)
 
-        print(">>> SELECT K BEST <<<")
         selectKBest = calculateSelectKBest(X,y,k)
         new_X = X[list(selectKBest['features'])]
-
         result_metricas =  calculateMetricas(new_X,y)
         l_selectKBest = np.append(l_selectKBest,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
-        print(l_selectKBest)
 
         num_features += increment
 
