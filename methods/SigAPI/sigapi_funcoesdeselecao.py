@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import mutual_info_classif
 from sklearn.ensemble import ExtraTreesClassifier
@@ -13,18 +12,16 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
-import csv
 import sys
+from random import choice
 from argparse import ArgumentParser
 from methods.utils import get_base_parser, get_dataset, get_X_y
 
 def parse_args(argv):
     base_parser = get_base_parser()
     parser = ArgumentParser(parents=[base_parser])
-    parser.add_argument('-t', '--threshold', type = float, default = 0.001,
-        help = 'Threshold for the minimal range suggestion heuristic. This is the threshold for the difference between the slope of consecutive moving averages of each selection method\'s metrics. Default: 0.001')
-    parser.add_argument( '-w', '--window-size', type = int, default = 5,
-        help = 'Moving average window size used in the minimal range suggestion heuristic. Default: 5')
+    parser.add_argument('-t', '--threshold', type = float, default = 0.03,
+        help = 'Threshold for the difference between metrics at each increment on the number of features. When all metrics are less than it, the selection phase finishes. Default: 0.03')
     parser.add_argument( '-f', '--initial-n-features', type = int, default = 1,
         help = 'Initial number of features. Default: 1')
     parser.add_argument( '-i', '--increment', type = int, default = 1,
@@ -121,13 +118,19 @@ def calculateMetricas(new_X,y):
     metricas = [acuracia,precision,recall,f1]
     return metricas
 
-methods = { 'mutualInformation': { 'function': calculateMutualInformationGain, 'results': [[0,0,0,0,0]] },
-    'selectRandom': { 'function': calculateRandomForestClassifier, 'results': [[0,0,0,0,0]] },
-    'selectExtra': { 'function': calculateExtraTreesClassifier, 'results': [[0,0,0,0,0]] },
-    'RFERandom': { 'function': calculateRFERandomForestClassifier, 'results': [[0,0,0,0,0]] },
-    'RFEGradient': { 'function': calculateRFEGradientBoostingClassifier, 'results': [[0,0,0,0,0]] },
-    'selectKBest': { 'function': calculateSelectKBest, 'results': [[0,0,0,0,0]] }
+methods = { 'mutualInformation': { 'function': calculateMutualInformationGain, 'results': [[0,0,0,0,0]], 'is_stable': False },
+    'selectRandom': { 'function': calculateRandomForestClassifier, 'results': [[0,0,0,0,0]], 'is_stable': False },
+    'selectExtra': { 'function': calculateExtraTreesClassifier, 'results': [[0,0,0,0,0]], 'is_stable': False },
+    'RFERandom': { 'function': calculateRFERandomForestClassifier, 'results': [[0,0,0,0,0]], 'is_stable': False },
+    'RFEGradient': { 'function': calculateRFEGradientBoostingClassifier, 'results': [[0,0,0,0,0]], 'is_stable': False },
+    'selectKBest': { 'function': calculateSelectKBest, 'results': [[0,0,0,0,0]], 'is_stable': False }
 }
+
+def is_method_stable(previous_metrics, current_metrics, t=0.03):
+    differences = abs(current_metrics - previous_metrics)
+    if(all(differences < t)):
+        return True
+    return False
 
 if __name__=="__main__":
     parsed_args = parse_args(sys.argv[1:])
@@ -138,7 +141,10 @@ if __name__=="__main__":
     if(num_features > total_features):
         print(f"ERRO: --initial-n-features ({num_features}) maior que a qtd de features do dataset ({total_features})")
         exit(1)
-    while num_features < (total_features + increment):
+    has_found_stable_method = False
+    best_stable_method = ''
+    best_metric_value = 0
+    while num_features < (total_features + increment) and not has_found_stable_method:
         k = total_features if num_features > total_features else num_features
         print("qtd de features: ", k)
 
@@ -147,36 +153,25 @@ if __name__=="__main__":
             new_X = X[list(feature_scores['features'])]
             metrics =  calculateMetricas(new_X,y)
             methods[method_name]['results'] = np.append(methods[method_name]['results'],[[k,metrics[0],metrics[1],metrics[2],metrics[3]]],axis=0)
-
+            previous_metrics = methods[method_name]['results'][-2][1:]
+            current_metrics = methods[method_name]['results'][-1][1:]
+            
+            # A primeira expressão booleana (len(...) > 2) é para evitar comparar as métricas calculadas contra o vetor [0,0,0,0], 
+            # que é definido inicialmente no dicionário "methods"
+            if(len(methods[method_name]['results']) > 2 and is_method_stable(previous_metrics, current_metrics, parsed_args.threshold)):
+                has_found_stable_method = True
+                f1 = current_metrics[-1]
+                if(f1 > best_metric_value):
+                    best_metric_value = f1
+                    best_stable_method = method_name
         num_features += increment
+    if(not has_found_stable_method):
+        best_stable_method = choice(list(methods.keys()))
 
+print('Menor limite inferior encontrado:')
+print(f'{best_stable_method}, {int(methods[best_stable_method]["results"][-1][0])}')
+print('results:')
 columns = ['Número de Características','Acurácia','Precisão','Recall','F1 Score']
-
 for method_name in methods.keys():
     methods[method_name]['results'] = pd.DataFrame(methods[method_name]['results'], columns=columns)
-
-for method_name, method in methods.items():
-    method['results'].to_csv(f'data-{method_name}-{parsed_args.output_file}.csv', index=False)
-    method['results'].drop(columns=['Número de Características']).plot().get_figure().savefig(f'graph-{method_name}-{parsed_args.output_file}.jpg', dpi=300)
-
-lower_bounds = []
-try:
-    lower_bounds = []
-    for method_name, method in methods.items():
-        lower_bound = get_minimal_range_suggestion(method['results'], t=parsed_args.threshold, window_size=parsed_args.window_size)
-        lower_bounds.append((method_name, lower_bound))
-    if(len(lower_bounds) == 0):
-        print("Não foi possível encontrar o limite inferior do intervalo mínimo.")
-        exit(0)
-    min_lower_bound = lower_bounds[0]
-    for (method_name, lower_bound) in lower_bounds:
-        if(lower_bound < min_lower_bound[1]):
-            min_lower_bound = (method_name, lower_bound)
-    if(min_lower_bound[1] == -1):
-        print("Não foi possível encontrar o limite inferior do intervalo mínimo.")
-    else:
-        print("Menor limite inferior encontrado:")  
-        print(f'{min_lower_bound[0]}, {min_lower_bound[1]}')
-except Exception as e:
-    print(str(e))
-    print("Não foi possível calcular a sugestão de intervalo mínimo desta vez.")
+print(methods[best_stable_method]['results'])
