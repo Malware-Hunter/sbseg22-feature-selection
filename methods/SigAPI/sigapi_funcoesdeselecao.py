@@ -121,12 +121,14 @@ def calculateMetricas(new_X,y):
     metricas = [acuracia,precision,recall,f1]
     return metricas
 
-l_mutualInformation = [[0,0,0,0,0]]
-l_selectRandom = [[0,0,0,0,0]]
-l_selectExtra= [[0,0,0,0,0]]
-l_RFERandom = [[0,0,0,0,0]]
-l_RFEGradient = [[0,0,0,0,0]]
-l_selectKBest= [[0,0,0,0,0]]
+methods = { 'mutualInformation': { 'function': calculateMutualInformationGain, 'results': [[0,0,0,0,0]] },
+    'selectRandom': { 'function': calculateRandomForestClassifier, 'results': [[0,0,0,0,0]] },
+    'selectExtra': { 'function': calculateExtraTreesClassifier, 'results': [[0,0,0,0,0]] },
+    'RFERandom': { 'function': calculateRFERandomForestClassifier, 'results': [[0,0,0,0,0]] },
+    'RFEGradient': { 'function': calculateRFEGradientBoostingClassifier, 'results': [[0,0,0,0,0]] },
+    'selectKBest': { 'function': calculateSelectKBest, 'results': [[0,0,0,0,0]] }
+}
+
 if __name__=="__main__":
     parsed_args = parse_args(sys.argv[1:])
     X, y = get_X_y(parsed_args, get_dataset(parsed_args))
@@ -138,67 +140,36 @@ if __name__=="__main__":
         exit(1)
     while num_features < (total_features + increment):
         k = total_features if num_features > total_features else num_features
-
         print("qtd de features: ", k)
-        mutualinformationGain = calculateMutualInformationGain(X, y, k)
-        new_X = X[list(mutualinformationGain['features'])]
-        result_metricas =  calculateMetricas(new_X,y)
-        l_mutualInformation = np.append(l_mutualInformation,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
 
-        randomForestClassifier = calculateRandomForestClassifier(X, y, k)
-        new_X = X[list(randomForestClassifier['features'])]
-        result_metricas =  calculateMetricas(new_X,y)
-        l_selectRandom = np.append(l_selectRandom,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
-
-        extraTreesClass = calculateExtraTreesClassifier(X, y, k)
-        new_X = X[list(extraTreesClass['features'])]
-        result_metricas =  calculateMetricas(new_X,y)
-        l_selectExtra = np.append(l_selectExtra,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
-
-        RFERandomForestClassifier = calculateRFERandomForestClassifier(X,y, k)
-        new_X = X[list(RFERandomForestClassifier['features'])]
-        result_metricas =  calculateMetricas(new_X,y)
-        l_RFERandom= np.append(l_RFERandom,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
-
-        RFEGradientBoostingClassifier = calculateRFEGradientBoostingClassifier(X,y, k)
-        new_X = X[list(RFEGradientBoostingClassifier['features'])]
-        result_metricas =  calculateMetricas(new_X,y)
-        l_RFEGradient = np.append(l_RFEGradient,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
-
-        selectKBest = calculateSelectKBest(X,y,k)
-        new_X = X[list(selectKBest['features'])]
-        result_metricas =  calculateMetricas(new_X,y)
-        l_selectKBest = np.append(l_selectKBest,[[k,result_metricas[0],result_metricas[1],result_metricas[2],result_metricas[3]]],axis=0)
+        for method_name in methods.keys():
+            feature_scores = methods[method_name]['function'](X, y, k)
+            new_X = X[list(feature_scores['features'])]
+            metrics =  calculateMetricas(new_X,y)
+            methods[method_name]['results'] = np.append(methods[method_name]['results'],[[k,metrics[0],metrics[1],metrics[2],metrics[3]]],axis=0)
 
         num_features += increment
 
 columns = ['Número de Características','Acurácia','Precisão','Recall','F1 Score']
 
-methods = {
-    "mutualInformation": pd.DataFrame(l_mutualInformation, columns=columns),
-    "selectRandom": pd.DataFrame(l_selectRandom, columns=columns),
-    "selectExtra": pd.DataFrame(l_selectExtra, columns=columns),
-    "RFERandom": pd.DataFrame(l_RFERandom, columns=columns),
-    "RFEGradient": pd.DataFrame(l_RFEGradient, columns=columns),
-    "selectKBest": pd.DataFrame(l_selectKBest, columns=columns)
-}
-for method_name, df in methods.items():
-    df.to_csv(f'data-{method_name}-{parsed_args.output_file}.csv', index=False)
-    df.drop(columns=['Número de Características']).plot().get_figure().savefig(f'graph-{method_name}-{parsed_args.output_file}.jpg', dpi=300)
+for method_name in methods.keys():
+    methods[method_name]['results'] = pd.DataFrame(methods[method_name]['results'], columns=columns)
+
+for method_name, method in methods.items():
+    method['results'].to_csv(f'data-{method_name}-{parsed_args.output_file}.csv', index=False)
+    method['results'].drop(columns=['Número de Características']).plot().get_figure().savefig(f'graph-{method_name}-{parsed_args.output_file}.jpg', dpi=300)
 
 lower_bounds = []
 try:
     lower_bounds = []
-    for method_name, df in methods.items():
-        lower_bound = get_minimal_range_suggestion(df, t=parsed_args.threshold, window_size=parsed_args.window_size)
+    for method_name, method in methods.items():
+        lower_bound = get_minimal_range_suggestion(method['results'], t=parsed_args.threshold, window_size=parsed_args.window_size)
         lower_bounds.append((method_name, lower_bound))
-    print(lower_bounds)
     if(len(lower_bounds) == 0):
         print("Não foi possível encontrar o limite inferior do intervalo mínimo.")
         exit(0)
     min_lower_bound = lower_bounds[0]
     for (method_name, lower_bound) in lower_bounds:
-        print("lower_bound:", lower_bound)
         if(lower_bound < min_lower_bound[1]):
             min_lower_bound = (method_name, lower_bound)
     if(min_lower_bound[1] == -1):
