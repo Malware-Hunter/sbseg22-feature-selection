@@ -23,5 +23,6 @@ def correlacao(X, y, k, method, output_file, methods):
     print("qtd de features removidas:", len(to_drop))
 
     new_X = new_X.drop(columns = to_drop)
-    print("Dataset final criado")
+    new_X['class'] = y
     new_X.to_csv(output_file, index=False)
+    print("Dataset final criado")
