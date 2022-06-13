@@ -195,5 +195,6 @@ if __name__=="__main__":
     
     if(not has_found_stable_method):
         best_stable_method = choice(list(methods.keys()))
-    print(f'Menor limite inferior encontrado: {best_stable_method}, {int(methods[best_stable_method]["results"][-1][0])}')
-    correlacao(X, y, int(methods[best_stable_method]["results"][-1][0]), best_stable_method, parsed_args.output_file, methods)
+    k = int(methods[best_stable_method]["results"][-1][0])
+    print(f'Menor limite inferior encontrado: {best_stable_method}, {k}')
+    correlacao(X, y, k, best_stable_method, parsed_args.output_file, methods)
