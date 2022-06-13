@@ -17,7 +17,7 @@ from random import choice
 from argparse import ArgumentParser
 from methods.utils import get_base_parser, get_dataset, get_X_y
 
-def correlacao(X, y, k, method, output_file, methods):
+def correlation_phase(X, y, k, method, methods):
     feature_scores = methods[method]['function'](X, y, k)
     new_X = X[list(feature_scores['features'])]
     
@@ -41,8 +41,7 @@ def correlacao(X, y, k, method, output_file, methods):
 
     new_X = new_X.drop(columns = to_drop)
     new_X['class'] = y
-    new_X.to_csv(output_file, index=False)
-    print("Dataset final criado")
+    return new_X
 
 def parse_args(argv):
     base_parser = get_base_parser()
@@ -159,17 +158,9 @@ def is_method_stable(previous_metrics, current_metrics, t=0.03):
         return True
     return False
 
-if __name__=="__main__":
-    parsed_args = parse_args(sys.argv[1:])
-    X, y = get_X_y(parsed_args, get_dataset(parsed_args))
-    total_features = get_dataset(parsed_args).shape[1] - 1
-    num_features = parsed_args.initial_n_features
-    increment = parsed_args.increment
-    if(num_features > total_features):
-        print(f"ERRO: --initial-n-features ({num_features}) maior que a qtd de features do dataset ({total_features})")
-        exit(1)
+def selection_phase(X, y, methods, num_features=1, increment=1):
     has_found_stable_method = False
-    best_stable_method = ''
+    best_stable_method = None
     best_metric_value = 0
     while num_features < (total_features + increment) and not has_found_stable_method:
         k = total_features if num_features > total_features else num_features
@@ -195,6 +186,21 @@ if __name__=="__main__":
     
     if(not has_found_stable_method):
         best_stable_method = choice(list(methods.keys()))
+    
     k = int(methods[best_stable_method]["results"][-1][0])
-    print(f'Menor limite inferior encontrado: {best_stable_method}, {k}')
-    correlacao(X, y, k, best_stable_method, parsed_args.output_file, methods)
+    return best_stable_method, k
+
+if __name__=="__main__":
+    parsed_args = parse_args(sys.argv[1:])
+    X, y = get_X_y(parsed_args, get_dataset(parsed_args))
+    total_features = get_dataset(parsed_args).shape[1] - 1
+    if(parsed_args.initial_n_features > total_features):
+        print(f"ERRO: --initial-n-features ({parsed_args.initial_n_features}) maior que a qtd de features do dataset ({total_features})")
+        exit(1)
+    
+    best_stable_method, lower_bound = selection_phase(X, y, methods, num_features=parsed_args.initial_n_features, increment=parsed_args.increment)
+    print(f'Menor limite inferior encontrado: {best_stable_method}, {lower_bound}')
+    
+    new_X = correlation_phase(X, y, lower_bound, best_stable_method, methods)
+    new_X.to_csv(parsed_args.output_file, index=False)
+    print("Dataset final criado")
