@@ -160,9 +160,9 @@ if __name__=="__main__":
             # que é definido inicialmente no dicionário "methods"
             if(len(methods[method_name]['results']) > 2 and is_method_stable(previous_metrics, current_metrics, parsed_args.threshold)):
                 has_found_stable_method = True
-                f1 = current_metrics[-1]
-                if(f1 > best_metric_value):
-                    best_metric_value = f1
+                accuracy = current_metrics[0]
+                if(accuracy > best_metric_value):
+                    best_metric_value = accuracy
                     best_stable_method = method_name
         num_features += increment
     if(not has_found_stable_method):
