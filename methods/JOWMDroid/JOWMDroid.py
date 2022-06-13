@@ -22,8 +22,8 @@ def parse_args():
     parser.add_argument( '-m', '--mapping-functions', metavar = 'LIST', type = str,
         default = "power, exponential, logarithmic, hyperbolic, S_curve",
         help = 'List of mapping functions to use. Default: "power, exponential, logarithmic, hyperbolic, S_curve"')
-    parser.add_argument( '-t', '--mi-threshold', type = float, default = 0.05,
-        help = 'Threshold to select features with Mutual Information. Default: 0.05. Only features with score greater than or equal to this value will be selected')
+    parser.add_argument( '-t', '--mi-threshold', type = float, default = 0.2,
+        help = 'Threshold to select features with Mutual Information. Default: 0.2. Only features with score greater than or equal to this value will be selected')
     parser.add_argument('--train-size', type = float, default = 0.8,
         help = 'Proportion of samples to use for train. Default: 0.8')
     parser.add_argument('--cv', metavar = 'INT', type = int, default = 5,
@@ -34,11 +34,12 @@ def parse_args():
     return parser.parse_args(sys.argv[1:])
 
 
-def select_features_with_mi(X, y, threshold=0.05):
-    mi_model = mutual_info_regression(X, y)
+def select_features_with_mi(X, y, threshold=0.2):
+    mi_model = mutual_info_regression(X, y, random_state = 1)
     scores = pd.Series(mi_model, index=np.array(X.columns))
+    t = scores.max() * threshold
     selected_features = [feature for feature,
-                         score in scores.items() if score >= threshold]
+                         score in scores.items() if score >= t]
     return X[selected_features]
 
 def get_weights_from_classifiers(X, y,
@@ -175,7 +176,7 @@ def inspect_frame(frame):
 if __name__ == "__main__":
     parsed_args = parse_args()
     X, y = get_X_y(parsed_args, get_dataset(parsed_args))
-
+    init_size = X.shape[1]
     start_time = timeit.default_timer()
     X = select_features_with_mi(X, y, threshold=parsed_args.mi_threshold)
     end_time = timeit.default_timer()
@@ -186,6 +187,7 @@ if __name__ == "__main__":
     features_dataset['class'] = y
     features_dataset.to_csv(f"selected-features-{parsed_args.output_file}.csv", index = False)
     if(parsed_args.feature_selection_only):
+        print("Selected Features >>", features_dataset.shape[1]-1, "of", init_size)
         exit(0)
 
     weight_classifiers = {"SVM": SVC(
