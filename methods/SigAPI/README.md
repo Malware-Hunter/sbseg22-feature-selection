@@ -42,22 +42,22 @@ Com isso, vai ser possível encontrar a redução de características que foi re
 ## Detalhes de uso
 ### Etapa de seleção de características
 ```
-usage: sigapi_funcoesdeselecao.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN] [-n N_SAMPLES] [-t THRESHOLD] [-w WINDOW_SIZE] [-f INITIAL_N_FEATURES] [-i INCREMENT]
+usage: sigapi_funcoesdeselecao.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN] [-n N_SAMPLES] [-o OUTPUT_FILE] [-t THRESHOLD] [-f INITIAL_N_FEATURES] [-i INCREMENT]
 
 optional arguments:
   -h, --help            show this help message and exit
   -d DATASET, --dataset DATASET
-                        Dataset (csv file). It should be already preprocessed, with the last feature being the class
+                        Dataset (csv file). It should be already preprocessed.
   --sep SEPARATOR       Dataset feature separator. Default: ","
-  -c CLASS_COLUMN, --class_column CLASS_COLUMN
+  -c CLASS_COLUMN, --class-column CLASS_COLUMN
                         Name of the class column. Default: "class"
   -n N_SAMPLES, --n-samples N_SAMPLES
-                        Use a subset of n samples from the dataset. RFG uses the whole dataset by default.
+                        Use a subset of n samples from the dataset. By default, all samples are used.
+  -o OUTPUT_FILE, --output-file OUTPUT_FILE
+                        Output file name. Default: results.csv
   -t THRESHOLD, --threshold THRESHOLD
-                        Threshold for the minimal range suggestion heuristic. This is the threshold for the difference between the slope of consecutive moving averages of
-                        each selection method's metrics. Default: 0.001
-  -w WINDOW_SIZE, --window-size WINDOW_SIZE
-                        Moving average window size used in the minimal range suggestion heuristic. Default: 5
+                        Threshold for the difference between metrics at each increment on the number of features. When all metrics are less than it, the selection phase finishes.
+                        Default: 0.03
   -f INITIAL_N_FEATURES, --initial-n-features INITIAL_N_FEATURES
                         Initial number of features. Default: 1
   -i INCREMENT, --increment INCREMENT
