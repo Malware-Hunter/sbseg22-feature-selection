@@ -122,10 +122,12 @@ def run_experiment(X, y, classifiers, is_feature_selection_only = False,
             if(k == max(k_values)): 
                 selector = SelectKBest(score_func=score_function, k=k).fit(X, y)
                 X_selected = X.iloc[:, selector.get_support(indices=True)].copy()
-                X_selected['class'] = y
+                X_selected_sorted = pd.DataFrame(list(zip(X_selected.columns.values.tolist(), selector.scores_)), columns= ['features','score']).sort_values(by = ['score'], ascending=False)
+                X_selected_sorted['class'] = y
+
                 best_features.append({
                     'score_function' : score_function.__name__, 
-                    'selected_dataset' : X_selected,
+                    'selected_dataset' : X_selected_sorted,
                     'k': k 
                 })
                 if(X_selected.shape[1] == 1):
