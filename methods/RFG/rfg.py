@@ -112,7 +112,7 @@ def run_experiment(X, y, classifiers, is_feature_selection_only = False,
     if(len(k_list) > 0):
         k_values = k_list
     else:
-        k_values = range(10, X.shape[1], k_increment)
+        k_values = range(1, X.shape[1], k_increment)
     for k in k_values:
         if(k > X.shape[1]):
             print(f"Warning: skipping K = {k}, since it's greater than the number of features available ({X.shape[1]})")
@@ -122,7 +122,8 @@ def run_experiment(X, y, classifiers, is_feature_selection_only = False,
             if(k == max(k_values)): 
                 selector = SelectKBest(score_func=score_function, k=k).fit(X, y)
                 X_selected = X.iloc[:, selector.get_support(indices=True)].copy()
-                X_selected_sorted = pd.DataFrame(list(zip(X_selected.columns.values.tolist(), selector.scores_)), columns= ['features','score']).sort_values(by = ['score'], ascending=False)
+                feature_scores_sorted = pd.DataFrame(list(zip(X_selected.columns.values.tolist(), selector.scores_)), columns= ['features','score']).sort_values(by = ['score'], ascending=False)
+                X_selected_sorted = X_selected.loc[:, list(feature_scores_sorted['features'])]
                 X_selected_sorted['class'] = y
 
                 best_features.append({

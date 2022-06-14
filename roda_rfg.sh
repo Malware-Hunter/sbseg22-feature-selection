@@ -27,12 +27,21 @@ bash setup_datasets.sh
 
 MAX_N_FEATURES=100
 
+set_increment(){
+    TOTAL_FEATURES=$1
+    [[ $TOTAL_FEATURES -lt 10 ]] && INCREMENT=1 && return
+    [[ $TOTAL_FEATURES -lt 100 ]] && INCREMENT=10 && return
+    [[ $TOTAL_FEATURES -lt 1000 ]] && INCREMENT=100 && return
+    INCREMENT=200
+}
+
 for DATASET in datasets/*.csv
 do
     TOTAL_N_FEATURES=`head -1 "$DATASET" | awk -F, '{print NF}'`
     [[ $TOTAL_N_FEATURES -gt $MAX_N_FEATURES ]] && N_FEATURES=$MAX_N_FEATURES || N_FEATURES=`expr $TOTAL_N_FEATURES - 1`
     D_NAME=$(echo $DATASET | cut -d"/" -f2)
-    echo "$PYTHON -m methods.RFG.rfg -d $DATASET -f $N_FEATURES --feature-selection-only -o $D_NAME"
-    { time $PYTHON -m methods.RFG.rfg -d $DATASET -f $N_FEATURES --feature-selection-only -o $D_NAME; } 2> time-rfg-top-$N_FEATURES-$D_NAME.txt
+    set_increment $TOTAL_N_FEATURES
+    echo  "$PYTHON -m methods.RFG.rfg -d $DATASET -i $INCREMENT -o $D_NAME"
+    { time $PYTHON -m methods.RFG.rfg -d $DATASET -i $INCREMENT -o $D_NAME; } 2> time-rfg-top-$N_FEATURES-$D_NAME.txt &
     echo "Done"
 done
