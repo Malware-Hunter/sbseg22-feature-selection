@@ -1,0 +1,56 @@
+python3 run_ml.py -d rl_rfg.csv -c rf
+Fit Model
+Elapsed Time: 24.109269779999522
+Predict
+Elapsed Time: 1.292894501999399
+   Accuracy  Precision     Recall   F1_Score   RoC_AuC
+0  97.66231   83.87471  76.292649  79.904218  87.67059
+python3 run_ml.py -d rl_rfg_jowmdroid.csv -c rf
+Fit Model
+Elapsed Time: 24.0515285700003
+Predict
+Elapsed Time: 1.0342002139987017
+    Accuracy  Precision    Recall   F1_Score   RoC_AuC
+0  97.756589  85.050742  76.64439  80.629047  87.88525
+python3 run_ml.py -d rl_sigapi.csv -c rf
+Fit Model
+Elapsed Time: 11.168939967999904
+Predict
+Elapsed Time: 1.5413296189999528
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  95.603171  71.742716  45.902216  55.984556  72.364711
+python3 run_ml.py -d rl_sigapi_jowmdroid.csv -c rf
+Fit Model
+Elapsed Time: 10.932259745999545
+Predict
+Elapsed Time: 1.1021231450013147
+    Accuracy  Precision     Recall  F1_Score    RoC_AuC
+0  95.828155  74.427481  48.012663  58.37075  73.471273
+python3 run_ml.py -d sigpid_rfg.csv -c rf
+Fit Model
+Elapsed Time: 16.296834744998705
+Predict
+Elapsed Time: 0.8861987529999169
+    Accuracy  Precision   Recall  F1_Score    RoC_AuC
+0  97.664453  83.959706  76.2223  79.90413  87.638839
+python3 run_ml.py -d sigpid_rfg_jowmdroid.csv -c rf
+Fit Model
+Elapsed Time: 16.947978490999958
+Predict
+Elapsed Time: 0.9405212629990274
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  97.771588  85.422397  76.468519  80.697847  87.811005
+python3 run_ml.py -d sigpid_sigapi.csv -c rf
+Fit Model
+Elapsed Time: 0.8300830049993237
+Predict
+Elapsed Time: 0.3103474389990879
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  95.513178  72.961373  41.857193  53.196245  70.425482
+python3 run_ml.py -d sigpid_sigapi_jowmdroid.csv -c rf
+Fit Model
+Elapsed Time: 1.4432692409991432
+Predict
+Elapsed Time: 0.5134020320001582
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  95.738162  76.787955  43.053113  55.172414  71.104442
