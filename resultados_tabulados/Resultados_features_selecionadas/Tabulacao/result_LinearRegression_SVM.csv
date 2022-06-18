@@ -1,0 +1,13 @@
+﻿Accuracy,Precision,Recall,F1_Score,RoC_AuC,Metodo,Modelo,Dataset
+93.06124136790308,50.40035587188611,16.835066864784547,25.23947427043885,57.79810275307404,LinearRegression,SVM,svm_output_linear-regression-androcrawl_all.csv
+93.06020758383988,50.3779457536683,16.835066864784547,25.23666332553736,57.797547209863886,LinearRegression,SVM,svm_output_linear-regression-androcrawl_api_calls.csv
+99.99896621593682,0.0,0.0,0.0,50.0,LinearRegression,SVM,svm_output_linear-regression-androcrawl_permissions.csv
+78.8171113033065,83.17631224764467,39.75981128029166,53.80150899593731,68.07145656607176,LinearRegression,SVM,svm_output_linear-regression-drebin_215_all.csv
+79.4824030337303,72.76703111858704,74.70212398549472,73.72188139059304,78.59023948192485,LinearRegression,SVM,svm_output_linear-regression-drebin_215_api_calls_limpo.csv
+98.8826815642458,62.68221574344023,84.31372549019608,71.90635451505017,91.7238744493129,LinearRegression,SVM,svm_output_linear-regression-drebin_215_commands.csv
+97.18010109071562,91.9298245614035,58.09312638580931,71.19565217391305,78.88383501970529,LinearRegression,SVM,svm_output_linear-regression-drebin_215_intents.csv
+99.707368981112,100.0,31.25,47.61904761904761,65.625,LinearRegression,SVM,svm_output_linear-regression-drebin_215_permissions.csv
+100.0,100.0,100.0,100.0,100.0,LinearRegression,SVM,svm_output_linear-regression-motodroid_all.csv
+100.0,100.0,100.0,100.0,100.0,LinearRegression,SVM,svm_output_linear-regression-motodroid_api_calls.csv
+100.0,100.0,100.0,100.0,100.0,LinearRegression,SVM,svm_output_linear-regression-motodroid_intents.csv
+100.0,100.0,100.0,100.0,100.0,LinearRegression,SVM,svm_output_linear-regression-motodroid_permissions.csv

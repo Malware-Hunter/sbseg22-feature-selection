@@ -1,0 +1,14 @@
+﻿Accuracy,Precision,Recall,F1_Score,RoC_AuC,Metodo,Modelo,Dataset
+97.09610056651368,98.48504808325649,73.51032448377582,84.18444907381341,86.68873586541785,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-androcrawl_all.csv.csv
+97.08989786213456,98.42001316655694,73.50049164208457,84.15423585702224,86.68093134124744,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-androcrawl_api_calls.csv.csv
+89.48641607740974,0.0,0.0,0.0,50.0,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-androcrawl_intents.csv.csv
+89.4967539180416,52.80898876404494,0.9242871189773844,1.8167761886354847,50.41362342363232,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-androcrawl_permissions.csv.csv
+96.54713591910053,97.68939393939394,92.85328532853283,95.20996769727736,95.78291113197432,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-drebin_215_all.csv.csv
+93.95249817044774,94.4678407350689,88.83888388838884,91.56693570832174,92.89453692097788,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-drebin_215_api_calls_limpo.csv.csv
+64.90422984836393,51.85136726416329,71.27697841726619,60.031810952056354,66.22101348047775,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-drebin_215_commands.csv.csv
+78.03937217345039,73.45243041130037,63.59712230215827,68.1704260651629,75.05520952592084,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-drebin_215_intents.csv.csv
+88.52753391859537,94.74912485414237,73.02158273381295,82.47841543930929,85.3235815737448,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-drebin_215_permissions.csv.csv
+95.81744161131348,73.68421052631578,48.75131902919451,58.67908552074513,73.81093913674799,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-motodroid_all.csv.csv
+95.31604885365331,67.02954898911354,45.48012662680267,54.191114836546525,72.01448319155863,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-motodroid_api_calls.csv.csv
+94.12041997000216,56.52173913043478,15.089693985226871,23.820099944475288,57.16836674071393,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-motodroid_intents.csv.csv
+95.55174630383544,86.41975308641975,32.008441786844884,46.71457905544148,65.84107945093265,JOWMDroid,SVM,svm_output_selected-features-jowmdroid-motodroid_permissions.csv.csv

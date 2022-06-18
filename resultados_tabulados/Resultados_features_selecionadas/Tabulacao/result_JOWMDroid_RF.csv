@@ -1,0 +1,14 @@
+﻿Accuracy,Precision,Recall,F1_Score,RoC_AuC,Metodo,Modelo,Dataset
+97.09610056651368,98.48504808325649,73.51032448377582,84.18444907381341,86.68873586541785,JOWMDroid,RF,rf_output_selected-features-jowmdroid-androcrawl_all.csv.csv
+97.08989786213456,98.42001316655694,73.50049164208457,84.15423585702224,86.68093134124744,JOWMDroid,RF,rf_output_selected-features-jowmdroid-androcrawl_api_calls.csv.csv
+89.48641607740974,0.0,0.0,0.0,50.0,JOWMDroid,RF,rf_output_selected-features-jowmdroid-androcrawl_intents.csv.csv
+89.52466608774759,58.07860262008734,1.3077679449360864,2.557938263294547,50.598432388632176,JOWMDroid,RF,rf_output_selected-features-jowmdroid-androcrawl_permissions.csv.csv
+98.56962277958884,98.91901795529498,97.1917191719172,98.04776173613004,98.28454679575177,JOWMDroid,RF,rf_output_selected-features-jowmdroid-drebin_215_all.csv.csv
+96.3675071518861,98.13569094753028,91.91719171917192,94.92470719464583,95.44677652653404,JOWMDroid,RF,rf_output_selected-features-jowmdroid-drebin_215_api_calls_limpo.csv.csv
+64.90422984836393,51.85136726416329,71.27697841726619,60.031810952056354,66.22101348047775,JOWMDroid,RF,rf_output_selected-features-jowmdroid-drebin_215_commands.csv.csv
+78.03937217345039,73.45243041130037,63.59712230215827,68.1704260651629,75.05520952592084,JOWMDroid,RF,rf_output_selected-features-jowmdroid-drebin_215_intents.csv.csv
+88.6073423782921,96.07185628742516,72.14028776978417,82.40369799691834,85.20479985787648,JOWMDroid,RF,rf_output_selected-features-jowmdroid-drebin_215_permissions.csv.csv
+98.07370902078422,91.7167381974249,75.16707703130496,82.62130291900252,87.36335461075367,JOWMDroid,RF,rf_output_selected-features-jowmdroid-motodroid_all.csv.csv
+96.05742446968074,72.27898711683696,57.22827998593035,63.87907341970946,77.90225006210065,JOWMDroid,RF,rf_output_selected-features-jowmdroid-motodroid_api_calls.csv.csv
+94.12041997000216,56.38709677419354,15.37108688005628,24.156992813709238,57.29993639414318,JOWMDroid,RF,rf_output_selected-features-jowmdroid-motodroid_intents.csv.csv
+97.124491107778,97.59036144578312,54.1329581428069,69.63800904977376,77.0231267999726,JOWMDroid,RF,rf_output_selected-features-jowmdroid-motodroid_permissions.csv.csv
