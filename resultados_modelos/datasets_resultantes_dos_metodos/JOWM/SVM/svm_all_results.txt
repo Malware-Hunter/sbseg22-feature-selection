@@ -1,0 +1,91 @@
+python3 run_ml.py -d ./selected-features-jowmdroid-androcrawl_all.csv.csv -c svm
+Fit Model
+Elapsed Time: 19.738091188002727
+Predict
+Elapsed Time: 22.725871008002287
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  97.096101  98.485048  73.510324  84.184449  86.688736
+python3 run_ml.py -d ./selected-features-jowmdroid-androcrawl_api_calls.csv.csv -c svm
+Fit Model
+Elapsed Time: 19.426809567001328
+Predict
+Elapsed Time: 22.121789545002684
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  97.089898  98.420013  73.500492  84.154236  86.680931
+python3 run_ml.py -d ./selected-features-jowmdroid-androcrawl_intents.csv.csv -c svm
+Fit Model
+Elapsed Time: 47.00368294099826
+Predict
+Elapsed Time: 64.93706830800147
+    Accuracy  Precision  Recall  F1_Score  RoC_AuC
+0  89.486416        0.0     0.0       0.0     50.0
+python3 run_ml.py -d ./selected-features-jowmdroid-androcrawl_permissions.csv.csv -c svm
+Fit Model
+Elapsed Time: 87.58065955200072
+Predict
+Elapsed Time: 104.29446972900041
+    Accuracy  Precision    Recall  F1_Score    RoC_AuC
+0  89.496754  52.808989  0.924287  1.816776  50.413623
+python3 run_ml.py -d ./selected-features-jowmdroid-drebin_215_all.csv.csv -c svm
+Fit Model
+Elapsed Time: 1.6842733550001867
+Predict
+Elapsed Time: 1.8352246819995344
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  96.547136  97.689394  92.853285  95.209968  95.782911
+python3 run_ml.py -d ./selected-features-jowmdroid-drebin_215_api_calls_limpo.csv.csv -c svm
+Fit Model
+Elapsed Time: 2.6739360589999706
+Predict
+Elapsed Time: 2.865910264001286
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  93.952498  94.467841  88.838884  91.566936  92.894537
+python3 run_ml.py -d ./selected-features-jowmdroid-drebin_215_commands.csv.csv -c svm
+Fit Model
+Elapsed Time: 4.7913790450002125
+Predict
+Elapsed Time: 5.614269542998954
+   Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  64.90423  51.851367  71.276978  60.031811  66.221013
+python3 run_ml.py -d ./selected-features-jowmdroid-drebin_215_intents.csv.csv -c svm
+Fit Model
+Elapsed Time: 3.5372460420003335
+Predict
+Elapsed Time: 4.108054344000266
+    Accuracy  Precision     Recall   F1_Score   RoC_AuC
+0  78.039372   73.45243  63.597122  68.170426  75.05521
+python3 run_ml.py -d ./selected-features-jowmdroid-drebin_215_permissions.csv.csv -c svm
+Fit Model
+Elapsed Time: 2.340003994999279
+Predict
+Elapsed Time: 2.5053483350020542
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  88.527534  94.749125  73.021583  82.478415  85.323582
+python3 run_ml.py -d ./selected-features-jowmdroid-motodroid_all.csv.csv -c svm
+Fit Model
+Elapsed Time: 43.96473964300094
+Predict
+Elapsed Time: 38.186163073998614
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  95.817442  73.684211  48.751319  58.679086  73.810939
+python3 run_ml.py -d ./selected-features-jowmdroid-motodroid_api_calls.csv.csv -c svm
+Fit Model
+Elapsed Time: 21.79449126599866
+Predict
+Elapsed Time: 19.304853937999724
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  95.316049  67.029549  45.480127  54.191115  72.014483
+python3 run_ml.py -d ./selected-features-jowmdroid-motodroid_intents.csv.csv -c svm
+Fit Model
+Elapsed Time: 12.163972522001131
+Predict
+Elapsed Time: 15.409259497999301
+   Accuracy  Precision     Recall  F1_Score    RoC_AuC
+0  94.12042  56.521739  15.089694   23.8201  57.168367
+python3 run_ml.py -d ./selected-features-jowmdroid-motodroid_permissions.csv.csv -c svm
+Fit Model
+Elapsed Time: 62.68838248200336
+Predict
+Elapsed Time: 34.66974216900053
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  95.551746  86.419753  32.008442  46.714579  65.841079
