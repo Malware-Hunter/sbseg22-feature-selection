@@ -1,0 +1,86 @@
+python3 run_ml.py -d ./linear-regression-androcrawl_all.csv -c svm
+Fit Model
+Elapsed Time: 29.229390617001627
+Predict
+Elapsed Time: 43.132332020999456
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  93.061241  50.400356  16.835067  25.239474  57.798103
+python3 run_ml.py -d ./linear-regression-androcrawl_api_calls.csv -c svm
+Fit Model
+Elapsed Time: 29.450706949999585
+Predict
+Elapsed Time: 40.64536115100054
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  93.060208  50.377946  16.835067  25.236663  57.797547
+python3 run_ml.py -d ./linear-regression-androcrawl_intents.csv -c svm
+Exception: No columns to parse from file
+python3 run_ml.py -d ./linear-regression-androcrawl_permissions.csv -c svm
+Fit Model
+Elapsed Time: 0.030978902999777347
+Predict
+Elapsed Time: 0.012604049999936251
+    Accuracy  Precision  Recall  F1_Score  RoC_AuC
+0  99.998966        0.0     0.0       0.0     50.0
+python3 run_ml.py -d ./linear-regression-drebin_215_all.csv -c svm
+Fit Model
+Elapsed Time: 4.865301706002356
+Predict
+Elapsed Time: 5.72581981699841
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  78.817111  83.176312  39.759811  53.801509  68.071457
+python3 run_ml.py -d ./linear-regression-drebin_215_api_calls_limpo.csv -c svm
+Fit Model
+Elapsed Time: 4.99468322499888
+Predict
+Elapsed Time: 5.428270935997716
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  79.482403  72.767031  74.702124  73.721881  78.590239
+python3 run_ml.py -d ./linear-regression-drebin_215_commands.csv -c svm
+Fit Model
+Elapsed Time: 0.15125617699959548
+Predict
+Elapsed Time: 0.18977400500079966
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  98.882682  62.682216  84.313725  71.906355  91.723874
+python3 run_ml.py -d ./linear-regression-drebin_215_intents.csv -c svm
+Fit Model
+Elapsed Time: 0.6478755669995735
+Predict
+Elapsed Time: 0.7715430570024182
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  97.180101  91.929825  58.093126  71.195652  78.883835
+python3 run_ml.py -d ./linear-regression-drebin_215_permissions.csv -c svm
+Fit Model
+Elapsed Time: 0.13116991399874678
+Predict
+Elapsed Time: 0.16082945299785933
+    Accuracy  Precision  Recall   F1_Score  RoC_AuC
+0  99.707369      100.0   31.25  47.619048   65.625
+python3 run_ml.py -d ./linear-regression-motodroid_all.csv -c svm
+Fit Model
+Elapsed Time: 8.423840578998352
+Predict
+Elapsed Time: 13.555628297999647
+   Accuracy  Precision  Recall  F1_Score  RoC_AuC
+0     100.0      100.0   100.0     100.0    100.0
+python3 run_ml.py -d ./linear-regression-motodroid_api_calls.csv -c svm
+Fit Model
+Elapsed Time: 3.1638746879980317
+Predict
+Elapsed Time: 4.0328422030033835
+   Accuracy  Precision  Recall  F1_Score  RoC_AuC
+0     100.0      100.0   100.0     100.0    100.0
+python3 run_ml.py -d ./linear-regression-motodroid_intents.csv -c svm
+Fit Model
+Elapsed Time: 0.20798318100059987
+Predict
+Elapsed Time: 0.24092662399925757
+   Accuracy  Precision  Recall  F1_Score  RoC_AuC
+0     100.0      100.0   100.0     100.0    100.0
+python3 run_ml.py -d ./linear-regression-motodroid_permissions.csv -c svm
+Fit Model
+Elapsed Time: 8.181486336998205
+Predict
+Elapsed Time: 11.159915733998787
+   Accuracy  Precision  Recall  F1_Score  RoC_AuC
+0     100.0      100.0   100.0     100.0    100.0

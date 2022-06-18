@@ -1,0 +1,63 @@
+python3 run_ml.py -d resultado-selecao-androcrawl_all.csv -c svm
+Fit Model
+Elapsed Time: 20.78588715799924
+Predict
+Elapsed Time: 23.923636225001246
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  97.115742  96.263791  75.496559  84.624711  87.576148
+python3 run_ml.py -d resultado-selecao-androcrawl_api_calls.csv -c svm
+Fit Model
+Elapsed Time: 16.402623272999335
+Predict
+Elapsed Time: 22.843899076000525
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  95.871066  95.884101  63.451327  76.366864  81.565663
+python3 run_ml.py -d resultado-selecao-androcrawl_intents.csv -c svm
+Fit Model
+Elapsed Time: 47.795850451999286
+Predict
+Elapsed Time: 62.66994049300047
+    Accuracy  Precision  Recall  F1_Score  RoC_AuC
+0  89.486416        0.0     0.0       0.0     50.0
+python3 run_ml.py -d resultado-selecao-androcrawl_permissions.csv -c svm
+Fit Model
+Elapsed Time: 45.75082763500177
+Predict
+Elapsed Time: 63.32920066799852
+    Accuracy  Precision  Recall  F1_Score  RoC_AuC
+0  89.486416        0.0     0.0       0.0     50.0
+python3 run_ml.py -d resultado-selecao-drebin_215_all.csv -c svm
+Fit Model
+Elapsed Time: 1.5154623010021169
+Predict
+Elapsed Time: 1.420752943999105
+    Accuracy  Precision     Recall   F1_Score   RoC_AuC
+0  93.406959  92.196746  89.756976  90.960504  92.65181
+python3 run_ml.py -d resultado-selecao-drebin_215_api_calls_limpo.csv -c svm
+Fit Model
+Elapsed Time: 1.560052414999518
+Predict
+Elapsed Time: 1.512091500000679
+    Accuracy  Precision     Recall   F1_Score   RoC_AuC
+0  95.123412  94.076782  92.637264  93.351474  94.60905
+python3 run_ml.py -d resultado-selecao-drebin_215_intents.csv -c svm
+Fit Model
+Elapsed Time: 3.593682983999315
+Predict
+Elapsed Time: 4.135365026999352
+   Accuracy  Precision    Recall   F1_Score    RoC_AuC
+0  73.49029  64.078712  64.42446  64.251121  71.617042
+python3 run_ml.py -d resultado-selecao-drebin_215_permissions.csv -c svm
+Fit Model
+Elapsed Time: 2.2581324460006726
+Predict
+Elapsed Time: 2.4378442650013312
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  89.684757  96.069869  75.179856  84.350721  86.687649
+python3 run_ml.py -d resultado-selecao-motodroid_intents.csv -c svm
+Fit Model
+Elapsed Time: 8.564733537998109
+Predict
+Elapsed Time: 11.267114457998105
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  94.026141  53.357753  15.371087  23.866739  57.249739
