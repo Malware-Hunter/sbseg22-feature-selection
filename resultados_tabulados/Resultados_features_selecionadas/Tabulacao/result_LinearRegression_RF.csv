@@ -1,0 +1,13 @@
+﻿Accuracy,Precision,Recall,F1_Score,RoC_AuC,Metodo,Modelo,Dataset
+93.06124136790308,50.40035587188611,16.835066864784547,25.23947427043885,57.79810275307404,LinearRegression,RF,rf_output_linear-regression-androcrawl_all.csv
+93.06020758383988,50.3779457536683,16.835066864784547,25.23666332553736,57.797547209863886,LinearRegression,RF,rf_output_linear-regression-androcrawl_api_calls.csv
+99.99896621593682,0.0,0.0,0.0,50.0,LinearRegression,RF,rf_output_linear-regression-androcrawl_permissions.csv
+79.51566762025149,80.62645011600928,44.71370362427622,57.52517588632915,69.94076384917514,LinearRegression,RF,rf_output_linear-regression-drebin_215_all.csv
+80.64666356197192,74.08893346706787,76.53255050941115,75.29091990146947,79.8788293672597,LinearRegression,RF,rf_output_linear-regression-drebin_215_api_calls_limpo.csv
+98.8826815642458,62.68221574344023,84.31372549019608,71.90635451505017,91.7238744493129,LinearRegression,RF,rf_output_linear-regression-drebin_215_commands.csv
+97.18010109071562,91.9298245614035,58.09312638580931,71.19565217391305,78.88383501970529,LinearRegression,RF,rf_output_linear-regression-drebin_215_intents.csv
+99.8802873104549,94.23076923076924,76.5625,84.48275862068965,88.27123129842373,LinearRegression,RF,rf_output_linear-regression-drebin_215_permissions.csv
+100.0,100.0,100.0,100.0,100.0,LinearRegression,RF,rf_output_linear-regression-motodroid_all.csv
+100.0,100.0,100.0,100.0,100.0,LinearRegression,RF,rf_output_linear-regression-motodroid_api_calls.csv
+100.0,100.0,100.0,100.0,100.0,LinearRegression,RF,rf_output_linear-regression-motodroid_intents.csv
+100.0,100.0,100.0,100.0,100.0,LinearRegression,RF,rf_output_linear-regression-motodroid_permissions.csv
