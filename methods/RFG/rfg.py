@@ -13,10 +13,10 @@ import numpy as np
 import pandas as pd
 import wittgenstein as lw
 
-import weka.core.jvm as jvm
-from weka.classifiers import Classifier
-from weka.core.dataset import create_instances_from_matrices
-from weka.filters import Filter
+#import weka.core.jvm as jvm
+#from weka.classifiers import Classifier
+#from weka.core.dataset import create_instances_from_matrices
+#from weka.filters import Filter
 
 from argparse import ArgumentParser
 import sys
