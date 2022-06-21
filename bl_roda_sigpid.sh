@@ -5,9 +5,7 @@ PKGS=(pandas scikit-learn mlxtend matplotlib)
 CHECK_PKGS=`pip show ${PKGS[@]} | grep -i -w "not found"`
 [ "$CHECK_PKGS" = "" ] || { echo "instale os pacotes Python: sudo pip install ${PKGS[@]}"; exit; }
 
-bash setup_datasets.sh
-[[ $? != 0 ]] && exit 1
-for DATASET in datasets/*.csv
+for DATASET in balanced_datasets/*.csv
 do
     D_NAME=$(echo $DATASET | cut -d"/" -f2)
     echo "python3 -m methods.SigPID.sigpid -d $DATASET -o resultado_sigpid_$D_NAME"

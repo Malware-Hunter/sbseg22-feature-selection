@@ -11,9 +11,7 @@ roda_dataset() {
     python3 -m methods.JOWMDroid.JOWMDroid -d $DATASET -o jowmdroid-$D_NAME --feature-selection-only --exclude-hyperparameter
 }
 
-bash setup_datasets.sh
-[[ $? != 0 ]] && exit 1
-for DATASET in datasets/*.csv
+for DATASET in balanced_datasets/*.csv
 do
     roda_dataset $DATASET
 done
