@@ -17,6 +17,6 @@ six==1.16.0
 threadpoolctl==3.1.0
 scikit-learn==1.0.1
 scipy==1.8.0
-python-javabridge==4.0.3
+#python-javabridge==4.0.3
 python-weka-wrapper3==0.2.9
 wittgenstein==0.3.2
