@@ -22,9 +22,6 @@ $PIP install -r $BASE_DIR/requirements.txt
 
 echo "Ambiente virtual preparado em \"${VENV}\""
 
-bash setup_datasets.sh
-[[ $? != 0 ]] && exit 1
-
 MAX_N_FEATURES=100
 
 set_increment(){
@@ -35,7 +32,7 @@ set_increment(){
     INCREMENT=200
 }
 
-for DATASET in datasets/*.csv
+for DATASET in balanced_datasets/*.csv
 do
     TOTAL_N_FEATURES=`head -1 "$DATASET" | awk -F, '{print NF}'`
     [[ $TOTAL_N_FEATURES -gt $MAX_N_FEATURES ]] && N_FEATURES=$MAX_N_FEATURES || N_FEATURES=`expr $TOTAL_N_FEATURES - 1`
