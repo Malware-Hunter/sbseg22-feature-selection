@@ -167,7 +167,7 @@ def main():
     X, y = get_X_y(parsed_args, get_dataset(parsed_args))
     k_list = [int(value) for value in parsed_args.f.split(",")] if parsed_args.f != "" else []
 
-    jvm.start()
+    #jvm.start()
     classifiers = {
         'NaiveBayes': GaussianNB(),
         'KNN': KNeighborsClassifier(metric='euclidean'),
@@ -176,31 +176,31 @@ def main():
         'DecisionTree': DecisionTreeClassifier(),
         'SimpleLogistic': LogitBoost(),
         'JRIP': lw.RIPPER(),
-        'SMO-PolyKernel' : WekaClassifier(
-            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.PolyKernel']), 
-            preprocess_instances_to_nominal, 
-            parsed_args.prediction_threshold
-            ),
-        'SMO-NormalizedPolyKernel': WekaClassifier(
-            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.NormalizedPolyKernel']),
-            preprocess_instances_to_nominal,
-            parsed_args.prediction_threshold),
-        'SMO-Puk': WekaClassifier(
-            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.Puk']),
-            preprocess_instances_to_nominal,
-            parsed_args.prediction_threshold),
-        'SMO-RBFKernel': WekaClassifier(
-            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.RBFKernel']),
-            preprocess_instances_to_nominal,
-            parsed_args.prediction_threshold),
-        'AdaBoostM1': WekaClassifier(
-            Classifier("weka.classifiers.meta.AdaBoostM1"),
-            preprocess_instances_to_nominal,
-            parsed_args.prediction_threshold),
-        'RandomCommittee':  WekaClassifier(
-            Classifier("weka.classifiers.meta.RandomCommittee"),
-            preprocess_instances_to_nominal,
-            parsed_args.prediction_threshold)
+#        'SMO-PolyKernel' : WekaClassifier(
+#            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.PolyKernel']), 
+#            preprocess_instances_to_nominal, 
+#            parsed_args.prediction_threshold
+#            ),
+#        'SMO-NormalizedPolyKernel': WekaClassifier(
+#            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.NormalizedPolyKernel']),
+#            preprocess_instances_to_nominal,
+#            parsed_args.prediction_threshold),
+#        'SMO-Puk': WekaClassifier(
+#            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.Puk']),
+#            preprocess_instances_to_nominal,
+#            parsed_args.prediction_threshold),
+#        'SMO-RBFKernel': WekaClassifier(
+#            Classifier("weka.classifiers.functions.SMO", options=['-K', 'weka.classifiers.functions.supportVector.RBFKernel']),
+#            preprocess_instances_to_nominal,
+#            parsed_args.prediction_threshold),
+#        'AdaBoostM1': WekaClassifier(
+#            Classifier("weka.classifiers.meta.AdaBoostM1"),
+#            preprocess_instances_to_nominal,
+#            parsed_args.prediction_threshold),
+#        'RandomCommittee':  WekaClassifier(
+#            Classifier("weka.classifiers.meta.RandomCommittee"),
+#            preprocess_instances_to_nominal,
+#            parsed_args.prediction_threshold)
     }
 
     results, best_features = run_experiment(
@@ -221,7 +221,7 @@ def main():
         best_feature['selected_dataset'].to_csv(file_name, index=False)
     print("done")
 
-    jvm.stop()
+    #jvm.stop()
     exit(0)
 
 if __name__ == '__main__':
