@@ -16,8 +16,8 @@ sigapi(){
     DATASET=$1
     D_NAME=$2
     set_increment `head -1 $DATASET | awk -F, '{print NF-1}'`
-    echo "python3 -m methods.SigAPI.main -d $DATASET -o resultado-selecao-$D_NAME -i $INCREMENT"
-    python3 -m methods.SigAPI.main -d $DATASET -o resultado-selecao-$D_NAME -i $INCREMENT
+    echo "python3 -m metodos.SigAPI.main -d $DATASET -o resultado-selecao-$D_NAME -i $INCREMENT"
+    python3 -m metodos.SigAPI.main -d $DATASET -o resultado-selecao-$D_NAME -i $INCREMENT
 }
 
 bash setup_datasets.sh

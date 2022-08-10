@@ -1,0 +1,91 @@
+python3 run_ml.py -d androcrawl_all.csv -c rf
+Fit Model
+Elapsed Time: 7.714773865999973
+Predict
+Elapsed Time: 1.4811123249999127
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  98.644709  96.798732  90.088496  93.323147  94.869229
+python3 run_ml.py -d androcrawl_api_calls.csv -c rf
+Fit Model
+Elapsed Time: 2.9205287689999295
+Predict
+Elapsed Time: 0.8436289940000279
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  98.068891  95.021692  86.145526  90.366168  92.807635
+python3 run_ml.py -d androcrawl_intents.csv -c rf
+Fit Model
+Elapsed Time: 1.2087671410000667
+Predict
+Elapsed Time: 0.31544086899998547
+    Accuracy  Precision    Recall  F1_Score    RoC_AuC
+0  89.488484       75.0  0.029499  0.058974  50.014172
+python3 run_ml.py -d androcrawl_permissions.csv -c rf
+Fit Model
+Elapsed Time: 4.728879025999959
+Predict
+Elapsed Time: 1.1657532589999846
+    Accuracy  Precision    Recall  F1_Score    RoC_AuC
+0  89.586693  66.440678  1.927237  3.745819  50.906434
+python3 run_ml.py -d drebin_215_all.csv -c rf
+Fit Model
+Elapsed Time: 1.038816355999984
+Predict
+Elapsed Time: 0.1584935889999315
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  99.920165      100.0  99.783978  99.891872  99.891989
+python3 run_ml.py -d drebin_215_api_calls_limpo.csv -c rf
+Fit Model
+Elapsed Time: 0.6238971630000378
+Predict
+Elapsed Time: 0.12525863700000173
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  99.354667  99.708561  98.541854  99.121775  99.186503
+python3 run_ml.py -d drebin_215_commands.csv -c rf
+Fit Model
+Elapsed Time: 0.2183594670000275
+Predict
+Elapsed Time: 0.06206274900000608
+   Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  67.64432  55.066336  67.931655  60.826153  67.703691
+python3 run_ml.py -d drebin_215_intents.csv -c rf
+Fit Model
+Elapsed Time: 0.37923082499992233
+Predict
+Elapsed Time: 0.13856260499994733
+   Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0   79.2498  75.630252  64.748201  69.767442  76.253375
+python3 run_ml.py -d drebin_215_permissions.csv -c rf
+Fit Model
+Elapsed Time: 0.942689855000026
+Predict
+Elapsed Time: 0.1814005769999767
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  98.031391  98.813056  95.827338  97.297297  97.575974
+python3 run_ml.py -d motodroid_all.csv -c rf
+Fit Model
+Elapsed Time: 30.280817101000025
+Predict
+Elapsed Time: 1.2771038679999265
+    Accuracy  Precision    Recall   F1_Score    RoC_AuC
+0  98.714378   96.59327  81.77981  88.571429  90.796355
+python3 run_ml.py -d motodroid_api_calls.csv -c rf
+Fit Model
+Elapsed Time: 19.625132581999992
+Predict
+Elapsed Time: 1.1254745410000169
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  97.490894  81.714719  75.765037  78.627487  87.332629
+python3 run_ml.py -d motodroid_intents.csv -c rf
+Fit Model
+Elapsed Time: 5.418623679999996
+Predict
+Elapsed Time: 1.027100947000008
+    Accuracy  Precision     Recall   F1_Score    RoC_AuC
+0  94.653953  69.638826  21.702427  33.091982  60.544325
+python3 run_ml.py -d motodroid_permissions.csv -c rf
+Fit Model
+Elapsed Time: 20.360590795000007
+Predict
+Elapsed Time: 1.29510707299994
+    Accuracy  Precision     Recall   F1_Score   RoC_AuC
+0  97.553032  98.461538  60.780865  75.163114  80.35963

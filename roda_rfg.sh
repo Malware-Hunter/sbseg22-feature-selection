@@ -3,7 +3,7 @@ echo "Preparando ambiente virtual ..."
 VENV="venv-rfg"
 PYTHON="${VENV}/bin/python3"
 PIP="${VENV}/bin/pip3"
-BASE_DIR="methods/RFG"
+BASE_DIR="metodos/RFG"
 CANT_INSTALL_VENV_MESSAGE="ERRO: não foi possível criar o ambiente virtual (venv).\nO python3.8 e o python3.8-venv estão instalados? Se não, use o comando: sudo apt install python3.8 python3.8-venv"
 
 if [[ `which javac java | wc -l` -lt 2 ]]; then
@@ -41,7 +41,7 @@ do
     [[ $TOTAL_N_FEATURES -gt $MAX_N_FEATURES ]] && N_FEATURES=$MAX_N_FEATURES || N_FEATURES=`expr $TOTAL_N_FEATURES - 1`
     D_NAME=$(echo $DATASET | cut -d"/" -f2)
     set_increment $TOTAL_N_FEATURES
-    echo  "$PYTHON -m methods.RFG.rfg -d $DATASET -i $INCREMENT -o $D_NAME"
-    { time $PYTHON -m methods.RFG.rfg -d $DATASET -i $INCREMENT -o $D_NAME; } 2> time-rfg-top-$N_FEATURES-$D_NAME.txt &
+    echo  "$PYTHON -m metodos.RFG.rfg -d $DATASET -i $INCREMENT -o $D_NAME"
+    { time $PYTHON -m metodos.RFG.rfg -d $DATASET -i $INCREMENT -o $D_NAME; } 2> time-rfg-top-$N_FEATURES-$D_NAME.txt &
     echo "Done"
 done
