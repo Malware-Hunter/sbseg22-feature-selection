@@ -4,11 +4,25 @@
 
 [Drebin_215 (ORIGINAL)](https://figshare.com/articles/dataset/Android_malware_dataset_for_machine_learning_2/5854653)
 
+[Drebin_251 (COMPLETO E LIMPO, isto é, pré-processado)](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/drebin_215_all.csv)
+
+[Drebin_251_permissions (APENAS PERMISSÕES)](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/drebin_215_permissions.csv)
+
+[Drebin_251_api_calls (APENAS CHAMADAS DE API)](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/drebin_215_api_calls.csv)
+
 ## Androcrawl
 
 [Androcrawl (ORIGINAL)](https://github.com/phretor/ransom.mobi/blob/gh-pages/f/filter.7z)
 
+[Androcrawl (COMPLETO E LIMPO, isto é, pré-processado)](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/androcrawl_all.csv)
+
+[Androcrawl_permissions (APENAS PERMISSÕES)](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/androcrawl_permissions.csv)
+
+[Androcrawl_api_calls (APENAS CHAMADAS DE API)](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/androcrawl_api_calls.csv)
+
 ## MD46K
+
+[MD46K (COMPLETO E LIMPO, isto é, pré-processado](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/md46k_all.csv.zip)
 
 Passo-a-passo da construção do dataset MD46K:
 
