@@ -30,7 +30,7 @@
 
 Passo-a-passo da construção do dataset MD46K:
 
-- *Etapa 1*:  **seleção** dos 46K aplicativos, datados a partir de 2018, do [AndroZoo](https://androzoo.uni.lu/).
+- *Etapa 1*:  **seleção** dos 46K aplicativos, datados a partir de 2018, do [AndroZoo](https://androzoo.uni.lu/). [Lista dos 46K APKs selecionados](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/md46k_SHA256_nome_pacote.csv.zip)
 
 - *Etapa 2*: **download** dos APKs dos 46K aplicativos. O próprio [AndroZoo disponibiliza uma API para o download dos APKs](https://androzoo.uni.lu/api_doc) dos aplicativos.
 
