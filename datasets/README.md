@@ -34,7 +34,7 @@ Passo-a-passo da construção do dataset MD46K:
 
 - *Etapa 2*: **download** dos APKs dos 46K aplicativos. O próprio [AndroZoo disponibiliza uma API para o download dos APKs](https://androzoo.uni.lu/api_doc) dos aplicativos.
 
-- *Etapa 3*: **rotulação** das amostras, utilizando a API do serviço online do [VirusTotal](https://www.virustotal.com), que utiliza mais de 60 scanners para analisar e rotular um aplicativo entre benigno ou malicioso.
+- *Etapa 3*: **rotulação** das amostras, utilizando a API do serviço online do [VirusTotal](https://www.virustotal.com), que utiliza mais de 60 scanners para analisar e rotular um aplicativo entre benigno ou maligno.
 
 - *Etapa 4*: **extração das características** estáticas dos APKs utilizando a ferramenta [AndroGuard](https://github.com/androguard/androguard).
 
