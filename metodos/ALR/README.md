@@ -1,6 +1,6 @@
-# LinearRegression
-Reprodução do experimento do paper [A novel permission-based Android malware detection system using
-feature selection based on linear regression](https://link.springer.com/article/10.1007/s00521-021-05875-1).
+# ALR 
+
+Reprodução do experimento do paper [A novel permission-based Android malware detection system using feature selection based on linear regression](https://link.springer.com/article/10.1007/s00521-021-05875-1).
 
 ## Descrição
 1. A regressão linear é um método estatístico usado para modelar a relação entre duas ou mais variáveis. No modelo gerado para estimar a variável dependente, chama-se regressão simples se for utilizada uma variável independente simples como entrada, e regressão múltipla se for utilizada mais de uma variável independente. Neste estudo, as permissões do aplicativo correspondem às variáveis independentes, enquanto as variável dependente representa o tipo de aplicativos.
@@ -25,14 +25,14 @@ Mude para o diretório raiz deste repositório (i.e.: `cd feature_selection`).
 Para rodar o experimento sobre algum dataset, basta executar execute o seguinte comando:
 
 ```
-python3 -m methods.LinearRegression.LinearRegression -d dataset.csv
+python3 -m metodos.ALR.ALR -d dataset.csv
 ```
 Ao final será gerado um arquivo ```results.csv```
 
 ## Detalhes de uso
 
 ```
-usage: LinearRegression.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN] [-n N_SAMPLES] [-o OUTPUT_FILE]
+usage: ALR.py [-h] -d DATASET [--sep SEPARATOR] [-c CLASS_COLUMN] [-n N_SAMPLES] [-o OUTPUT_FILE]
 
 optional arguments:
   -h, --help            show this help message and exit

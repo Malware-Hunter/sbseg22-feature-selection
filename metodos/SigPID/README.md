@@ -15,12 +15,12 @@ NOTE: This procedure has only been tested in Ubuntu 20.04
 **sigpid.py**
 - Usage example (must run from within the `feature_selection` directory):
     ```sh
-    $ python3 methods.SigPID.sigpid -d drebin.csv
+    $ python3 metodos.SigPID.sigpid -d drebin.csv
     ```
 
 - How to use (arguments):
     ```sh
-    $ python3 methods.SigPID.sigpid --help
+    $ python3 metodos.SigPID.sigpid --help
     ```
 
 ### Output

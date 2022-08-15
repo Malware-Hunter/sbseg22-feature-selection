@@ -11,8 +11,6 @@ Este artigo utiliza técnicas de seleção de características e a correlação 
 ## Como instalar
 
 ```
-## Clone o respositório:
-git clone https://github.com/Malware-Hunter/feature_selection.git
 ## Instale as seguintes dependências:
 pip install pandas numpy scikit-learn
 ```
@@ -25,7 +23,7 @@ Primeiro iremos rodar as funções de selecao `sigapi_funcoesdeselecao.py`.
 Para rodar esta parte do experimento sobre algum dataset (e.g. `data.csv`) execute o seguinte comando:
 
 ```
-python3 -m methods.SigAPI.sigapi_funcoesdeselecao -d data.csv
+python3 -m metodos.SigAPI.sigapi_funcoesdeselecao -d data.csv
 ``` 
          
 Com isso, vão ser obtidos gráficos e dataframes sobre cada uma das 6 técnicas de seleção utilizadas.
@@ -34,7 +32,7 @@ Ao analisar esses dados, é possivel obter a técnica mais eficiente e seu inter
 Após esta parte, é necessário rodar o código `sigapi_correlação.py` , fazendo o seguinte:
 
 ```
-python3 -m methods.SigAPI.sigapi_correlacao -d data.csv -k num_features -m method
+python3 -m metodos.SigAPI.sigapi_correlacao -d data.csv -k num_features -m method
 ``` 
 onde esse k receberia o número de features para qual o dataset poderia ser reduzido e m seria o método que foi mais eficiente na redução.           
 Com isso, vai ser possível encontrar a redução de características que foi realizada e o resultado será um dataset com estas características.
