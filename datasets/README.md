@@ -22,9 +22,11 @@
 
 ## MD46K
 
-[MD46K (COMPLETO E LIMPO, isto é, pré-processado)](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/md46k_all.csv.zip)
+[MD46K (ORIGINAL, COMPLETO)](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/md46k_original.csv.zip)
 
 [MD46K (DETALHES DAS AMOSTRAS: SHA256, NOME, PACOTE)](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/md46k_SHA256_nome_pacote.csv.zip)
+
+[MD46K (LIMPO, isto é, pré-processado)](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/md46k_all.csv.zip)
 
 [MD46K_permissions (APENAS PERMISSÕES)](https://github.com/Malware-Hunter/sbseg22_feature_selection/blob/main/datasets/md46k_permissions.csv.zip)
 
