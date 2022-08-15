@@ -12,5 +12,5 @@ do
     echo "python3 -m metodos.SigAPI.sigapi_funcoesdeselecao -d $DATASET"
     D_NAME=$(echo $DATASET | cut -d"/" -f2)
     TS=$(date +%Y%m%d%H%M%S)
-    { time python3 -m metodos.LinearRegression.LinearRegression -d $DATASET --output-file linear-regression-$D_NAME; } 2> time-LR-$D_NAME-$TS.txt
+    { time python3 -m metodos.ALR.LinearRegression -d $DATASET --output-file linear-regression-$D_NAME; } 2> time-LR-$D_NAME-$TS.txt
 done
