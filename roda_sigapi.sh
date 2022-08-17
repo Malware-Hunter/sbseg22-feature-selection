@@ -23,7 +23,7 @@ sigapi(){
 bash setup_datasets.sh
 [[ $? != 0 ]] && exit 1
 [[ $1 ]] || { echo "Uso: bash $0 DATASET [DATASET...]" && exit 1;}
-for DATASET in $*
+for DATASET in datasets/*.csv
 do
     D_NAME=$(echo $DATASET | cut -d"/" -f2)
     TS=$(date +%Y%m%d%H%M%S)
