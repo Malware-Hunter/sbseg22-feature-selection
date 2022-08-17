@@ -6,7 +6,7 @@ import time
 import sys
 
 from argparse import ArgumentParser
-from methods.utils import get_base_parser, get_dataset, get_X_y
+from metodos.utils import get_base_parser, get_dataset, get_X_y
 
 def parse_args(argv):
     parser = ArgumentParser(parents=[get_base_parser()])
@@ -38,7 +38,7 @@ def LinearR():
         y_train, y_test = y[train_index], y[test_index]
 
         model = LinearRegression()
-        model.fit(X_train, y_train)                          
+        model.fit(X_train, y_train)
         coef_in = model.coef_
 
         ft_to_delete = FilterFeatures(features_names, coef_in)
@@ -76,7 +76,7 @@ def NewDataset():
     return df2
 
 if __name__=="__main__":
-    
+
     args = parse_args(sys.argv[1:])
     X, y = get_X_y(args, get_dataset(args))
 
@@ -94,4 +94,3 @@ if __name__=="__main__":
     MaxValue()
 
     NewDataset().to_csv(args.output_file, index=False)
-    

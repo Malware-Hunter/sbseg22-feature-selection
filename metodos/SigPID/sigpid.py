@@ -10,8 +10,8 @@ from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from mlxtend.frequent_patterns import apriori, association_rules
 from mlxtend.preprocessing import TransactionEncoder
-from methods.SigPID.spinner import Spinner
-from methods.utils import get_base_parser, get_dataset
+from metodos.SigPID.spinner import Spinner
+from metodos.utils import get_base_parser, get_dataset
 
 
 B = None

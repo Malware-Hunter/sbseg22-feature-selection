@@ -15,17 +15,17 @@ from sklearn.metrics import f1_score
 import sys
 from random import choice
 from argparse import ArgumentParser
-from methods.utils import get_base_parser, get_dataset, get_X_y
+from metodos.utils import get_base_parser, get_dataset, get_X_y
 
 def correlation_phase(X, y, k, method, methods):
     feature_scores = methods[method]['function'](X, y, k)
     new_X = X[list(feature_scores['features'])]
-    
+
     correlation = new_X.corr()
-    
+
     model_RF=RandomForestClassifier()
     model_RF.fit(new_X,y)
-    
+
     feats = {}
     for feature, importance in zip(new_X.columns, model_RF.feature_importances_):
         feats[feature] = importance
@@ -173,8 +173,8 @@ def selection_phase(X, y, methods, num_features=1, increment=1):
             methods[method_name]['results'] = np.append(methods[method_name]['results'],[[k,metrics[0],metrics[1],metrics[2],metrics[3]]],axis=0)
             previous_metrics = methods[method_name]['results'][-2][1:]
             current_metrics = methods[method_name]['results'][-1][1:]
-            
-            # A primeira expressão booleana (len(...) > 2) é para evitar comparar as métricas calculadas contra o vetor [0,0,0,0], 
+
+            # A primeira expressão booleana (len(...) > 2) é para evitar comparar as métricas calculadas contra o vetor [0,0,0,0],
             # que é definido inicialmente no dicionário "methods"
             if(len(methods[method_name]['results']) > 2 and is_method_stable(previous_metrics, current_metrics, parsed_args.threshold)):
                 has_found_stable_method = True
@@ -183,10 +183,10 @@ def selection_phase(X, y, methods, num_features=1, increment=1):
                     best_metric_value = accuracy
                     best_stable_method = method_name
         num_features += increment
-    
+
     if(not has_found_stable_method):
         best_stable_method = choice(list(methods.keys()))
-    
+
     k = int(methods[best_stable_method]["results"][-1][0])
     return best_stable_method, k
 
@@ -197,10 +197,10 @@ if __name__=="__main__":
     if(parsed_args.initial_n_features > total_features):
         print(f"ERRO: --initial-n-features ({parsed_args.initial_n_features}) maior que a qtd de features do dataset ({total_features})")
         exit(1)
-    
+
     best_stable_method, lower_bound = selection_phase(X, y, methods, num_features=parsed_args.initial_n_features, increment=parsed_args.increment)
     print(f'Menor limite inferior encontrado: {best_stable_method}, {lower_bound}')
-    
+
     new_X = correlation_phase(X, y, lower_bound, best_stable_method, methods)
     new_X.to_csv(parsed_args.output_file, index=False)
     print("Dataset final criado")
