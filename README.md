@@ -6,14 +6,14 @@ Repositório de códigos, conjuntos de dados (*datasets*) e arquivos usados na e
 
 Os diretórios deste repositório estão organizados da seguinte forma:
 
-###### papers
-Artigos de origem dos métodos de seleção implementados.
-
-###### methods
+###### metodos
 Códigos dos métodos.
 
 ###### datasets
 Datasets construídos para o estudo.
+
+###### resultados
+Resultados avaliados pelo *paper*.
 
 
 ## Exemplos de uso:
