@@ -1,12 +1,11 @@
-import numpy as np
-import pandas as pd
 from sklearn.model_selection import KFold
 from sklearn.linear_model import LinearRegression
-import time
-import sys
-
 from argparse import ArgumentParser
 from metodos.utils import get_base_parser, get_dataset, get_X_y
+import numpy as np
+import pandas as pd
+import time
+import sys
 
 def parse_args(argv):
     parser = ArgumentParser(parents=[get_base_parser()])
@@ -50,9 +49,6 @@ def LinearR():
             index = list(features_names).index(ft)
             #print(index)
             fold_count[index]-=1
-        #fold_count
-        #print('fold_ft_num', fold_ft_num)
-        #print('fold_ft_to_delete', fold_ft_to_delete)
     return(fold_ft_num, fold_ft_to_delete)
 
 # VALOR MÁXIMO DE FEATURES PARA EXCLUSÃO
@@ -64,8 +60,6 @@ def MaxValue():
         if max_value is None or num > max_value:
             max_value = num
             index = idx
-    #print('value', max_value, 'index', index)
-    #print(fold_ft_to_delete[index])
     return(index)
 
 # NOVO DATASET
